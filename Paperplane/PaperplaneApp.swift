@@ -13,9 +13,10 @@ struct PaperplaneApp: App {
         WindowGroup {
             ContentView()
         }
-
-        ImmersiveSpace(id: "ImmersiveSpace") {
-            ImmersiveView()
-        }
+        .windowStyle(.plain)
+        .defaultSize(width: 200, height: 200)
+        
+        BookDetailsScene()
+        ReaderScene()
     }
 }
