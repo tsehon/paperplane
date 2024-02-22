@@ -5,11 +5,16 @@
 //  Created by tyler on 2/18/24.
 //
 
-import Foundation
 import SwiftUI
+import R2Navigator
+
+struct ReaderParams: Identifiable, Decodable, Encodable, Hashable {
+    var id: Book.ID
+    var url: URL
+}
 
 struct ReaderView: View {
-    @Binding var id: Book.ID?
+    @Binding var params: ReaderParams?
     @Binding var isImmersive: Bool
     
     func toggleImmersion() {
@@ -17,24 +22,19 @@ struct ReaderView: View {
         print("Immersion toggled: \(isImmersive)")
     }
     
+        
+    @State var preferences: EPUBPreferences = EPUBPreferences()
+    
     var body: some View {
         NavigationSplitView (columnVisibility: .constant(.detailOnly)) {
             EmptyView()
         } detail: {
             VStack {
-                Text("Reading \(id ?? "NO BOOK")")
-                Text("Reading \(id ?? "NO BOOK")")
-                Text("Reading \(id ?? "NO BOOK")")
-                Text("Reading \(id ?? "NO BOOK")")
-                Text("Reading \(id ?? "NO BOOK")")
-                Text("Reading \(id ?? "NO BOOK")")
-                Text("Reading \(id ?? "NO BOOK")")
-                Text("Reading \(id ?? "NO BOOK")")
-                Text("Reading \(id ?? "NO BOOK")")
-                Text("Reading \(id ?? "NO BOOK")")
-                Text("Reading \(id ?? "NO BOOK")")
+                if let epubURL = params?.url {
+                    EPUBReaderView(url: epubURL, preferences: $preferences)
+                        .ignoresSafeArea(.all)
+                }
             }
-            .frame(maxWidth: 200, maxHeight: 200)
             .toolbar {
                 ToolbarItemGroup(placement: .bottomOrnament) {
                     HStack {
@@ -52,11 +52,11 @@ struct ReaderView: View {
 }
 
 struct ReaderViewPreviewContainer : View {
-    @State private var bookId: Book.ID? = "Example ID"
+    @State private var params: ReaderParams? = ReaderParams(id: "example", url: Bundle.main.url(forResource: "example", withExtension: "epub")!)
     @State private var isImmersive: Bool = true
     
     var body: some View {
-        ReaderView(id: $bookId, isImmersive: $isImmersive)
+        ReaderView(params: $params, isImmersive: $isImmersive)
     }
 }
 

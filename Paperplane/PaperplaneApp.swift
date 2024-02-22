@@ -9,12 +9,14 @@ import SwiftUI
 
 @main
 struct PaperplaneApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
-        WindowGroup {
+        WindowGroup(id: "home") {
             ContentView()
         }
         .windowStyle(.plain)
-        .defaultSize(width: 200, height: 200)
+        .defaultSize(width: 1000, height: 800)
         
         BookDetailsScene()
         ReaderScene()

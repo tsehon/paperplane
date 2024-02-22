@@ -10,12 +10,13 @@ import SwiftUI
 
 struct ReaderScene: Scene {
     @State private var isImmersive: Bool = true
+    @State private var style: ImmersionStyle = .progressive
     
     var body: some Scene {
 #if os(visionOS)
-        ImmersiveSpace(id: "immersive-reader", for: Book.ID.self) { $bookId in
-            ImmersiveReaderView(id: $bookId, isImmersive: $isImmersive)
-        }.immersionStyle(selection: .constant(.full), in: .full)
+        ImmersiveSpace(id: "immersive-reader", for: ReaderParams.self) { $params in
+            ImmersiveReaderView(params: $params, isImmersive: $isImmersive)
+        }.immersionStyle(selection: $style, in: .full)
 #else
         WindowGroup("Reader", id: "reader", for: Book.ID.self) { $bookId in
             ReaderView(id: $bookId)

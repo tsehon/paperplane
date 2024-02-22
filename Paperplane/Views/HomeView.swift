@@ -38,19 +38,13 @@ struct HomeView: View {
         }
     }
     
-    private let gridItems = Array(repeating: GridItem(.flexible(), spacing: 20), count: 1)
-    
-    @State private var selectedBook: Book?
-    
     var body: some View {
         VStack {
             TextField("Search Books", text: $searchText)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 25)
                 .padding(.top, 25)
-            
             BookGridView(tags: tagsSorted, dict: tagToBooks)
-            
         }
         .padding(20)
             .onAppear(perform: {
@@ -58,6 +52,8 @@ struct HomeView: View {
                     organizeAndSortBooks(loadedBooks: loadedBooks)
                 }
             })
+        
+            .frame(minWidth: 1000, maxWidth: 2000, minHeight: 800, maxHeight: 1600)
     }
 }
 

@@ -29,7 +29,6 @@ struct BookGridView: View {
                         }
                         .padding(.horizontal, 50)
                     }
-                    .frame(height: 250) // Adjust based on your UI needs
                 }
             }
         }

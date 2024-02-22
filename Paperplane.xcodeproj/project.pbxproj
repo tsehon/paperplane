@@ -12,7 +12,7 @@
 		B161B9802B82BB8F0095B366 /* ReaderScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B97F2B82BB8F0095B366 /* ReaderScene.swift */; };
 		B161B9822B82BBB90095B366 /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B9812B82BBB90095B366 /* ReaderView.swift */; };
 		B161B9852B82BE360095B366 /* ImmersiveReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B9842B82BE360095B366 /* ImmersiveReaderView.swift */; };
-		B188D85C2B8483DE0092D848 /* ReadiumWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D85B2B8483DE0092D848 /* ReadiumWrapper.swift */; };
+		B188D85C2B8483DE0092D848 /* EPUBReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D85B2B8483DE0092D848 /* EPUBReaderView.swift */; };
 		B188D85F2B86AAFD0092D848 /* R2Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = B188D85E2B86AAFD0092D848 /* R2Navigator */; };
 		B188D8612B86AAFD0092D848 /* R2Shared in Frameworks */ = {isa = PBXBuildFile; productRef = B188D8602B86AAFD0092D848 /* R2Shared */; };
 		B188D8632B86AAFD0092D848 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = B188D8622B86AAFD0092D848 /* R2Streamer */; };
@@ -21,7 +21,12 @@
 		B188D86A2B86AC6E0092D848 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = B188D8692B86AC6E0092D848 /* R2Streamer */; };
 		B188D86C2B86AD7A0092D848 /* BookGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D86B2B86AD7A0092D848 /* BookGridView.swift */; };
 		B188D86E2B86ADF60092D848 /* BookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D86D2B86ADF60092D848 /* BookItem.swift */; };
-		B188D8702B86B4E80092D848 /* sampleVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B188D86F2B86B4E80092D848 /* sampleVideo.mp4 */; };
+		B188D8932B86D86D0092D848 /* sampleVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B188D8922B86D86D0092D848 /* sampleVideo.mp4 */; };
+		B188D8962B86F5560092D848 /* EPUBReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D8952B86F5560092D848 /* EPUBReaderViewController.swift */; };
+		B188D89A2B8704650092D848 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D8992B8704650092D848 /* AppDelegate.swift */; };
+		B188D89C2B870C180092D848 /* ReadiumAdapterGCDWebServer in Frameworks */ = {isa = PBXBuildFile; productRef = B188D89B2B870C180092D848 /* ReadiumAdapterGCDWebServer */; };
+		B188D89E2B8725110092D848 /* example.epub in Resources */ = {isa = PBXBuildFile; fileRef = B188D89D2B8725110092D848 /* example.epub */; };
+		B188D8A02B87D00C0092D848 /* ImmersiveReaderScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D89F2B87D00C0092D848 /* ImmersiveReaderScene.swift */; };
 		B1CDFB602B770BC400C439B0 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = B1CDFB5F2B770BC400C439B0 /* RealityKitContent */; };
 		B1CDFB622B770BC400C439B0 /* PaperplaneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB612B770BC400C439B0 /* PaperplaneApp.swift */; };
 		B1CDFB642B770BC400C439B0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB632B770BC400C439B0 /* HomeView.swift */; };
@@ -42,10 +47,14 @@
 		B161B97F2B82BB8F0095B366 /* ReaderScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderScene.swift; sourceTree = "<group>"; };
 		B161B9812B82BBB90095B366 /* ReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderView.swift; sourceTree = "<group>"; };
 		B161B9842B82BE360095B366 /* ImmersiveReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveReaderView.swift; sourceTree = "<group>"; };
-		B188D85B2B8483DE0092D848 /* ReadiumWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadiumWrapper.swift; sourceTree = "<group>"; };
+		B188D85B2B8483DE0092D848 /* EPUBReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPUBReaderView.swift; sourceTree = "<group>"; };
 		B188D86B2B86AD7A0092D848 /* BookGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookGridView.swift; sourceTree = "<group>"; };
 		B188D86D2B86ADF60092D848 /* BookItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookItem.swift; sourceTree = "<group>"; };
-		B188D86F2B86B4E80092D848 /* sampleVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sampleVideo.mp4; sourceTree = "<group>"; };
+		B188D8922B86D86D0092D848 /* sampleVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sampleVideo.mp4; sourceTree = "<group>"; };
+		B188D8952B86F5560092D848 /* EPUBReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPUBReaderViewController.swift; sourceTree = "<group>"; };
+		B188D8992B8704650092D848 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B188D89D2B8725110092D848 /* example.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = example.epub; sourceTree = "<group>"; };
+		B188D89F2B87D00C0092D848 /* ImmersiveReaderScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveReaderScene.swift; sourceTree = "<group>"; };
 		B1CDFB5A2B770BC400C439B0 /* Paperplane.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paperplane.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1CDFB5E2B770BC400C439B0 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		B1CDFB612B770BC400C439B0 /* PaperplaneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperplaneApp.swift; sourceTree = "<group>"; };
@@ -72,6 +81,7 @@
 				B188D86A2B86AC6E0092D848 /* R2Streamer in Frameworks */,
 				B188D85F2B86AAFD0092D848 /* R2Navigator in Frameworks */,
 				B188D8632B86AAFD0092D848 /* R2Streamer in Frameworks */,
+				B188D89C2B870C180092D848 /* ReadiumAdapterGCDWebServer in Frameworks */,
 				B188D8612B86AAFD0092D848 /* R2Shared in Frameworks */,
 				B1CDFB602B770BC400C439B0 /* RealityKitContent in Frameworks */,
 			);
@@ -84,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				B161B97F2B82BB8F0095B366 /* ReaderScene.swift */,
+				B188D89F2B87D00C0092D848 /* ImmersiveReaderScene.swift */,
 				B161B9862B840CA00095B366 /* Views */,
 			);
 			path = Reader;
@@ -94,9 +105,20 @@
 			children = (
 				B161B9842B82BE360095B366 /* ImmersiveReaderView.swift */,
 				B161B9812B82BBB90095B366 /* ReaderView.swift */,
-				B188D85B2B8483DE0092D848 /* ReadiumWrapper.swift */,
+				B188D85B2B8483DE0092D848 /* EPUBReaderView.swift */,
+				B188D8952B86F5560092D848 /* EPUBReaderViewController.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		B188D8942B86EAA10092D848 /* Book */ = {
+			isa = PBXGroup;
+			children = (
+				B188D86D2B86ADF60092D848 /* BookItem.swift */,
+				B1CDFB7F2B8085FF00C439B0 /* BookDetailView.swift */,
+				B1CDFB7B2B805DF900C439B0 /* BookCoverView.swift */,
+			);
+			path = Book;
 			sourceTree = "<group>";
 		};
 		B1CDFB512B770BC300C439B0 = {
@@ -119,7 +141,9 @@
 		B1CDFB5C2B770BC400C439B0 /* Paperplane */ = {
 			isa = PBXGroup;
 			children = (
-				B188D86F2B86B4E80092D848 /* sampleVideo.mp4 */,
+				B188D89D2B8725110092D848 /* example.epub */,
+				B188D8922B86D86D0092D848 /* sampleVideo.mp4 */,
+				B188D8992B8704650092D848 /* AppDelegate.swift */,
 				B1CDFB612B770BC400C439B0 /* PaperplaneApp.swift */,
 				B1CDFB842B809E9400C439B0 /* Scenes */,
 				B1CDFB832B8088B100C439B0 /* Views */,
@@ -168,14 +192,12 @@
 		B1CDFB832B8088B100C439B0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B188D8942B86EAA10092D848 /* Book */,
 				B161B97D2B82B2DC0095B366 /* ContentView.swift */,
 				B1CDFB632B770BC400C439B0 /* HomeView.swift */,
-				B1CDFB7B2B805DF900C439B0 /* BookCoverView.swift */,
 				B1CDFB7D2B807FA600C439B0 /* ReadingView.swift */,
-				B1CDFB7F2B8085FF00C439B0 /* BookDetailView.swift */,
 				B161B97B2B82B1F60095B366 /* TabBar.swift */,
 				B188D86B2B86AD7A0092D848 /* BookGridView.swift */,
-				B188D86D2B86ADF60092D848 /* BookItem.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +235,7 @@
 				B188D8652B86AC6E0092D848 /* R2Navigator */,
 				B188D8672B86AC6E0092D848 /* R2Shared */,
 				B188D8692B86AC6E0092D848 /* R2Streamer */,
+				B188D89B2B870C180092D848 /* ReadiumAdapterGCDWebServer */,
 			);
 			productName = Paperplane;
 			productReference = B1CDFB5A2B770BC400C439B0 /* Paperplane.app */;
@@ -259,8 +282,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B188D8702B86B4E80092D848 /* sampleVideo.mp4 in Resources */,
+				B188D8932B86D86D0092D848 /* sampleVideo.mp4 in Resources */,
 				B1CDFB6B2B770BC800C439B0 /* Preview Assets.xcassets in Resources */,
+				B188D89E2B8725110092D848 /* example.epub in Resources */,
 				B1CDFB682B770BC800C439B0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,12 +303,15 @@
 				B161B9822B82BBB90095B366 /* ReaderView.swift in Sources */,
 				B161B9852B82BE360095B366 /* ImmersiveReaderView.swift in Sources */,
 				B1CDFB862B809EAF00C439B0 /* BookDetailsScene.swift in Sources */,
+				B188D89A2B8704650092D848 /* AppDelegate.swift in Sources */,
 				B1CDFB762B7ACF1300C439B0 /* DataModel.swift in Sources */,
-				B188D85C2B8483DE0092D848 /* ReadiumWrapper.swift in Sources */,
+				B188D85C2B8483DE0092D848 /* EPUBReaderView.swift in Sources */,
 				B1CDFB7C2B805DF900C439B0 /* BookCoverView.swift in Sources */,
 				B1CDFB802B8085FF00C439B0 /* BookDetailView.swift in Sources */,
 				B1CDFB7A2B805A7100C439B0 /* ImageLoader.swift in Sources */,
 				B1CDFB642B770BC400C439B0 /* HomeView.swift in Sources */,
+				B188D8962B86F5560092D848 /* EPUBReaderViewController.swift in Sources */,
+				B188D8A02B87D00C0092D848 /* ImmersiveReaderScene.swift in Sources */,
 				B188D86E2B86ADF60092D848 /* BookItem.swift in Sources */,
 				B161B97C2B82B1F60095B366 /* TabBar.swift in Sources */,
 				B1CDFB622B770BC400C439B0 /* PaperplaneApp.swift in Sources */,
@@ -518,6 +545,10 @@
 		B188D8692B86AC6E0092D848 /* R2Streamer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = R2Streamer;
+		};
+		B188D89B2B870C180092D848 /* ReadiumAdapterGCDWebServer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ReadiumAdapterGCDWebServer;
 		};
 		B1CDFB5F2B770BC400C439B0 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
