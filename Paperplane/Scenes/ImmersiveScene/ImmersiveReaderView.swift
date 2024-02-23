@@ -13,7 +13,6 @@ import RealityKitContent
 
 struct ImmersiveReaderView: View {
     @Binding var params: ReaderParams?
-    @Binding var isImmersive: Bool
     
     var resourceId = "sampleVideo"
     
@@ -43,27 +42,12 @@ struct ImmersiveReaderView: View {
     var body: some View {
         ZStack {
             let _ = print("Updated ImmersiveReaderView")
-            if isImmersive == true {
-                let _ = print("Immersive On")
-                RealityView { content, attachments in
-                    guard let skybox = createSkybox() else { return }
-
-                    // Add the video to the main content.
-                    content.add(skybox)
-                    
-                    // Add the ReaderView as an attachment
-                    if let reader = attachments.entity(for: "reader") {
-                        reader.setPosition([0, 0.5, 1.0], relativeTo: skybox)
-                        content.add(reader)
-                    }
-                } attachments: {
-                    Attachment(id: "reader") {
-                        ReaderView(params: $params, isImmersive: $isImmersive)
-                    }
-                }
-            } else {
-                ReaderView(params: $params, isImmersive: $isImmersive)
+            RealityView { content in
+                guard let skybox = createSkybox() else { return }
+                // Add the video to the main content.
+                content.add(skybox)
             }
+            EmptyView()
         }
     }
 }
@@ -73,7 +57,7 @@ struct ImmersiveReaderViewPreviewContainer : View {
     @State private var isImmersive: Bool = true
     
     var body: some View {
-        ImmersiveReaderView(params: $params, isImmersive: $isImmersive)
+        ImmersiveReaderView(params: $params)
     }
 }
 

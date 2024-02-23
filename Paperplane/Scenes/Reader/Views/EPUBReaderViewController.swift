@@ -14,12 +14,14 @@ import ReadiumAdapterGCDWebServer
 
 class EPUBReaderViewController: UIViewController {
     var epubURL: URL
-    var publication: Publication?
     var navigator: EPUBNavigatorViewController?
-
+    var publication: Publication?
     
-    init(epubURL: URL) {
+    weak var coordinator: EPUBReaderView.Coordinator?
+
+    init(epubURL: URL, coordinator: EPUBReaderView.Coordinator) {
         self.epubURL = epubURL
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,6 +42,7 @@ class EPUBReaderViewController: UIViewController {
             switch result {
             case .success(let publication):
                 self?.publication = publication
+                self?.coordinator?.updatePublication(publication)
                 DispatchQueue.main.async {
                     self?.setupNavigator()
                 }
@@ -73,6 +76,8 @@ class EPUBReaderViewController: UIViewController {
                 navigator.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 navigator.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             ])
+            
+            self.coordinator?.updateNavigator(navigator)
         } catch {
             print("Navigator Failed to initialize")
         }

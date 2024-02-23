@@ -52,8 +52,7 @@ struct HomeView: View {
                     organizeAndSortBooks(loadedBooks: loadedBooks)
                 }
             })
-        
-            .frame(minWidth: 1000, maxWidth: 2000, minHeight: 800, maxHeight: 1600)
+            .frame(minWidth: 800, maxWidth: 2000, minHeight: 800, maxHeight: 1600)
     }
 }
 

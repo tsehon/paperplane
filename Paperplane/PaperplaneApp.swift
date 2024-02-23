@@ -20,5 +20,6 @@ struct PaperplaneApp: App {
         
         BookDetailsScene()
         ReaderScene()
+        ImmersiveReaderScene()
     }
 }

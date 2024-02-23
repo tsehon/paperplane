@@ -38,6 +38,7 @@ struct ContentView: View {
                     Label("Profile", systemImage: "person")
                 }
         }
+        .frame(minWidth: 800, maxWidth: 2000, minHeight: 800, maxHeight: 1600)
     }
 }
 

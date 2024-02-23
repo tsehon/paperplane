@@ -8,16 +8,9 @@
 import SwiftUI
 
 struct BookItemView: View {
-    @Environment(\.dismissWindow) private var dismissWindow
-    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
-    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
+    @Environment(\.openWindow) private var openWindow
     
     var book: Book
-    
-    func openImmersiveReader(id: Book.ID, url: URL) async {
-        let params = ReaderParams(id: id, url: url)
-        await openImmersiveSpace(id: "immersive-reader", value: params)
-    }
     
     var body: some View {
         Button(action: {
@@ -27,10 +20,8 @@ struct BookItemView: View {
                     case .success(let fileURL):
                         print("Downloaded and saved Ebook to \(fileURL)")
                         print("Opening Reader")
-                        Task {
-                            await openImmersiveReader(id: book.id, url: fileURL)
-                            dismissWindow(id: "home")
-                        }
+                        let params = ReaderParams(id: book.id, url: fileURL)
+                        openWindow(id: "reader", value: params)
                     case .failure(let error):
                         print("Failed to download EPUB: \(error)")
                     }
