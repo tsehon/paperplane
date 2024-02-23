@@ -40,10 +40,6 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            TextField("Search Books", text: $searchText)
-                .textFieldStyle(.roundedBorder)
-                .padding(.horizontal, 25)
-                .padding(.top, 25)
             BookGridView(tags: tagsSorted, dict: tagToBooks)
         }
         .padding(20)
@@ -58,8 +54,6 @@ struct HomeView: View {
 
 struct HomePreview_Previews : PreviewProvider {
     static var previews: some View {
-        NavigationStack {
-            HomeView()
-        }
+        HomeView()
     }
 }

@@ -14,22 +14,24 @@ struct BookItemView: View {
     
     var body: some View {
         Button(action: {
-            Task {
-                BookService.shared.downloadEPUBFile(bookId: book.id) { result in
-                    switch result {
-                    case .success(let fileURL):
-                        print("Downloaded and saved Ebook to \(fileURL)")
-                        print("Opening Reader")
-                        let params = ReaderParams(id: book.id, url: fileURL)
-                        openWindow(id: "reader", value: params)
-                    case .failure(let error):
-                        print("Failed to download EPUB: \(error)")
+            BookService.shared.downloadEPUBFile(bookId: book.id) { result in
+                switch result {
+                case .success(let fileURL):
+                    print("Downloaded and saved Ebook to \(fileURL)")
+                    print("Opening Reader")
+                    let params = ReaderParams(id: book.id, url: fileURL)
+                    Task {
+                        await MainActor.run {
+                            openWindow(id: "reader", value: params)
+                        }
                     }
+                case .failure(let error):
+                    print("Failed to download EPUB: \(error)")
                 }
             }
         }) {
             VStack {
-                BookCoverView(bookId: book.id)
+                BookCoverView(bookId: book.id, height: 200)
                 Text(book.title)
                     .font(.headline)
                     .lineLimit(2)

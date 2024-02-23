@@ -16,11 +16,13 @@ class EPUBReaderViewController: UIViewController {
     var epubURL: URL
     var navigator: EPUBNavigatorViewController?
     var publication: Publication?
-    
+    var config: EPUBNavigatorViewController.Configuration
+
     weak var coordinator: EPUBReaderView.Coordinator?
 
-    init(epubURL: URL, coordinator: EPUBReaderView.Coordinator) {
+    init(epubURL: URL, config: EPUBNavigatorViewController.Configuration, coordinator: EPUBReaderView.Coordinator) {
         self.epubURL = epubURL
+        self.config = config
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
@@ -63,12 +65,14 @@ class EPUBReaderViewController: UIViewController {
         do {
             let navigator = try EPUBNavigatorViewController(publication: publication,
                 initialLocation: nil,
+                config: config,
                 httpServer: GCDHTTPServer.shared
             )
             addChild(navigator)
             view.addSubview(navigator.view)
             
             navigator.didMove(toParent: self)
+            
             navigator.view.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
                 navigator.view.topAnchor.constraint(equalTo: view.topAnchor),

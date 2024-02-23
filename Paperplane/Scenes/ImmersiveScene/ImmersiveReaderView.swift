@@ -35,6 +35,13 @@ struct ImmersiveReaderView: View {
         skyBoxEntity.transform.translation += SIMD3<Float>(0.0, 1.0, 0)
         
         player.isMuted = true
+        
+        // loop video
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
+            player.seek(to: .zero) // Rewind video to the start
+            player.play() // Play the video again
+        }
+
         player.play()
         return skyBoxEntity
     }

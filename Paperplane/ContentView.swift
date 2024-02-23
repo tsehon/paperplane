@@ -17,13 +17,9 @@ struct ContentView: View {
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
-            HomeView()
+            ExploreView()
                 .tabItem {
                     Label("Explore", systemImage: "magnifyingglass")
-                }
-            HomeView()
-                .tabItem {
-                    Label("Wish List", systemImage: "heart")
                 }
             HomeView()
                 .tabItem {
@@ -32,10 +28,6 @@ struct ContentView: View {
             HomeView()
                 .tabItem {
                     Label("Library", systemImage: "books.vertical")
-                }
-            HomeView()
-                .tabItem {
-                    Label("Profile", systemImage: "person")
                 }
         }
         .frame(minWidth: 800, maxWidth: 2000, minHeight: 800, maxHeight: 1600)

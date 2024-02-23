@@ -26,7 +26,8 @@ struct ReaderView: View {
     
     @State private var isSpaceHidden: Bool = true
     @State private var navVisibility: NavigationSplitViewVisibility = .detailOnly
-    @State var preferences: EPUBPreferences = EPUBPreferences()
+    @State var preferences: EPUBPreferences = EPUBPreferences(
+        columnCount: .two)
     // fetch highlights from database for user
     // @State var highlights
     // let decorations = highlights.map { highlight in Decoration(id: highlight.id...)
@@ -37,8 +38,31 @@ struct ReaderView: View {
      NAV: var currentLocation: Locator? { get }
      */
 
+    @Environment(\.openWindow) private var openWindow
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
+    
+    private func toggleImmersiveSpace() async {
+        if isSpaceHidden {
+            let result: OpenImmersiveSpaceAction.Result = await openImmersiveSpace(id: "immersive-reader")
+            switch result {
+            case .opened:
+                print("Immersive space opened")
+                isSpaceHidden = false
+            case .userCancelled:
+                print("User cancelled")
+                isSpaceHidden = true
+            case .error:
+                print("An error occurred")
+                isSpaceHidden = true
+            default:
+                return
+            }
+        } else {
+            await dismissImmersiveSpace()
+            isSpaceHidden = true
+        }
+    }
     
     var body: some View {
         NavigationSplitView (columnVisibility: $navVisibility) {
@@ -75,6 +99,15 @@ struct ReaderView: View {
                            Image(systemName: "sidebar.left")
                         })
                         Button(action: {
+                            openWindow(id: "home")
+                            Task {
+                                await toggleImmersiveSpace()
+                            }
+                            dismissWindow(id: "reader")
+                        }, label: {
+                           Image(systemName: "house")
+                        })
+                        Button(action: {
                             navigator?.goBackward(animated: true)
                         }, label: {
                            Image(systemName: "arrow.left")
@@ -86,34 +119,18 @@ struct ReaderView: View {
                         })
                         Button("Show Immersive Space") {
                             Task {
-                                if isSpaceHidden {
-                                    let result: OpenImmersiveSpaceAction.Result = await openImmersiveSpace(id: "immersive-reader")
-                                    switch result {
-                                    case .opened:
-                                        print("Immersive space opened")
-                                        isSpaceHidden = false
-                                    case .userCancelled:
-                                        print("User cancelled")
-                                        isSpaceHidden = true
-                                    case .error:
-                                        print("An error occurred")
-                                        isSpaceHidden = true
-                                    default:
-                                        return
-                                    }
-                                } else {
-                                    await dismissImmersiveSpace()
-                                    isSpaceHidden = true
-                                }
+                                await toggleImmersiveSpace()
                             }
                         }
                     }
                 }
             }
-            .frame(minWidth: 1000, idealWidth: 1000, maxWidth: 2000, minHeight: 1000, idealHeight: 1000, maxHeight: 2000)
+            .aspectRatio(contentMode: .fit)
         }.onAppear {
             dismissWindow(id: "home")
         }
+        .aspectRatio(contentMode: .fit)
+        //.frame(minWidth: 1000, idealWidth: 1200, maxWidth: 2000, minHeight: 1000, idealHeight: 1600, maxHeight: 2000)
     }
 }
 

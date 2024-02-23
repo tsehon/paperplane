@@ -19,13 +19,13 @@ struct EPUBReaderView: UIViewControllerRepresentable {
     @Binding var locator: Locator?
     
     var editingActions: [EditingAction] = [
-   //     EditingAction(title: "Highlight", action: #selector(highlight:))
-    ]
+    //     EditingAction(title: "Highlight", action: #selector(highlight:))
+    ] + EditingAction.defaultActions
+    
+    @State private var config: EPUBNavigatorViewController.Configuration = EPUBNavigatorViewController.Configuration()
 
     func makeUIViewController(context: Context) -> UIViewController {
-        print("making new view controller")
-        // Initialize and return the EPUB reader view controller
-        return EPUBReaderViewController(epubURL: url, coordinator: context.coordinator)
+        return EPUBReaderViewController(epubURL: url, config: config, coordinator: context.coordinator)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
