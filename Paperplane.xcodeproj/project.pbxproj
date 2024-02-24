@@ -21,7 +21,6 @@
 		B188D86A2B86AC6E0092D848 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = B188D8692B86AC6E0092D848 /* R2Streamer */; };
 		B188D86C2B86AD7A0092D848 /* BookGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D86B2B86AD7A0092D848 /* BookGridView.swift */; };
 		B188D86E2B86ADF60092D848 /* BookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D86D2B86ADF60092D848 /* BookItem.swift */; };
-		B188D8932B86D86D0092D848 /* sampleVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B188D8922B86D86D0092D848 /* sampleVideo.mp4 */; };
 		B188D8962B86F5560092D848 /* EPUBReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D8952B86F5560092D848 /* EPUBReaderViewController.swift */; };
 		B188D89A2B8704650092D848 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D8992B8704650092D848 /* AppDelegate.swift */; };
 		B188D89C2B870C180092D848 /* ReadiumAdapterGCDWebServer in Frameworks */ = {isa = PBXBuildFile; productRef = B188D89B2B870C180092D848 /* ReadiumAdapterGCDWebServer */; };
@@ -52,7 +51,6 @@
 		B188D85B2B8483DE0092D848 /* EPUBReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPUBReaderView.swift; sourceTree = "<group>"; };
 		B188D86B2B86AD7A0092D848 /* BookGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookGridView.swift; sourceTree = "<group>"; };
 		B188D86D2B86ADF60092D848 /* BookItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookItem.swift; sourceTree = "<group>"; };
-		B188D8922B86D86D0092D848 /* sampleVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sampleVideo.mp4; sourceTree = "<group>"; };
 		B188D8952B86F5560092D848 /* EPUBReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPUBReaderViewController.swift; sourceTree = "<group>"; };
 		B188D8992B8704650092D848 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B188D89F2B87D00C0092D848 /* ImmersiveReaderScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveReaderScene.swift; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 		B1CDFB5C2B770BC400C439B0 /* Paperplane */ = {
 			isa = PBXGroup;
 			children = (
-				B188D8922B86D86D0092D848 /* sampleVideo.mp4 */,
 				B188D8A22B884D680092D848 /* example.epub */,
 				B188D8992B8704650092D848 /* AppDelegate.swift */,
 				B1CDFB612B770BC400C439B0 /* PaperplaneApp.swift */,
@@ -312,7 +309,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B188D8932B86D86D0092D848 /* sampleVideo.mp4 in Resources */,
 				B1CDFB6B2B770BC800C439B0 /* Preview Assets.xcassets in Resources */,
 				B188D8A32B884D690092D848 /* example.epub in Resources */,
 				B1CDFB682B770BC800C439B0 /* Assets.xcassets in Resources */,

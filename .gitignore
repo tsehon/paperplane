@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/swift,go,dotenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=swift,go,dotenv
 
+### dummy data ###
+*.mov
+*.epub
+
 ### dotenv ###
 .env
 

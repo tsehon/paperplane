@@ -10,7 +10,6 @@ import SwiftUI
 
 struct BookDetailView: View {
     @Binding var id: Book.ID?
-    @Environment(\.dismissWindow) private var dismissWindow
     
     var body: some View {
         Text("Reading \(id ?? "NO BOOK")")

@@ -9,10 +9,14 @@ import Foundation
 import SwiftUI
 
 struct ReaderScene: Scene {
+    let aspectRatio: CGFloat = 1.3
+    let width: CGFloat = 600
+    
     var body: some Scene {
         WindowGroup(id: "reader", for: ReaderParams.self) { $params in
             ReaderView(params: $params)
         }.windowResizability(.contentMinSize)
-            .defaultSize(width: 1200, height: 1600)
+            .defaultSize(width: self.width, height: self.aspectRatio * self.width)
+            .windowStyle(.plain)
     }
 }

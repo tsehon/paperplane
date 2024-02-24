@@ -13,7 +13,6 @@ struct ExploreView: View {
     @State private var books: [Book] = []
     
     @Environment(\.openWindow) private var openWindow
-    @Environment(\.dismissWindow) private var dismissWindow
     
     @State private var tagToBooks: [String: [Book]] = [:]
     @State private var tagsSorted: [String] = []
@@ -24,8 +23,12 @@ struct ExploreView: View {
     @State private var filterTags: Set<String> = []
 
     func organizeAndSortBooks(loadedBooks: [Book]) {
-        books = loadedBooks
-        searchResults = loadedBooks
+        print("loaded books")
+        
+        if books.isEmpty {
+            books = loadedBooks
+            searchResults = loadedBooks
+        }
         
         var newTagToBooks: [String: [Book]] = [:]
         
@@ -46,12 +49,25 @@ struct ExploreView: View {
     }
     
     func filterSearchResults() {
-        var res: [Book] = books
+        print("creating new result set")
+        if searchText == "" && filterTags.isEmpty {
+            searchResults = books
+            return
+        }
+        
+        print("filtering on: ", searchText.lowercased())
+        print("and: ", filterTags)
+        
+        var res: [Book] = []
         for book in books {
-            if book.title.lowercased().contains(searchText.lowercased()) && filterTags.isSuperset(of: book.tags) {
+            let hasCommonTags = book.tags.contains(where: filterTags.contains)
+            let containsSearchTerm = searchText == "" || book.title.lowercased().contains(searchText.lowercased())
+            
+            if containsSearchTerm && hasCommonTags {
                 res.append(book)
             }
         }
+        
         searchResults = res
     }
     
@@ -64,7 +80,8 @@ struct ExploreView: View {
                 TextField("Search Books", text: $searchText)
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal, 25)
-                    .onChange(of: searchText) {
+                    .onChange(of: self.searchText) {
+                        print("search text modified")
                         filterSearchResults()
                     }
             }
@@ -81,16 +98,17 @@ struct ExploreView: View {
         }
         .sheet(isPresented: $isFilterSheetShown) {
             FilterView(tags: $tagsSorted, selectedTags: $filterTags, sheetVisible: $isFilterSheetShown)
+                .onChange(of: filterTags) {
+                    print("filters modified")
+                    filterSearchResults()
+                }
         }
-        .padding(50)
         .onAppear(perform: {
             BookService.shared.loadBookMetadata { loadedBooks in
                 organizeAndSortBooks(loadedBooks: loadedBooks)
             }
         })
-        .frame(minWidth: 800, maxWidth: 1000, minHeight: 800, maxHeight: 2000)
-        .padding(.horizontal, 25)
-        .padding(.top, 50)
+        .padding(50)
         .glassBackgroundEffect()
     }
 }

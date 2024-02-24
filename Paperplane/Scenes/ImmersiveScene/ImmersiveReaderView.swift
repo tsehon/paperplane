@@ -14,13 +14,13 @@ import RealityKitContent
 struct ImmersiveReaderView: View {
     @Binding var params: ReaderParams?
     
-    var resourceId = "sampleVideo"
+    var resourceId = "sample_beach"
     
     private func createSkybox () -> Entity? {
         // partially visible when radius <= 0.5, but is obstructed??
-        let skyBoxMesh = MeshResource.generateSphere(radius: 10)
+        let skyBoxMesh = MeshResource.generateSphere(radius: 1000)
 
-        guard let url = Bundle.main.url(forResource: resourceId, withExtension: "mp4") else {
+        guard let url = Bundle.main.url(forResource: resourceId, withExtension: "mov") else {
             fatalError("Video not found")
         }
         let player = AVPlayer(url: url)
@@ -33,6 +33,7 @@ struct ImmersiveReaderView: View {
         
         skyBoxEntity.scale *= .init(x: 1, y: 1, z: -1)
         skyBoxEntity.transform.translation += SIMD3<Float>(0.0, 1.0, 0)
+        skyBoxEntity.transform.rotation *= simd_quatf(angle: 1.6, axis: SIMD3<Float>(0,1,0))
         
         player.isMuted = true
         

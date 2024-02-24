@@ -14,6 +14,6 @@ struct ImmersiveReaderScene: Scene {
     var body: some Scene {
         ImmersiveSpace(id: "immersive-reader", for: ReaderParams.self) { $params in
             ImmersiveReaderView(params: $params)
-        }.immersionStyle(selection: $style, in: .full)
+        }.immersionStyle(selection: $style, in: .full, .progressive, .mixed)
     }
 }

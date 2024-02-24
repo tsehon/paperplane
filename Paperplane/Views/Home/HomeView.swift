@@ -13,7 +13,6 @@ struct HomeView: View {
     @State private var books: [Book] = []
     
     @Environment(\.openWindow) private var openWindow
-    @Environment(\.dismissWindow) private var dismissWindow
     
     @State private var tagToBooks: [String: [Book]] = [:]
     @State private var tagsSorted: [String] = []

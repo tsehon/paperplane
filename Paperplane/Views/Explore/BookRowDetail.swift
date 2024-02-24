@@ -17,10 +17,14 @@ struct BookRowDetail: View {
             BookService.shared.downloadEPUBFile(bookId: book.id) { result in
                 switch result {
                 case .success(let fileURL):
-                    print("Downloaded and saved Ebook to \(fileURL)")
-                    print("Opening Reader")
                     let params = ReaderParams(id: book.id, url: fileURL)
-                    openWindow(id: "reader", value: params)
+                    if Thread.isMainThread {
+                        openWindow(id: "reader", value: params)
+                    } else {
+                        DispatchQueue.main.sync {
+                            openWindow(id: "reader", value: params)
+                        }
+                    }
                 case .failure(let error):
                     print("Failed to download EPUB: \(error)")
                 }

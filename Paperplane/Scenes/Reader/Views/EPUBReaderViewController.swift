@@ -81,6 +81,8 @@ class EPUBReaderViewController: UIViewController {
                 navigator.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             ])
             
+            navigator.view.contentMode = .scaleAspectFill
+            
             self.coordinator?.updateNavigator(navigator)
         } catch {
             print("Navigator Failed to initialize")

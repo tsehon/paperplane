@@ -13,40 +13,49 @@ struct FilterView: View {
     @Binding var tags: [String]
     @Binding var selectedTags: Set<String>
     @Binding var sheetVisible: Bool
+    
+    /*
+    TODO: actually get the tag width using .background, as seen here: https://stackoverflow.com/questions/56505043/how-to-make-view-the-size-of-another-view-in-swiftui
+     */
 
     var body: some View {
         GeometryReader { geometry in
             let width = geometry.size.width
-            let _ = print(width)
-            let tagsPerRow = calculateTagsPerRow(forWidth: width, tagWidth: 200)
+            let tagsPerRow = calculateTagsPerRow(forWidth: width, tagWidth: 100)
 
             VStack {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 25) {
                         ForEach(chunkTags(tags, into: tagsPerRow), id: \.self) { rowTags in
-                            HStack(spacing: 50) {
+                            HStack(spacing: 25) {
                                 ForEach(rowTags, id: \.self) { tag in
                                     Button(action: {
                                         toggleTagSelection(tag: tag)
                                     }) {
                                         Text(tag)
+                                            .font(.headline)
                                             .foregroundColor(.white)
                                     }
-                                    .background(selectedTags.contains(tag) ? Color.blue : Color.gray)
+                                    .background(TagBorder(show: selectedTags.contains(tag)))
                                 }
                             }
                         }
+                        Spacer()
                     }
-                    .padding(50)
                 }
-                Spacer()
-                Button("Confirm") {
-                    sheetVisible = false
+                HStack{
+                    Spacer()
+                    Button("Confirm Filters") {
+                        sheetVisible = false
+                    }
+                    .font(.title)
+                    .frame(alignment: .center)
+                    .background(RoundedRectangle(cornerRadius: 30).foregroundStyle(Color.blue))
+                    Spacer()
                 }
-                .padding(.bottom, 50)
-                .frame(alignment: .center)
             }
         }
+        .padding(50)
         .frame(minWidth: 500, maxWidth: 500, minHeight: 500, maxHeight: 500)
         .glassBackgroundEffect()
     }
@@ -71,6 +80,16 @@ struct FilterView: View {
         return stride(from: 0, to: tags.count, by: chunks).map {
             Array(tags[$0..<min($0 + chunks, tags.count)])
         }
+    }
+}
+
+struct TagBorder: View {
+    let show: Bool
+    
+    var body: some View {
+        RoundedRectangle(cornerRadius: 30)
+            .stroke(lineWidth: 3.0).foregroundColor(show ? Color.blue : Color.clear)
+            .animation(.easeInOut(duration: 0.3))
     }
 }
 

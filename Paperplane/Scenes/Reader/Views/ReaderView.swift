@@ -16,10 +16,12 @@ struct ReaderParams: Identifiable, Decodable, Encodable, Hashable {
 }
 
 struct ReaderView: View {
-    @Binding var params: ReaderParams?
-    
+    @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
+    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     
+    @Binding var params: ReaderParams?
     @State private var navigator: EPUBNavigatorViewController?
     @State private var publication: Publication?
     @State private var locator: Locator?
@@ -28,6 +30,8 @@ struct ReaderView: View {
     @State private var navVisibility: NavigationSplitViewVisibility = .detailOnly
     @State var preferences: EPUBPreferences = EPUBPreferences(
         columnCount: .two)
+    @State private var readerAspectRatio: CGSize = CGSize(width: 9, height: 16)
+    
     // fetch highlights from database for user
     // @State var highlights
     // let decorations = highlights.map { highlight in Decoration(id: highlight.id...)
@@ -37,35 +41,10 @@ struct ReaderView: View {
      /// Can be used to save a bookmark to the current position.
      NAV: var currentLocation: Locator? { get }
      */
-
-    @Environment(\.openWindow) private var openWindow
-    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
-    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
-    
-    private func toggleImmersiveSpace() async {
-        if isSpaceHidden {
-            let result: OpenImmersiveSpaceAction.Result = await openImmersiveSpace(id: "immersive-reader")
-            switch result {
-            case .opened:
-                print("Immersive space opened")
-                isSpaceHidden = false
-            case .userCancelled:
-                print("User cancelled")
-                isSpaceHidden = true
-            case .error:
-                print("An error occurred")
-                isSpaceHidden = true
-            default:
-                return
-            }
-        } else {
-            await dismissImmersiveSpace()
-            isSpaceHidden = true
-        }
-    }
     
     var body: some View {
         NavigationSplitView (columnVisibility: $navVisibility) {
+            let _ = print("reader aspect: \(readerAspectRatio)")
             if let toc = publication?.tableOfContents, let nav = navigator {
                 List {
                     ForEach(toc, id: \.href) { link in
@@ -88,6 +67,9 @@ struct ReaderView: View {
                 if let epubURL = params?.url {
                     EPUBReaderView(url: epubURL, preferences: $preferences, navigator: $navigator, publication: $publication, locator: $locator)
                         .ignoresSafeArea(.all)
+                        //.scaledToFit() <- gets true size, but window is too wide, not fit. 
+                        .background(BookGeometry())
+                        .onPreferenceChange(WidthPreferenceKey.self, perform: { self.readerAspectRatio = $0 })
                 }
             }
             .toolbar {
@@ -96,42 +78,92 @@ struct ReaderView: View {
                         Button(action: {
                             navVisibility = navVisibility == .detailOnly ? .all : .detailOnly
                         }, label: {
-                           Image(systemName: "sidebar.left")
+                            Image(systemName: "sidebar.left")
                         })
                         Button(action: {
-                            openWindow(id: "home")
-                            Task {
-                                await toggleImmersiveSpace()
+                            if Thread.isMainThread {
+                                dismissWindow(id: "reader")
+                                openWindow(id: "home")
+                            } else {
+                                DispatchQueue.main.sync {
+                                    dismissWindow(id: "reader")
+                                    openWindow(id: "home")
+                                }
                             }
-                            dismissWindow(id: "reader")
+                            Task {
+                                if !isSpaceHidden {
+                                    await dismissImmersiveSpace()
+                                }
+                            }
                         }, label: {
-                           Image(systemName: "house")
+                            Image(systemName: "house")
                         })
                         Button(action: {
                             navigator?.goBackward(animated: true)
                         }, label: {
-                           Image(systemName: "arrow.left")
+                            Image(systemName: "arrow.left")
                         })
                         Button(action: {
                             navigator?.goForward(animated: true)
                         }, label: {
-                           Image(systemName: "arrow.right")
+                            Image(systemName: "arrow.right")
                         })
                         Button("Show Immersive Space") {
                             Task {
-                                await toggleImmersiveSpace()
+                                if isSpaceHidden {
+                                    let result: OpenImmersiveSpaceAction.Result = await openImmersiveSpace(id: "immersive-reader")
+                                    switch result {
+                                    case .opened:
+                                        print("Immersive space opened")
+                                        isSpaceHidden = false
+                                    case .userCancelled:
+                                        print("User cancelled")
+                                        isSpaceHidden = true
+                                    case .error:
+                                        print("An error occurred")
+                                        isSpaceHidden = true
+                                    default:
+                                        return
+                                    }
+                                } else {
+                                    await dismissImmersiveSpace()
+                                    isSpaceHidden = true
+                                }
                             }
                         }
                     }
                 }
             }
-            .aspectRatio(contentMode: .fit)
         }.onAppear {
-            dismissWindow(id: "home")
+            if Thread.isMainThread {
+                dismissWindow(id: "home")
+            } else {
+                DispatchQueue.main.sync {
+                    dismissWindow(id: "home")
+                }
+            }
         }
-        .aspectRatio(contentMode: .fit)
-        //.frame(minWidth: 1000, idealWidth: 1200, maxWidth: 2000, minHeight: 1000, idealHeight: 1600, maxHeight: 2000)
+        .glassBackgroundEffect(displayMode: .never)
+        .frame(idealWidth: 1000, idealHeight: 1400)
     }
+}
+
+struct BookGeometry: View {
+    var body: some View {
+        GeometryReader { geometry in
+            return Rectangle().fill(Color.clear).preference(key: WidthPreferenceKey.self, value: CGSize(width: geometry.size.width , height: geometry.size.height))
+        }
+    }
+}
+
+struct WidthPreferenceKey: PreferenceKey {
+    static var defaultValue: CGSize = CGSize(width: 9, height: 16)
+
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+
+    typealias Value = CGSize
 }
 
 struct ReaderViewPreviewContainer : View {
