@@ -23,10 +23,6 @@ struct ContentView: View {
                 }
             HomeView()
                 .tabItem {
-                    Label("Notes", systemImage: "book.pages")
-                }
-            HomeView()
-                .tabItem {
                     Label("Library", systemImage: "books.vertical")
                 }
         }

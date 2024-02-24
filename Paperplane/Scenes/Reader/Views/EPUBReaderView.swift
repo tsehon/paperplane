@@ -17,13 +17,10 @@ struct EPUBReaderView: UIViewControllerRepresentable {
     @Binding var navigator: EPUBNavigatorViewController?
     @Binding var publication: Publication?
     @Binding var locator: Locator?
-    
-    var editingActions: [EditingAction] = [
-    //     EditingAction(title: "Highlight", action: #selector(highlight:))
-    ] + EditingAction.defaultActions
+    @Binding var chatboxVisible: Bool
     
     @State private var config: EPUBNavigatorViewController.Configuration = EPUBNavigatorViewController.Configuration()
-
+    
     func makeUIViewController(context: Context) -> UIViewController {
         return EPUBReaderViewController(epubURL: url, config: config, coordinator: context.coordinator)
     }
@@ -64,5 +61,10 @@ struct EPUBReaderView: UIViewControllerRepresentable {
         func updateNavigator(_ navigator: EPUBNavigatorViewController?) {
             parent.navigator = navigator
         }
+        
+        func updateChatVisible(_ visible: Bool) {
+            parent.chatboxVisible = visible
+        }
     }
 }
+

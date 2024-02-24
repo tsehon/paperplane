@@ -19,6 +19,11 @@ class EPUBReaderViewController: UIViewController {
     var config: EPUBNavigatorViewController.Configuration
 
     weak var coordinator: EPUBReaderView.Coordinator?
+        
+    private var editingActions: [EditingAction] = [
+        //EditingAction(title: "Highlight", action: #selector(highlight:))
+        EditingAction(title: "Chat", action: #selector(openChat))
+    ] + EditingAction.defaultActions
 
     init(epubURL: URL, config: EPUBNavigatorViewController.Configuration, coordinator: EPUBReaderView.Coordinator) {
         self.epubURL = epubURL
@@ -61,11 +66,13 @@ class EPUBReaderViewController: UIViewController {
             return
         }
         
+        self.config.editingActions = editingActions
+        
         // Pass the publication and server to the navigator
         do {
             let navigator = try EPUBNavigatorViewController(publication: publication,
                 initialLocation: nil,
-                config: config,
+                config: self.config,
                 httpServer: GCDHTTPServer.shared
             )
             addChild(navigator)
@@ -87,5 +94,10 @@ class EPUBReaderViewController: UIViewController {
         } catch {
             print("Navigator Failed to initialize")
         }
+    }
+    
+    @objc func openChat() {
+        // present chat sheet
+        coordinator?.updateChatVisible(true)
     }
 }

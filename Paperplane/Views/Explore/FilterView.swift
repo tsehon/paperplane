@@ -35,6 +35,9 @@ struct FilterView: View {
                                         Text(tag)
                                             .font(.headline)
                                             .foregroundColor(.white)
+                                            .overlay(
+                                            RoundedRectangle(cornerRadius: 25)
+                                                .stroke(Color.clear, lineWidth: 2))
                                     }
                                     .background(TagBorder(show: selectedTags.contains(tag)))
                                 }
@@ -56,7 +59,7 @@ struct FilterView: View {
             }
         }
         .padding(50)
-        .frame(minWidth: 500, maxWidth: 500, minHeight: 500, maxHeight: 500)
+        .frame(minWidth: 500, maxWidth: 500, minHeight: 500, maxHeight: .infinity)
         .glassBackgroundEffect()
     }
 
@@ -87,9 +90,13 @@ struct TagBorder: View {
     let show: Bool
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 30)
+        RoundedRectangle(cornerRadius: 25)
             .stroke(lineWidth: 3.0).foregroundColor(show ? Color.blue : Color.clear)
-            .animation(.easeInOut(duration: 0.3))
+            .onTapGesture {
+                withAnimation(Animation.easeInOut(duration: 0.3)) {
+                    
+                }
+            }
     }
 }
 

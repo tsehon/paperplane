@@ -31,6 +31,7 @@ struct ReaderView: View {
     @State var preferences: EPUBPreferences = EPUBPreferences(
         columnCount: .two)
     @State private var readerAspectRatio: CGSize = CGSize(width: 9, height: 16)
+    @State private var isChatboxVisible = false
     
     // fetch highlights from database for user
     // @State var highlights
@@ -65,12 +66,20 @@ struct ReaderView: View {
         } detail: {
             VStack {
                 if let epubURL = params?.url {
-                    EPUBReaderView(url: epubURL, preferences: $preferences, navigator: $navigator, publication: $publication, locator: $locator)
+                    EPUBReaderView(url: epubURL, preferences: $preferences, navigator: $navigator, publication: $publication, locator: $locator, chatboxVisible: $isChatboxVisible)
                         .ignoresSafeArea(.all)
                         //.scaledToFit() <- gets true size, but window is too wide, not fit. 
                         .background(BookGeometry())
                         .onPreferenceChange(WidthPreferenceKey.self, perform: { self.readerAspectRatio = $0 })
+                    /*
+                        .simultaneousGesture(LongPressGesture(minimumDuration: 0.5).onEnded({ value in
+                            print("long press: \(value)")
+                        }))
+                     */
                 }
+            }
+            .sheet(isPresented: $isChatboxVisible) {
+                ChatView(sheetVisible: $isChatboxVisible)
             }
             .toolbar {
                 ToolbarItemGroup(placement: .bottomOrnament) {
