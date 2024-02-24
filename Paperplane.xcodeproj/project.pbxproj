@@ -45,6 +45,7 @@
 		B1CF29022B8A806C00A9DD92 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = B1CF29012B8A806C00A9DD92 /* R2Streamer */; };
 		B1CF29042B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer in Frameworks */ = {isa = PBXBuildFile; productRef = B1CF29032B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer */; };
 		B1CF29062B8A92B100A9DD92 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CF29052B8A92B100A9DD92 /* ChatView.swift */; };
+		B1CF29082B8A9D8400A9DD92 /* sample_beach.mov in Resources */ = {isa = PBXBuildFile; fileRef = B1CF29072B8A9D8400A9DD92 /* sample_beach.mov */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +78,7 @@
 		B1CDFB7F2B8085FF00C439B0 /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
 		B1CDFB852B809EAF00C439B0 /* BookDetailsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailsScene.swift; sourceTree = "<group>"; };
 		B1CF29052B8A92B100A9DD92 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		B1CF29072B8A9D8400A9DD92 /* sample_beach.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = sample_beach.mov; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 		B1CDFB5C2B770BC400C439B0 /* Paperplane */ = {
 			isa = PBXGroup;
 			children = (
+				B1CF29072B8A9D8400A9DD92 /* sample_beach.mov */,
 				B188D8A22B884D680092D848 /* example.epub */,
 				B188D8992B8704650092D848 /* AppDelegate.swift */,
 				B1CDFB612B770BC400C439B0 /* PaperplaneApp.swift */,
@@ -324,6 +327,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1CF29082B8A9D8400A9DD92 /* sample_beach.mov in Resources */,
 				B1CDFB6B2B770BC800C439B0 /* Preview Assets.xcassets in Resources */,
 				B188D8A32B884D690092D848 /* example.epub in Resources */,
 				B1CDFB682B770BC800C439B0 /* Assets.xcassets in Resources */,
