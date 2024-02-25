@@ -46,6 +46,8 @@
 		B1CF29042B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer in Frameworks */ = {isa = PBXBuildFile; productRef = B1CF29032B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer */; };
 		B1CF29062B8A92B100A9DD92 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CF29052B8A92B100A9DD92 /* ChatView.swift */; };
 		B1CF29082B8A9D8400A9DD92 /* sample_beach.mov in Resources */ = {isa = PBXBuildFile; fileRef = B1CF29072B8A9D8400A9DD92 /* sample_beach.mov */; };
+		B1D595F82B8AF3BA00AB8A7D /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = B1D595F72B8AF3BA00AB8A7D /* OpenAISwift */; };
+		B1D595FA2B8AFC4400AB8A7D /* ReaderToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D595F92B8AFC4400AB8A7D /* ReaderToolbar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +81,7 @@
 		B1CDFB852B809EAF00C439B0 /* BookDetailsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailsScene.swift; sourceTree = "<group>"; };
 		B1CF29052B8A92B100A9DD92 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		B1CF29072B8A9D8400A9DD92 /* sample_beach.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = sample_beach.mov; sourceTree = "<group>"; };
+		B1D595F92B8AFC4400AB8A7D /* ReaderToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderToolbar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1D595F82B8AF3BA00AB8A7D /* OpenAISwift in Frameworks */,
 				B188D8662B86AC6E0092D848 /* R2Navigator in Frameworks */,
 				B1CF29042B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer in Frameworks */,
 				B188D8682B86AC6E0092D848 /* R2Shared in Frameworks */,
@@ -116,6 +120,7 @@
 		B161B9862B840CA00095B366 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B1D595F92B8AFC4400AB8A7D /* ReaderToolbar.swift */,
 				B161B9812B82BBB90095B366 /* ReaderView.swift */,
 				B188D85B2B8483DE0092D848 /* EPUBReaderView.swift */,
 				B188D8952B86F5560092D848 /* EPUBReaderViewController.swift */,
@@ -281,6 +286,7 @@
 				B1CF28FF2B8A806C00A9DD92 /* R2Shared */,
 				B1CF29012B8A806C00A9DD92 /* R2Streamer */,
 				B1CF29032B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer */,
+				B1D595F72B8AF3BA00AB8A7D /* OpenAISwift */,
 			);
 			productName = Paperplane;
 			productReference = B1CDFB5A2B770BC400C439B0 /* Paperplane.app */;
@@ -312,6 +318,7 @@
 			mainGroup = B1CDFB512B770BC300C439B0;
 			packageReferences = (
 				B188D8642B86AC6E0092D848 /* XCLocalSwiftPackageReference "swift-toolkit" */,
+				B1D595F62B8AF3BA00AB8A7D /* XCLocalSwiftPackageReference "OpenAISwift" */,
 			);
 			productRefGroup = B1CDFB5B2B770BC400C439B0 /* Products */;
 			projectDirPath = "";
@@ -345,6 +352,7 @@
 				B161B97E2B82B2DC0095B366 /* ContentView.swift in Sources */,
 				B1CF29062B8A92B100A9DD92 /* ChatView.swift in Sources */,
 				B188D86C2B86AD7A0092D848 /* BookGridView.swift in Sources */,
+				B1D595FA2B8AFC4400AB8A7D /* ReaderToolbar.swift in Sources */,
 				B161B9822B82BBB90095B366 /* ReaderView.swift in Sources */,
 				B161B9852B82BE360095B366 /* ImmersiveReaderView.swift in Sources */,
 				B1CDFB862B809EAF00C439B0 /* BookDetailsScene.swift in Sources */,
@@ -567,6 +575,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "swift-toolkit";
 		};
+		B1D595F62B8AF3BA00AB8A7D /* XCLocalSwiftPackageReference "OpenAISwift" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = OpenAISwift;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -617,6 +629,10 @@
 		B1CF29032B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ReadiumAdapterGCDWebServer;
+		};
+		B1D595F72B8AF3BA00AB8A7D /* OpenAISwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OpenAISwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

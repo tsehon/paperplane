@@ -57,7 +57,7 @@ struct ExploreView: View {
         
         print("filtering on: ", searchText.lowercased())
         print("and: ", filterTags)
-        
+
         var res: [Book] = []
         for book in books {
             let hasCommonTags = book.tags.contains(where: filterTags.contains)
@@ -84,6 +84,11 @@ struct ExploreView: View {
                         print("search text modified")
                         filterSearchResults()
                     }
+                /*
+                    .onSubmit {
+                        filterSearchResults()
+                    }
+                 */
             }
             ScrollView {
                 ForEach(searchResults, id: \.id) { book in

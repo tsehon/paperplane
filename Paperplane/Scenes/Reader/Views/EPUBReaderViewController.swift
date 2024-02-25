@@ -20,10 +20,10 @@ class EPUBReaderViewController: UIViewController {
 
     weak var coordinator: EPUBReaderView.Coordinator?
         
-    private var editingActions: [EditingAction] = [
+    private var editingActions: [EditingAction] = EditingAction.defaultActions + [
         //EditingAction(title: "Highlight", action: #selector(highlight:))
         EditingAction(title: "Chat", action: #selector(openChat))
-    ] + EditingAction.defaultActions
+    ]
 
     init(epubURL: URL, config: EPUBNavigatorViewController.Configuration, coordinator: EPUBReaderView.Coordinator) {
         self.epubURL = epubURL

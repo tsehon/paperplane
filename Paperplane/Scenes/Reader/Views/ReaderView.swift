@@ -26,11 +26,11 @@ struct ReaderView: View {
     @State private var publication: Publication?
     @State private var locator: Locator?
     
+    @State private var readerAspectRatio: CGSize = CGSize(width: 9, height: 16)
     @State private var isSpaceHidden: Bool = true
-    @State private var navVisibility: NavigationSplitViewVisibility = .detailOnly
+    @State private var isTableOfContentsVisible: NavigationSplitViewVisibility = .detailOnly
     @State var preferences: EPUBPreferences = EPUBPreferences(
         columnCount: .two)
-    @State private var readerAspectRatio: CGSize = CGSize(width: 9, height: 16)
     @State private var isChatboxVisible = false
     
     // fetch highlights from database for user
@@ -44,7 +44,7 @@ struct ReaderView: View {
      */
     
     var body: some View {
-        NavigationSplitView (columnVisibility: $navVisibility) {
+        NavigationSplitView (columnVisibility: $isTableOfContentsVisible) {
             let _ = print("reader aspect: \(readerAspectRatio)")
             if let toc = publication?.tableOfContents, let nav = navigator {
                 List {
@@ -83,64 +83,7 @@ struct ReaderView: View {
             }
             .toolbar {
                 ToolbarItemGroup(placement: .bottomOrnament) {
-                    HStack {
-                        Button(action: {
-                            navVisibility = navVisibility == .detailOnly ? .all : .detailOnly
-                        }, label: {
-                            Image(systemName: "sidebar.left")
-                        })
-                        Button(action: {
-                            if Thread.isMainThread {
-                                dismissWindow(id: "reader")
-                                openWindow(id: "home")
-                            } else {
-                                DispatchQueue.main.sync {
-                                    dismissWindow(id: "reader")
-                                    openWindow(id: "home")
-                                }
-                            }
-                            Task {
-                                if !isSpaceHidden {
-                                    await dismissImmersiveSpace()
-                                }
-                            }
-                        }, label: {
-                            Image(systemName: "house")
-                        })
-                        Button(action: {
-                            navigator?.goBackward(animated: true)
-                        }, label: {
-                            Image(systemName: "arrow.left")
-                        })
-                        Button(action: {
-                            navigator?.goForward(animated: true)
-                        }, label: {
-                            Image(systemName: "arrow.right")
-                        })
-                        Button("Show Immersive Space") {
-                            Task {
-                                if isSpaceHidden {
-                                    let result: OpenImmersiveSpaceAction.Result = await openImmersiveSpace(id: "immersive-reader")
-                                    switch result {
-                                    case .opened:
-                                        print("Immersive space opened")
-                                        isSpaceHidden = false
-                                    case .userCancelled:
-                                        print("User cancelled")
-                                        isSpaceHidden = true
-                                    case .error:
-                                        print("An error occurred")
-                                        isSpaceHidden = true
-                                    default:
-                                        return
-                                    }
-                                } else {
-                                    await dismissImmersiveSpace()
-                                    isSpaceHidden = true
-                                }
-                            }
-                        }
-                    }
+                    ReaderToolbar(navigator: $navigator, publication: $publication, locator: $locator, isSpaceHidden: $isSpaceHidden, isTableOfContentsVisible: $isTableOfContentsVisible, isChatboxVisible: $isChatboxVisible)
                 }
             }
         }.onAppear {
