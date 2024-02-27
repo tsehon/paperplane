@@ -19,11 +19,6 @@ class EPUBReaderViewController: UIViewController {
     var config: EPUBNavigatorViewController.Configuration
 
     weak var coordinator: EPUBReaderView.Coordinator?
-        
-    private var editingActions: [EditingAction] = /* EditingAction.defaultActions + */ [
-        //EditingAction(title: "Highlight", action: #selector(highlight:))
-        EditingAction(title: "Information", action: #selector(openInfo))
-    ]
 
     init(epubURL: URL, config: EPUBNavigatorViewController.Configuration, coordinator: EPUBReaderView.Coordinator) {
         self.epubURL = epubURL
@@ -39,8 +34,6 @@ class EPUBReaderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPublicationAndServer()
-        
-        
     }
     
     private func setupPublicationAndServer() {
@@ -68,7 +61,21 @@ class EPUBReaderViewController: UIViewController {
             return
         }
         
+        let infoAction =
+            UIAction(title: NSLocalizedString("Info", comment: ""),
+                     image: UIImage(systemName: "info")) { action in
+                self.coordinator?.updateInfoVisible(true)
+            }
+
+        let editingActions: [EditingAction] = /* EditingAction.defaultActions + */ [
+            //EditingAction(title: "Highlight", action: #selector(highlight:))
+            //EditingAction(title: "Information", handler: infoAction)
+            infoAction
+        ]
+        
         self.config.editingActions = editingActions
+        
+        print("\(#file) editingActions", editingActions)
         
         // Pass the publication and server to the navigator
         do {
@@ -91,15 +98,10 @@ class EPUBReaderViewController: UIViewController {
             ])
             
             navigator.view.contentMode = .scaleAspectFill
-            
             self.coordinator?.updateNavigator(navigator)
         } catch {
             print("Navigator Failed to initialize")
         }
     }
-    
-    @objc func openInfo() {
-        // present info sheet
-        coordinator?.updateInfoVisible(true)
-    }
+
 }

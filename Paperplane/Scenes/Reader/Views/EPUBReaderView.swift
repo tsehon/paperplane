@@ -68,7 +68,7 @@ struct EPUBReaderView: UIViewControllerRepresentable {
         func updateInfoVisible(_ isVisible: Bool) {
             viewModel.infoSheetVisible = true
         }
-
     }
+
 }
 
