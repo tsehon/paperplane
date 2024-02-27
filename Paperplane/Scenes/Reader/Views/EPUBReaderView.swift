@@ -13,11 +13,10 @@ import R2Navigator
 
 struct EPUBReaderView: UIViewControllerRepresentable {
     var url: URL
+    var viewModel: NavigatorViewModel
+    
     @Binding var preferences: EPUBPreferences
-    @Binding var navigator: EPUBNavigatorViewController?
-    @Binding var publication: Publication?
-    @Binding var locator: Locator?
-    @Binding var chatboxVisible: Bool
+    @Binding var contextSheetVisible: Bool
     
     @State private var config: EPUBNavigatorViewController.Configuration = EPUBNavigatorViewController.Configuration()
     
@@ -34,37 +33,42 @@ struct EPUBReaderView: UIViewControllerRepresentable {
             epubReaderVC.epubURL = url
             epubReaderVC.setupNavigator()
             epubReaderVC.navigator?.submitPreferences(preferences)
-            navigator = epubReaderVC.navigator
-            publication = epubReaderVC.publication
+            viewModel.navigator = epubReaderVC.navigator
+            viewModel.publication = epubReaderVC.publication
         }
         
-        if let loc = locator {
-            navigator?.go(to: loc)
+        if let loc = viewModel.locator {
+            viewModel.navigator?.go(to: loc)
         }
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+        Coordinator(self.viewModel)
     }
 
     class Coordinator: NSObject {
-        var parent: EPUBReaderView
+        var viewModel: NavigatorViewModel
 
-        init(_ parent: EPUBReaderView) {
-            self.parent = parent
+        init(_ viewModel: NavigatorViewModel) {
+            self.viewModel = viewModel
         }
         
         func updatePublication(_ publication: Publication?) {
-            parent.publication = publication
+            viewModel.publication = publication
         }
 
         func updateNavigator(_ navigator: EPUBNavigatorViewController?) {
-            parent.navigator = navigator
+            viewModel.navigator = navigator
         }
         
-        func updateChatVisible(_ visible: Bool) {
-            parent.chatboxVisible = visible
+        func updateLocator(_ locator: Locator?) {
+            viewModel.locator = locator
         }
+        
+        func updateInfoVisible(_ isVisible: Bool) {
+            viewModel.infoSheetVisible = true
+        }
+
     }
 }
 

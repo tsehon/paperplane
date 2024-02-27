@@ -11,10 +11,33 @@ let API_URL = "http://localhost:8080"
 
 class BookService {
     static let shared = BookService() // Singleton instance
+    
+    func loadBookMetadata(id: Book.ID, completion: @escaping (Book) -> Void) {
+        guard let url = URL(string: "\(API_URL)/book/metadata/\(id)") else {
+            print("\(#file) \(#function) loadBookMetadata: Invalid URL")
+            return
+        }
 
-    func loadBookMetadata(completion: @escaping ([Book]) -> Void) {
-        guard let url = URL(string: "\(API_URL)/books") else {
-            print("[BookService] loadBookMetadata: Invalid URL")
+        let request = URLRequest(url: url)
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let data = data {
+                if let book = try? JSONDecoder().decode(Book.self, from: data) {
+                    DispatchQueue.main.async {
+                        completion(book)
+                    }
+                } else {
+                    print("\(#file) \(#function) JSON Decoding Failed")
+                }
+            } else if let error = error {
+                print("\(#file) \(#function) HTTP Request Failed \(error)")
+            }
+        }.resume()
+    }
+
+    func loadBooksMetadata(completion: @escaping ([Book]) -> Void) {
+        guard let url = URL(string: "\(API_URL)/book/metadata") else {
+            print("\(#file) \(#function): Invalid URL")
             return
         }
 
@@ -27,10 +50,10 @@ class BookService {
                         completion(books)
                     }
                 } else {
-                    print("[BookService] JSON Decoding Failed")
+                    print("\(#file) \(#function) JSON Decoding Failed")
                 }
             } else if let error = error {
-                print("[BookService] HTTP Request Failed \(error)")
+                print("\(#file) \(#function) HTTP Request Failed \(error)")
             }
         }.resume()
     }
@@ -45,7 +68,7 @@ class BookService {
             }
         }
         
-        guard let url = URL(string: "\(API_URL)/books/\(bookId)") else {
+        guard let url = URL(string: "\(API_URL)/book/\(bookId)") else {
             completion(.failure(URLError(.badURL)))
             return
         }

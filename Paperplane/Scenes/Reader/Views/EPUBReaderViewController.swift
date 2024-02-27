@@ -20,9 +20,9 @@ class EPUBReaderViewController: UIViewController {
 
     weak var coordinator: EPUBReaderView.Coordinator?
         
-    private var editingActions: [EditingAction] = EditingAction.defaultActions + [
+    private var editingActions: [EditingAction] = /* EditingAction.defaultActions + */ [
         //EditingAction(title: "Highlight", action: #selector(highlight:))
-        EditingAction(title: "Chat", action: #selector(openChat))
+        EditingAction(title: "Information", action: #selector(openInfo))
     ]
 
     init(epubURL: URL, config: EPUBNavigatorViewController.Configuration, coordinator: EPUBReaderView.Coordinator) {
@@ -39,6 +39,8 @@ class EPUBReaderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPublicationAndServer()
+        
+        
     }
     
     private func setupPublicationAndServer() {
@@ -96,8 +98,8 @@ class EPUBReaderViewController: UIViewController {
         }
     }
     
-    @objc func openChat() {
-        // present chat sheet
-        coordinator?.updateChatVisible(true)
+    @objc func openInfo() {
+        // present info sheet
+        coordinator?.updateInfoVisible(true)
     }
 }

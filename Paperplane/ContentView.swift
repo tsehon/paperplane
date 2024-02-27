@@ -26,7 +26,6 @@ struct ContentView: View {
                     Label("Library", systemImage: "books.vertical")
                 }
         }
-        .frame(minWidth: 800, maxWidth: 2000, minHeight: 800, maxHeight: 1600)
     }
 }
 

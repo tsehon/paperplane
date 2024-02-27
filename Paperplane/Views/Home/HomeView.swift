@@ -41,13 +41,13 @@ struct HomeView: View {
         VStack {
             BookGridView(tags: tagsSorted, dict: tagToBooks)
         }
-        .padding(20)
-            .onAppear(perform: {
-                BookService.shared.loadBookMetadata { loadedBooks in
-                    organizeAndSortBooks(loadedBooks: loadedBooks)
-                }
-            })
-            .frame(minWidth: 800, maxWidth: 2000, minHeight: 800, maxHeight: 1600)
+        .padding(40)
+        .glassBackgroundEffect()
+        .onAppear(perform: {
+            BookService.shared.loadBooksMetadata { loadedBooks in
+                organizeAndSortBooks(loadedBooks: loadedBooks)
+            }
+        })
     }
 }
 

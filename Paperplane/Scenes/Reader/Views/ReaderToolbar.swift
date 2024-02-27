@@ -10,22 +10,17 @@ import R2Shared
 import R2Navigator
 
 struct ReaderToolbar : View {
+    @Binding var isSidebarVisible: NavigationSplitViewVisibility
+    @Binding var isChatWindowOpen: Bool
+    
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
-    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
-    
-    @Binding var navigator: EPUBNavigatorViewController?
-    @Binding var publication: Publication?
-    @Binding var locator: Locator? // TODO: add an editable with page number
-    @Binding var isSpaceHidden: Bool
-    @Binding var isTableOfContentsVisible: NavigationSplitViewVisibility
-    @Binding var isChatboxVisible: Bool
-    
+
     var body: some View {
         HStack {
             Button(action: {
-                isTableOfContentsVisible = isTableOfContentsVisible == .detailOnly ? .all : .detailOnly
+                isSidebarVisible = isSidebarVisible == .detailOnly ? .all : .detailOnly
             }, label: {
                 Image(systemName: "sidebar.left")
             })
@@ -40,54 +35,25 @@ struct ReaderToolbar : View {
                     }
                 }
                 Task {
-                    if !isSpaceHidden {
-                        await dismissImmersiveSpace()
-                    }
+                    await dismissImmersiveSpace()
                 }
             }, label: {
                 Image(systemName: "house")
             })
             Button(action: {
-                isChatboxVisible = !isChatboxVisible
-            }, label: {
-                Image(systemName: "info.bubble")
-            })
-            Button("\(isSpaceHidden ? "Open" : "Close") Immersion") {
-                Task {
-                    if isSpaceHidden {
-                        let result: OpenImmersiveSpaceAction.Result = await openImmersiveSpace(id: "immersive-reader")
-                        switch result {
-                        case .opened:
-                            print("Immersive space opened")
-                            isSpaceHidden = false
-                        case .userCancelled:
-                            print("User cancelled")
-                            isSpaceHidden = true
-                        case .error:
-                            print("An error occurred")
-                            isSpaceHidden = true
-                        default:
-                            return
-                        }
+                if isChatWindowOpen {
+                    if Thread.isMainThread {
+                        openWindow(id: "chat")
                     } else {
-                        await dismissImmersiveSpace()
-                        isSpaceHidden = true
+                        DispatchQueue.main.sync {
+                            openWindow(id: "chat")
+                        }
                     }
                 }
-            }
+            }, label: {
+                Image(systemName: "bubble")
+            })
         }
     }
 }
 
-            /*
-            Button(action: {
-                navigator?.goBackward(animated: true)
-            }, label: {
-                Image(systemName: "arrow.left")
-            })
-            Button(action: {
-                navigator?.goForward(animated: true)
-            }, label: {
-                Image(systemName: "arrow.right")
-            })
-             */

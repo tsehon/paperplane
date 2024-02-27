@@ -48,6 +48,9 @@
 		B1CF29082B8A9D8400A9DD92 /* sample_beach.mov in Resources */ = {isa = PBXBuildFile; fileRef = B1CF29072B8A9D8400A9DD92 /* sample_beach.mov */; };
 		B1D595F82B8AF3BA00AB8A7D /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = B1D595F72B8AF3BA00AB8A7D /* OpenAISwift */; };
 		B1D595FA2B8AFC4400AB8A7D /* ReaderToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D595F92B8AFC4400AB8A7D /* ReaderToolbar.swift */; };
+		B1D595FC2B8BF15600AB8A7D /* ReaderTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D595FB2B8BF15600AB8A7D /* ReaderTabBar.swift */; };
+		B1D596012B8C164200AB8A7D /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D596002B8C164200AB8A7D /* ChatModel.swift */; };
+		B1D596032B8C16BD00AB8A7D /* ChatScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D596022B8C16BD00AB8A7D /* ChatScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +85,9 @@
 		B1CF29052B8A92B100A9DD92 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		B1CF29072B8A9D8400A9DD92 /* sample_beach.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = sample_beach.mov; sourceTree = "<group>"; };
 		B1D595F92B8AFC4400AB8A7D /* ReaderToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderToolbar.swift; sourceTree = "<group>"; };
+		B1D595FB2B8BF15600AB8A7D /* ReaderTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderTabBar.swift; sourceTree = "<group>"; };
+		B1D596002B8C164200AB8A7D /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		B1D596022B8C16BD00AB8A7D /* ChatScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +130,7 @@
 				B161B9812B82BBB90095B366 /* ReaderView.swift */,
 				B188D85B2B8483DE0092D848 /* EPUBReaderView.swift */,
 				B188D8952B86F5560092D848 /* EPUBReaderViewController.swift */,
-				B1CF29052B8A92B100A9DD92 /* ChatView.swift */,
+				B1D595FB2B8BF15600AB8A7D /* ReaderTabBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -250,11 +256,22 @@
 		B1CDFB842B809E9400C439B0 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				B1D595FF2B8C160D00AB8A7D /* ChatScene */,
 				B188D8A12B87D4FE0092D848 /* ImmersiveScene */,
 				B161B9832B82BE1B0095B366 /* Reader */,
 				B1CDFB852B809EAF00C439B0 /* BookDetailsScene.swift */,
 			);
 			path = Scenes;
+			sourceTree = "<group>";
+		};
+		B1D595FF2B8C160D00AB8A7D /* ChatScene */ = {
+			isa = PBXGroup;
+			children = (
+				B1CF29052B8A92B100A9DD92 /* ChatView.swift */,
+				B1D596002B8C164200AB8A7D /* ChatModel.swift */,
+				B1D596022B8C16BD00AB8A7D /* ChatScene.swift */,
+			);
+			path = ChatScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,11 +367,13 @@
 			files = (
 				B1CDFB782B801F5500C439B0 /* BookService.swift in Sources */,
 				B161B97E2B82B2DC0095B366 /* ContentView.swift in Sources */,
+				B1D595FC2B8BF15600AB8A7D /* ReaderTabBar.swift in Sources */,
 				B1CF29062B8A92B100A9DD92 /* ChatView.swift in Sources */,
 				B188D86C2B86AD7A0092D848 /* BookGridView.swift in Sources */,
 				B1D595FA2B8AFC4400AB8A7D /* ReaderToolbar.swift in Sources */,
 				B161B9822B82BBB90095B366 /* ReaderView.swift in Sources */,
 				B161B9852B82BE360095B366 /* ImmersiveReaderView.swift in Sources */,
+				B1D596012B8C164200AB8A7D /* ChatModel.swift in Sources */,
 				B1CDFB862B809EAF00C439B0 /* BookDetailsScene.swift in Sources */,
 				B188D8A52B8854E30092D848 /* ExploreView.swift in Sources */,
 				B188D8A92B8859770092D848 /* FilterView.swift in Sources */,
@@ -369,6 +388,7 @@
 				B188D8A02B87D00C0092D848 /* ImmersiveReaderScene.swift in Sources */,
 				B188D86E2B86ADF60092D848 /* BookItem.swift in Sources */,
 				B161B97C2B82B1F60095B366 /* TabBar.swift in Sources */,
+				B1D596032B8C16BD00AB8A7D /* ChatScene.swift in Sources */,
 				B1CDFB622B770BC400C439B0 /* PaperplaneApp.swift in Sources */,
 				B188D8AB2B8864830092D848 /* BookRowDetail.swift in Sources */,
 				B161B9802B82BB8F0095B366 /* ReaderScene.swift in Sources */,

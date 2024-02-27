@@ -21,7 +21,7 @@ struct BookCoverView: View {
             .aspectRatio(contentMode: .fit)
             .frame(height: height)
             .onAppear {
-                if let url = URL(string: "http://localhost:8080/books/\(bookId)/cover") {
+                if let url = URL(string: "http://localhost:8080/book/\(bookId)/cover") {
                     imageLoader.load(fromURL: url)
                 }
             }

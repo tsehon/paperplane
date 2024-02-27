@@ -16,23 +16,22 @@ struct ReaderParams: Identifiable, Decodable, Encodable, Hashable {
 }
 
 struct ReaderView: View {
+    @Binding var params: ReaderParams?
+    @StateObject var viewModel = NavigatorViewModel()
+    
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     
-    @Binding var params: ReaderParams?
-    @State private var navigator: EPUBNavigatorViewController?
-    @State private var publication: Publication?
-    @State private var locator: Locator?
-    
     @State private var readerAspectRatio: CGSize = CGSize(width: 9, height: 16)
     @State private var isSpaceHidden: Bool = true
-    @State private var isTableOfContentsVisible: NavigationSplitViewVisibility = .detailOnly
+    @State private var isContextSheetVisible: Bool = false
+    @State private var isSidebarVisible: NavigationSplitViewVisibility = .detailOnly
     @State var preferences: EPUBPreferences = EPUBPreferences(
         columnCount: .two)
-    @State private var isChatboxVisible = false
-    
+    @State var isChatWindowOpen: Bool = false
+
     // fetch highlights from database for user
     // @State var highlights
     // let decorations = highlights.map { highlight in Decoration(id: highlight.id...)
@@ -44,46 +43,24 @@ struct ReaderView: View {
      */
     
     var body: some View {
-        NavigationSplitView (columnVisibility: $isTableOfContentsVisible) {
-            let _ = print("reader aspect: \(readerAspectRatio)")
-            if let toc = publication?.tableOfContents, let nav = navigator {
-                List {
-                    ForEach(toc, id: \.href) { link in
-                        Button(action: {
-                            let success = nav.go(to: link)
-                            if !success {
-                                print("Table of Contents link failed")
-                            }
-                        }){
-                            Text(link.title ?? "")
-                        }
-                    }
-                }
-                .navigationTitle("Table of Contents")
-            } else {
-                EmptyView()
-            }
+        NavigationSplitView (columnVisibility: $isSidebarVisible) {
+            ReaderTabBar(viewModel: viewModel, isVisible: $isSidebarVisible, isSpaceHidden: $isSpaceHidden)
         } detail: {
             VStack {
                 if let epubURL = params?.url {
-                    EPUBReaderView(url: epubURL, preferences: $preferences, navigator: $navigator, publication: $publication, locator: $locator, chatboxVisible: $isChatboxVisible)
+                    EPUBReaderView(url: epubURL, viewModel: viewModel, preferences: $preferences, contextSheetVisible: $isContextSheetVisible)
                         .ignoresSafeArea(.all)
-                        //.scaledToFit() <- gets true size, but window is too wide, not fit. 
                         .background(BookGeometry())
                         .onPreferenceChange(WidthPreferenceKey.self, perform: { self.readerAspectRatio = $0 })
-                    /*
-                        .simultaneousGesture(LongPressGesture(minimumDuration: 0.5).onEnded({ value in
-                            print("long press: \(value)")
-                        }))
-                     */
                 }
             }
-            .sheet(isPresented: $isChatboxVisible) {
-                ChatView(sheetVisible: $isChatboxVisible)
+            .sheet(isPresented: $viewModel.infoSheetVisible) {
+                //LookupSheet(data: "ex prompt")
+                EmptyView()
             }
             .toolbar {
                 ToolbarItemGroup(placement: .bottomOrnament) {
-                    ReaderToolbar(navigator: $navigator, publication: $publication, locator: $locator, isSpaceHidden: $isSpaceHidden, isTableOfContentsVisible: $isTableOfContentsVisible, isChatboxVisible: $isChatboxVisible)
+                    ReaderToolbar(isSidebarVisible: $isSidebarVisible, isChatWindowOpen: $isChatWindowOpen)
                 }
             }
         }.onAppear {
@@ -98,6 +75,13 @@ struct ReaderView: View {
         .glassBackgroundEffect(displayMode: .never)
         .frame(idealWidth: 1000, idealHeight: 1400)
     }
+}
+
+class NavigatorViewModel: ObservableObject {
+    @Published var navigator: EPUBNavigatorViewController?
+    @Published var publication: Publication?
+    @Published var locator: Locator?
+    @Published var infoSheetVisible: Bool = false
 }
 
 struct BookGeometry: View {

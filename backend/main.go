@@ -36,13 +36,71 @@ func main() {
         c.Next()
     })
 
-	router.GET("/books", getBooksMetadata)
-	router.GET("/books/tags", getAllTags)
-	router.GET("/books/:id", getBookFile)
-	router.GET("/books/:id/cover", getBookCover)
-	router.POST("/books", uploadBook)
+	router.GET("/book/:id", getBookFile)
+	router.GET("/book/metadata", getBooksMetadata)
+	router.GET("/book/metadata/:id", getBookMetadata)
+	router.GET("/book/tags", getAllTags)
+	router.GET("/book/:id/cover", getBookCover)
+	router.POST("/book", uploadBook)
 
 	router.Run(":8080")
+}
+
+func getBookMetadata(c *gin.Context) {
+	/*
+	fetch metadata from db for only one book, using id
+	*/
+	dbInterface, exists := c.Get("db")
+	if !exists {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection not available"})
+		return
+	}
+
+	db, ok := dbInterface.(*sql.DB)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection is of incorrect type"})
+		return
+	}
+
+	id := c.Param("id")
+	row := db.QueryRow("SELECT * FROM books WHERE id = ?", id)
+
+	var primaryKey int
+	var tagsJSON []byte // Assuming tags handling is already adjusted as previously discussed
+	var rating sql.NullFloat64 // Use sql.NullFloat64 to handle nullable rating values
+	var publisher sql.NullString
+	var publishedDate sql.NullString
+	book := Book{}
+
+	if err := row.Scan(&primaryKey, &book.ID, &book.Title, &book.Author, &tagsJSON, &rating, &publisher, &publishedDate); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Unmarshal tags JSON
+	if err := json.Unmarshal(tagsJSON, &book.Tags); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to unmarshal tags JSON"})
+		return
+	}
+
+	// convert non-null values to their respective types
+	if rating.Valid {
+		book.Rating = float32(rating.Float64)
+	} else {
+		book.Rating = 0
+	}
+	if publisher.Valid {
+		book.Publisher = publisher.String
+	} else {
+		book.Publisher = ""
+	}
+	if publishedDate.Valid {
+		book.PublishedDate = publishedDate.String
+	} else {
+		book.PublishedDate = ""
+	}
+
+	c.IndentedJSON(http.StatusOK, book)
 }
 
 func getBooksMetadata(c *gin.Context) {

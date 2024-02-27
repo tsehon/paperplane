@@ -109,7 +109,7 @@ struct ExploreView: View {
                 }
         }
         .onAppear(perform: {
-            BookService.shared.loadBookMetadata { loadedBooks in
+            BookService.shared.loadBooksMetadata { loadedBooks in
                 organizeAndSortBooks(loadedBooks: loadedBooks)
             }
         })
