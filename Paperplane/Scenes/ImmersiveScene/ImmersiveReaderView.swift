@@ -12,25 +12,21 @@ import RealityKitContent
 struct ImmersiveReaderView: View {
     @ObservedObject var immersiveService: ImmersiveSpaceService = ImmersiveSpaceService.shared
     
-    @State private var currSkybox: ModelEntity? = nil
-    
     var body: some View {
         ZStack {
             RealityView { content in
                 if let initialSkybox = immersiveService.skybox {
-                    currSkybox = initialSkybox
                     content.add(initialSkybox)
                 }
             } update: { content in
                 // Clear existing content if needed
-                if let curr = currSkybox {
-                    content.remove(curr)
+                if let prevSkybox = immersiveService.prevSkybox {
+                    content.remove(prevSkybox)
                 }
                 
                 // Add the new skybox
                 if let updatedSkybox = immersiveService.skybox {
                     content.add(updatedSkybox)
-                    currSkybox = updatedSkybox
                 }
             }
         }

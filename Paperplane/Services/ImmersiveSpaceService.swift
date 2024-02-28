@@ -15,6 +15,7 @@ class ImmersiveSpaceService: ObservableObject {
     
     @Published var environments: [ImmersiveEnvironment] = []
     @Published var skybox: ModelEntity? = nil
+    @Published var prevSkybox: ModelEntity? = nil
     @Published var currentEnvId: ImmersiveEnvironment.ID = "none"
     @Published var isOpen: Bool = false
     
@@ -76,28 +77,31 @@ class ImmersiveSpaceService: ObservableObject {
                 return
             }
             
-            let player = AVPlayer(url: signedURL)
-            let videoMaterial = VideoMaterial(avPlayer: player)
-            
-            let skyBoxEntity = ModelEntity(
-                mesh: skyBoxMesh,
-                materials: [videoMaterial]
-            )
-            
-            skyBoxEntity.name = id
-            skyBoxEntity.scale *= .init(x: 1, y: 1, z: -1)
-            skyBoxEntity.transform.translation += SIMD3<Float>(0.0, 1.0, 0)
-            skyBoxEntity.transform.rotation *= simd_quatf(angle: 1.6, axis: SIMD3<Float>(0,1,0))
-            
-            // loop video
-            NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
-                player.seek(to: .zero) // Rewind video to the start
-                player.play() // Play the video again
+            DispatchQueue.main.async {
+                let player = AVPlayer(url: signedURL)
+                let videoMaterial = VideoMaterial(avPlayer: player)
+                
+                let skyBoxEntity = ModelEntity(
+                    mesh: skyBoxMesh,
+                    materials: [videoMaterial]
+                )
+                
+                skyBoxEntity.name = id
+                skyBoxEntity.scale *= .init(x: 1, y: 1, z: -1)
+                skyBoxEntity.transform.translation += SIMD3<Float>(0.0, 1.0, 0)
+                skyBoxEntity.transform.rotation *= simd_quatf(angle: 1.6, axis: SIMD3<Float>(0,1,0))
+                
+                // loop video
+                NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
+                    player.seek(to: .zero) // Rewind video to the start
+                    player.play() // Play the video again
+                }
+                
+                self?.prevSkybox = self?.skybox
+                self?.skybox = skyBoxEntity
+                self?.isOpen = true
+                player.play()
             }
-            
-            self?.skybox = skyBoxEntity
-            self?.isOpen = true
-            player.play()
         }
     }
 
