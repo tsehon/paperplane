@@ -10,7 +10,7 @@ import RealityKit
 import RealityKitContent
 
 struct FilterView: View {
-    @Binding var tags: [String]
+    var tags: [String]
     @Binding var selectedTags: Set<String>
     @Binding var sheetVisible: Bool
     
@@ -105,7 +105,7 @@ struct FilterViewPreviewContainer : View {
     @State private var selected: Set<String> = []
     
     var body: some View {
-        FilterView(tags: $tags, selectedTags: $selected, sheetVisible: .constant(true))
+        FilterView(tags: tags, selectedTags: $selected, sheetVisible: .constant(true))
     }
 }
 

@@ -9,21 +9,15 @@ import Foundation
 import SwiftUI
 
 struct BookCoverView: View {
+    @ObservedObject var bookToImage: BookService = BookService.shared
     let bookId: String
     
     @State var height: CGFloat
     
-    @StateObject private var imageLoader = ImageLoader()
-    
     var body: some View {
-        Image(uiImage: imageLoader.image ?? UIImage(systemName: "book")!)
+        Image(uiImage: BookService.shared.bookIdToImage[bookId] ?? UIImage(systemName: "book")!)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(height: height)
-            .onAppear {
-                if let url = URL(string: "http://localhost:8080/book/\(bookId)/cover") {
-                    imageLoader.load(fromURL: url)
-                }
-            }
     }
 }

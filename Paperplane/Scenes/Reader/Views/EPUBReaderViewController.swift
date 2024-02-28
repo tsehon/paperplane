@@ -39,8 +39,6 @@ class EPUBReaderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPublicationAndServer()
-        
-        
     }
     
     private func setupPublicationAndServer() {
@@ -101,5 +99,6 @@ class EPUBReaderViewController: UIViewController {
     @objc func openInfo() {
         // present info sheet
         coordinator?.updateInfoVisible(true)
+        // use navigator?.currentSelection
     }
 }

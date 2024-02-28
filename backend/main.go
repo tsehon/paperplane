@@ -13,6 +13,35 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+func main() {
+	router := gin.Default()
+
+	db := NewDBClient() // database 
+	s3 := NewS3Client() // storage
+	defer db.DB.Close() 
+
+	router.Use(func(c *gin.Context) { // add as middleware to router
+        c.Set("db", db.DB) 
+		c.Set("s3", s3)
+        c.Next()
+    })
+
+	/* books */
+	router.GET("/book/metadata", getBooksMetadata)
+	router.GET("/book/metadata/:id", getBookMetadata)
+	router.GET("/book/:id", getBookFile)
+	router.GET("/book/tags", getAllTags)
+	router.GET("/book/:id/cover", getBookCover)
+	router.POST("/book", uploadBook)
+
+	/* environments (a.k.a immersive spaces) */
+	router.GET("/environment/metadata", getEnvironmentMetadata)
+	router.GET("/environment/:id", getEnvironmentFile)
+
+	router.Run(":8080")
+}
+
+/* BOOKS */
 type Book struct {
 	ID            string   `json:"id"`
 	Title         string   `json:"title"`
@@ -21,29 +50,6 @@ type Book struct {
 	Rating        float32  `json:"rating"`
 	Publisher     string   `json:"publisher"`
 	PublishedDate string   `json:"publishedDate"`
-}
-
-func main() {
-	router := gin.Default()
-
-	s3 := NewS3Client()
-	db := NewDBClient()
-	defer db.DB.Close()
-
-	router.Use(func(c *gin.Context) {
-        c.Set("db", db.DB)
-		c.Set("s3", s3)
-        c.Next()
-    })
-
-	router.GET("/book/:id", getBookFile)
-	router.GET("/book/metadata", getBooksMetadata)
-	router.GET("/book/metadata/:id", getBookMetadata)
-	router.GET("/book/tags", getAllTags)
-	router.GET("/book/:id/cover", getBookCover)
-	router.POST("/book", uploadBook)
-
-	router.Run(":8080")
 }
 
 func getBookMetadata(c *gin.Context) {
@@ -105,7 +111,7 @@ func getBookMetadata(c *gin.Context) {
 
 func getBooksMetadata(c *gin.Context) {
 	/*
-	fetch metadata from db
+	fetch all book metadata from db
 	*/
 	dbInterface, exists := c.Get("db")
 	if !exists {
@@ -187,7 +193,7 @@ func getBookFile(c *gin.Context) {
 	}
 
 	id := c.Param("id")
-	key := fmt.Sprintf("%s.epub", id)
+	key := fmt.Sprintf("books/%s.epub", id)
 
 	// get object from s3
 	resp, err := s3.GetFile(key)
@@ -219,7 +225,7 @@ func getBookCover(c *gin.Context) {
 	}
 
 	id := c.Param("id")
-	key := fmt.Sprintf("%s.jpg", id)
+	key := fmt.Sprintf("book_covers/%s.jpg", id)
 
 	// get object from s3
 	resp, err := s3.GetFile(key)
@@ -304,7 +310,7 @@ func uploadBook(c *gin.Context) {
 		return
 	}
 
-	err = s3.UploadFile(fmt.Sprintf("%s.epub", book.ID), fileBytes)
+	err = s3.UploadFile(fmt.Sprintf("books/%s.epub", book.ID), fileBytes)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to upload file to S3"})
 		return
@@ -351,4 +357,90 @@ func getAllTags(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusOK, tags)
+}
+
+/* ENVIRONMENTS */
+type Environment struct {
+	ID            string   `json:"id"`
+	Title         string   `json:"title"`
+}
+
+func getEnvironmentMetadata(c *gin.Context) {
+	/*
+	fetch all environment metadata from db
+	*/
+	dbInterface, exists := c.Get("db")
+	if !exists {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection not available"})
+		return
+	}
+
+	db, ok := dbInterface.(*sql.DB)
+    if !ok {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection is of incorrect type"})
+        return
+    }
+
+	rows, err := db.Query("SELECT * FROM environments")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	environments := []Environment{}
+	var primaryKey int
+
+	for rows.Next() {
+		var environment Environment
+		if err := rows.Scan(&primaryKey, &environment.ID, &environment.Title); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		environments = append(environments, environment)
+	}
+
+	c.IndentedJSON(http.StatusOK, environments)
+}
+
+func getEnvironmentFile(c *gin.Context) {
+	/*
+	fetch file with key "<id>.epub" from aws s3
+	*/
+	s3Interface, exists := c.Get("s3")
+	if !exists {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "S3 connection not available"})
+		return
+	}
+
+	s3, ok := s3Interface.(S3Interface)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "S3 connection is of incorrect type"})
+		return
+	}
+
+	id := c.Param("id")
+	key := fmt.Sprintf("environments/%s.mov", id)
+
+    // Generate a signed URL for the S3 object
+    signedURL, err := s3.GetSignedURL(key)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    // Return the signed URL to the client
+    c.JSON(http.StatusOK, gin.H{"url": signedURL})
+
+	/*
+	// get object from s3 for download
+	resp, err := s3.GetFile(key)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+    defer resp.Body.Close()
+    c.DataFromReader(http.StatusOK, *resp.ContentLength, "video/quicktime", resp.Body, nil)
+	*/
 }

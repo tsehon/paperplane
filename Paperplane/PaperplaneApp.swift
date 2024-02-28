@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let API_URL = "http://localhost:8080"
+
 @main
 struct PaperplaneApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -21,5 +23,6 @@ struct PaperplaneApp: App {
         BookDetailsScene()
         ReaderScene()
         ImmersiveReaderScene()
+        ChatScene()
     }
 }

@@ -45,12 +45,14 @@
 		B1CF29022B8A806C00A9DD92 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = B1CF29012B8A806C00A9DD92 /* R2Streamer */; };
 		B1CF29042B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer in Frameworks */ = {isa = PBXBuildFile; productRef = B1CF29032B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer */; };
 		B1CF29062B8A92B100A9DD92 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CF29052B8A92B100A9DD92 /* ChatView.swift */; };
-		B1CF29082B8A9D8400A9DD92 /* sample_beach.mov in Resources */ = {isa = PBXBuildFile; fileRef = B1CF29072B8A9D8400A9DD92 /* sample_beach.mov */; };
 		B1D595F82B8AF3BA00AB8A7D /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = B1D595F72B8AF3BA00AB8A7D /* OpenAISwift */; };
-		B1D595FA2B8AFC4400AB8A7D /* ReaderToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D595F92B8AFC4400AB8A7D /* ReaderToolbar.swift */; };
-		B1D595FC2B8BF15600AB8A7D /* ReaderTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D595FB2B8BF15600AB8A7D /* ReaderTabBar.swift */; };
+		B1D595FA2B8AFC4400AB8A7D /* ReaderBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D595F92B8AFC4400AB8A7D /* ReaderBottomBar.swift */; };
+		B1D595FC2B8BF15600AB8A7D /* ReaderSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D595FB2B8BF15600AB8A7D /* ReaderSidebar.swift */; };
 		B1D596012B8C164200AB8A7D /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D596002B8C164200AB8A7D /* ChatModel.swift */; };
 		B1D596032B8C16BD00AB8A7D /* ChatScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D596022B8C16BD00AB8A7D /* ChatScene.swift */; };
+		B1D596052B8E625800AB8A7D /* ImmersiveSpaceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D596042B8E625800AB8A7D /* ImmersiveSpaceService.swift */; };
+		B1D5960B2B8FC8E200AB8A7D /* AWSS3 in Frameworks */ = {isa = PBXBuildFile; productRef = B1D5960A2B8FC8E200AB8A7D /* AWSS3 */; };
+		B1D5960D2B8FC90700AB8A7D /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D5960C2B8FC90700AB8A7D /* StorageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,11 +85,12 @@
 		B1CDFB7F2B8085FF00C439B0 /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
 		B1CDFB852B809EAF00C439B0 /* BookDetailsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailsScene.swift; sourceTree = "<group>"; };
 		B1CF29052B8A92B100A9DD92 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
-		B1CF29072B8A9D8400A9DD92 /* sample_beach.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = sample_beach.mov; sourceTree = "<group>"; };
-		B1D595F92B8AFC4400AB8A7D /* ReaderToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderToolbar.swift; sourceTree = "<group>"; };
-		B1D595FB2B8BF15600AB8A7D /* ReaderTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderTabBar.swift; sourceTree = "<group>"; };
+		B1D595F92B8AFC4400AB8A7D /* ReaderBottomBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderBottomBar.swift; sourceTree = "<group>"; };
+		B1D595FB2B8BF15600AB8A7D /* ReaderSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderSidebar.swift; sourceTree = "<group>"; };
 		B1D596002B8C164200AB8A7D /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		B1D596022B8C16BD00AB8A7D /* ChatScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatScene.swift; sourceTree = "<group>"; };
+		B1D596042B8E625800AB8A7D /* ImmersiveSpaceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveSpaceService.swift; sourceTree = "<group>"; };
+		B1D5960C2B8FC90700AB8A7D /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1D5960B2B8FC8E200AB8A7D /* AWSS3 in Frameworks */,
 				B1D595F82B8AF3BA00AB8A7D /* OpenAISwift in Frameworks */,
 				B188D8662B86AC6E0092D848 /* R2Navigator in Frameworks */,
 				B1CF29042B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer in Frameworks */,
@@ -126,11 +130,11 @@
 		B161B9862B840CA00095B366 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				B1D595F92B8AFC4400AB8A7D /* ReaderToolbar.swift */,
+				B1D595F92B8AFC4400AB8A7D /* ReaderBottomBar.swift */,
 				B161B9812B82BBB90095B366 /* ReaderView.swift */,
 				B188D85B2B8483DE0092D848 /* EPUBReaderView.swift */,
 				B188D8952B86F5560092D848 /* EPUBReaderViewController.swift */,
-				B1D595FB2B8BF15600AB8A7D /* ReaderTabBar.swift */,
+				B1D595FB2B8BF15600AB8A7D /* ReaderSidebar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -192,13 +196,11 @@
 		B1CDFB5C2B770BC400C439B0 /* Paperplane */ = {
 			isa = PBXGroup;
 			children = (
-				B1CF29072B8A9D8400A9DD92 /* sample_beach.mov */,
 				B188D8A22B884D680092D848 /* example.epub */,
 				B188D8992B8704650092D848 /* AppDelegate.swift */,
 				B1CDFB612B770BC400C439B0 /* PaperplaneApp.swift */,
 				B161B97D2B82B2DC0095B366 /* ContentView.swift */,
 				B1CDFB842B809E9400C439B0 /* Scenes */,
-				B1CDFB832B8088B100C439B0 /* Views */,
 				B1CDFB822B80882900C439B0 /* Services */,
 				B1CDFB812B80881200C439B0 /* Models */,
 				B1CDFB672B770BC800C439B0 /* Assets.xcassets */,
@@ -237,25 +239,16 @@
 			children = (
 				B1CDFB772B801F5500C439B0 /* BookService.swift */,
 				B1CDFB792B805A7100C439B0 /* ImageLoader.swift */,
+				B1D596042B8E625800AB8A7D /* ImmersiveSpaceService.swift */,
+				B1D5960C2B8FC90700AB8A7D /* StorageService.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		B1CDFB832B8088B100C439B0 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				B188D8A72B8859300092D848 /* Home */,
-				B188D8A62B88591F0092D848 /* Explore */,
-				B188D8942B86EAA10092D848 /* Book */,
-				B161B97B2B82B1F60095B366 /* TabBar.swift */,
-				B188D86B2B86AD7A0092D848 /* BookGridView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		B1CDFB842B809E9400C439B0 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				B1D596062B8E8E9600AB8A7D /* HomeScene */,
 				B1D595FF2B8C160D00AB8A7D /* ChatScene */,
 				B188D8A12B87D4FE0092D848 /* ImmersiveScene */,
 				B161B9832B82BE1B0095B366 /* Reader */,
@@ -272,6 +265,18 @@
 				B1D596022B8C16BD00AB8A7D /* ChatScene.swift */,
 			);
 			path = ChatScene;
+			sourceTree = "<group>";
+		};
+		B1D596062B8E8E9600AB8A7D /* HomeScene */ = {
+			isa = PBXGroup;
+			children = (
+				B188D86B2B86AD7A0092D848 /* BookGridView.swift */,
+				B161B97B2B82B1F60095B366 /* TabBar.swift */,
+				B188D8942B86EAA10092D848 /* Book */,
+				B188D8A62B88591F0092D848 /* Explore */,
+				B188D8A72B8859300092D848 /* Home */,
+			);
+			path = HomeScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -304,6 +309,7 @@
 				B1CF29012B8A806C00A9DD92 /* R2Streamer */,
 				B1CF29032B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer */,
 				B1D595F72B8AF3BA00AB8A7D /* OpenAISwift */,
+				B1D5960A2B8FC8E200AB8A7D /* AWSS3 */,
 			);
 			productName = Paperplane;
 			productReference = B1CDFB5A2B770BC400C439B0 /* Paperplane.app */;
@@ -336,6 +342,7 @@
 			packageReferences = (
 				B188D8642B86AC6E0092D848 /* XCLocalSwiftPackageReference "swift-toolkit" */,
 				B1D595F62B8AF3BA00AB8A7D /* XCLocalSwiftPackageReference "OpenAISwift" */,
+				B1D596092B8FC8E200AB8A7D /* XCRemoteSwiftPackageReference "aws-sdk-swift" */,
 			);
 			productRefGroup = B1CDFB5B2B770BC400C439B0 /* Products */;
 			projectDirPath = "";
@@ -351,7 +358,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1CF29082B8A9D8400A9DD92 /* sample_beach.mov in Resources */,
 				B1CDFB6B2B770BC800C439B0 /* Preview Assets.xcassets in Resources */,
 				B188D8A32B884D690092D848 /* example.epub in Resources */,
 				B1CDFB682B770BC800C439B0 /* Assets.xcassets in Resources */,
@@ -367,10 +373,10 @@
 			files = (
 				B1CDFB782B801F5500C439B0 /* BookService.swift in Sources */,
 				B161B97E2B82B2DC0095B366 /* ContentView.swift in Sources */,
-				B1D595FC2B8BF15600AB8A7D /* ReaderTabBar.swift in Sources */,
+				B1D595FC2B8BF15600AB8A7D /* ReaderSidebar.swift in Sources */,
 				B1CF29062B8A92B100A9DD92 /* ChatView.swift in Sources */,
 				B188D86C2B86AD7A0092D848 /* BookGridView.swift in Sources */,
-				B1D595FA2B8AFC4400AB8A7D /* ReaderToolbar.swift in Sources */,
+				B1D595FA2B8AFC4400AB8A7D /* ReaderBottomBar.swift in Sources */,
 				B161B9822B82BBB90095B366 /* ReaderView.swift in Sources */,
 				B161B9852B82BE360095B366 /* ImmersiveReaderView.swift in Sources */,
 				B1D596012B8C164200AB8A7D /* ChatModel.swift in Sources */,
@@ -382,9 +388,11 @@
 				B188D85C2B8483DE0092D848 /* EPUBReaderView.swift in Sources */,
 				B1CDFB7C2B805DF900C439B0 /* BookCoverView.swift in Sources */,
 				B1CDFB802B8085FF00C439B0 /* BookDetailView.swift in Sources */,
+				B1D5960D2B8FC90700AB8A7D /* StorageService.swift in Sources */,
 				B1CDFB7A2B805A7100C439B0 /* ImageLoader.swift in Sources */,
 				B1CDFB642B770BC400C439B0 /* HomeView.swift in Sources */,
 				B188D8962B86F5560092D848 /* EPUBReaderViewController.swift in Sources */,
+				B1D596052B8E625800AB8A7D /* ImmersiveSpaceService.swift in Sources */,
 				B188D8A02B87D00C0092D848 /* ImmersiveReaderScene.swift in Sources */,
 				B188D86E2B86ADF60092D848 /* BookItem.swift in Sources */,
 				B161B97C2B82B1F60095B366 /* TabBar.swift in Sources */,
@@ -601,6 +609,17 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		B1D596092B8FC8E200AB8A7D /* XCRemoteSwiftPackageReference "aws-sdk-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/awslabs/aws-sdk-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.36.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		B188D85E2B86AAFD0092D848 /* R2Navigator */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -653,6 +672,11 @@
 		B1D595F72B8AF3BA00AB8A7D /* OpenAISwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OpenAISwift;
+		};
+		B1D5960A2B8FC8E200AB8A7D /* AWSS3 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B1D596092B8FC8E200AB8A7D /* XCRemoteSwiftPackageReference "aws-sdk-swift" */;
+			productName = AWSS3;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

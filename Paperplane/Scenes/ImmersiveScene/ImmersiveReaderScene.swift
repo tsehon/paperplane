@@ -12,8 +12,8 @@ struct ImmersiveReaderScene: Scene {
     @State private var style: ImmersionStyle = .progressive
     
     var body: some Scene {
-        ImmersiveSpace(id: "immersive-reader", for: ReaderParams.self) { $params in
-            ImmersiveReaderView(params: $params)
+        ImmersiveSpace(id: "immersive-reader") {
+            ImmersiveReaderView()
         }.immersionStyle(selection: $style, in: .full, .progressive, .mixed)
     }
 }

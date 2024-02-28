@@ -6,11 +6,70 @@
 //
 
 import Foundation
+import SwiftUI
+import Combine
 
-let API_URL = "http://localhost:8080"
-
-class BookService {
+class BookService: ObservableObject {
     static let shared = BookService() // Singleton instance
+    private var cancellables = Set<AnyCancellable>()
+
+    @Published var books: [Book] = []
+    @Published var tagToBooks: [String: [Book]] = [:]
+    @Published var tagsSorted: [String] = []
+    @Published var searchResults: [Book] = []
+    @Published var bookIdToImage: [Book.ID: UIImage] = [:]
+    
+    private init() {}
+    
+    func setup() {
+        loadBooksMetadata { loaded in
+            self.books = loaded
+            self.organizeAndSortBooks(loadedBooks: loaded)
+            self.searchResults = loaded
+            self.loadBookCovers()
+        }
+    }
+    
+    func updateSearchResults(searchText: String, filterTags: Set<String>) {
+        if searchText.isEmpty && filterTags.isEmpty {
+            searchResults = self.books
+            return
+        }
+        
+        var res: [Book] = []
+        print(searchText.lowercased())
+        for book in self.books {
+            let hasCommonTags = filterTags.isEmpty || book.tags.contains(where: filterTags.contains)
+            let containsSearchTerm = searchText.isEmpty || book.title.lowercased().contains(searchText.lowercased())
+            print(book.title.lowercased())
+            
+            if containsSearchTerm && hasCommonTags {
+                res.append(book)
+            }
+        }
+        
+        print(res.count)
+        searchResults = res
+    }
+    
+    func organizeAndSortBooks(loadedBooks: [Book]) {
+        var newTagToBooks: [String: [Book]] = [:]
+
+        for book in loadedBooks {
+            for tag in book.tags {
+                newTagToBooks[tag, default: []].append(book)
+            }
+        }
+        
+        let sortedTags = newTagToBooks.keys.sorted {
+            (newTagToBooks[$0]?.count ?? 0) > (newTagToBooks[$1]?.count ?? 0)
+        }
+        
+        DispatchQueue.main.async {
+            self.tagToBooks = newTagToBooks
+            self.tagsSorted = sortedTags
+        }
+    }
     
     func loadBookMetadata(id: Book.ID, completion: @escaping (Book) -> Void) {
         guard let url = URL(string: "\(API_URL)/book/metadata/\(id)") else {
@@ -56,6 +115,28 @@ class BookService {
                 print("\(#file) \(#function) HTTP Request Failed \(error)")
             }
         }.resume()
+    }
+    
+    func loadBookCovers() {
+        for book in books {
+            loadBookCover(bookId: book.id)
+        }
+    }
+    
+    func loadBookCover(bookId: Book.ID) {
+        guard let url = URL(string: "http://localhost:8080/book/\(bookId)/cover") else {
+            print("\(#file) \(#function): Invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTaskPublisher(for: url)
+            .map { UIImage(data: $0.data) }
+            .replaceError(with: nil)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] in
+                self?.bookIdToImage[bookId] = $0
+            })
+            .store(in: &cancellables)
     }
     
     func downloadEPUBFile(bookId: Book.ID, completion: @escaping (Result<URL, Error>) -> Void) {
@@ -121,4 +202,5 @@ class BookService {
         let filePath = documentsPath.appendingPathComponent("\(id).epub")
         return fileManager.fileExists(atPath: filePath.path)
     }
+
 }

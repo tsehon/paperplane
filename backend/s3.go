@@ -15,6 +15,7 @@ import (
 type S3Interface interface {
 	UploadFile(key string, body []byte) error
     GetFile(key string) (*s3.GetObjectOutput, error)
+    GetSignedURL(key string) (string, error) // Add this method
 }
 
 type S3Client struct {
@@ -70,4 +71,19 @@ func (s *S3Client) GetFile(key string) (*s3.GetObjectOutput, error) {
     }
 
     return resp, nil
+}
+
+func (s *S3Client) GetSignedURL(key string) (string, error) {
+    req, _ := s.Service.GetObjectRequest(&s3.GetObjectInput{
+        Bucket: aws.String(os.Getenv("AWS_BUCKET")),
+        Key:    aws.String(key),
+    })
+
+    // Generate the signed URL
+    signedURL, err := req.Presign(15 * time.Minute) // Adjust the duration as needed
+    if err != nil {
+        return "", err
+    }
+
+    return signedURL, nil
 }

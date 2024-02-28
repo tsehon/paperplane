@@ -21,16 +21,15 @@ struct ReaderView: View {
     
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
-    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     
     @State private var readerAspectRatio: CGSize = CGSize(width: 9, height: 16)
-    @State private var isSpaceHidden: Bool = true
     @State private var isContextSheetVisible: Bool = false
     @State private var isSidebarVisible: NavigationSplitViewVisibility = .detailOnly
     @State var preferences: EPUBPreferences = EPUBPreferences(
         columnCount: .two)
     @State var isChatWindowOpen: Bool = false
+    @State var pageNum: String = ""
 
     // fetch highlights from database for user
     // @State var highlights
@@ -44,7 +43,7 @@ struct ReaderView: View {
     
     var body: some View {
         NavigationSplitView (columnVisibility: $isSidebarVisible) {
-            ReaderTabBar(viewModel: viewModel, isVisible: $isSidebarVisible, isSpaceHidden: $isSpaceHidden)
+            ReaderTabBar(viewModel: viewModel, isVisible: $isSidebarVisible)
         } detail: {
             VStack {
                 if let epubURL = params?.url {
@@ -60,7 +59,7 @@ struct ReaderView: View {
             }
             .toolbar {
                 ToolbarItemGroup(placement: .bottomOrnament) {
-                    ReaderToolbar(isSidebarVisible: $isSidebarVisible, isChatWindowOpen: $isChatWindowOpen)
+                    ReaderToolbar(isSidebarVisible: $isSidebarVisible, isChatWindowOpen: $isChatWindowOpen, pageNum: $pageNum)
                 }
             }
         }.onAppear {
@@ -74,6 +73,9 @@ struct ReaderView: View {
         }
         .glassBackgroundEffect(displayMode: .never)
         .frame(idealWidth: 1000, idealHeight: 1400)
+        .onChange(of: viewModel.locator) {
+            pageNum = viewModel.getPageNum()
+        }
     }
 }
 
@@ -82,6 +84,13 @@ class NavigatorViewModel: ObservableObject {
     @Published var publication: Publication?
     @Published var locator: Locator?
     @Published var infoSheetVisible: Bool = false
+    
+    func getPageNum() -> String {
+        if let pNum = navigator?.currentLocation?.locations.position {
+            return String(pNum)
+        }
+        return String()
+    }
 }
 
 struct BookGeometry: View {

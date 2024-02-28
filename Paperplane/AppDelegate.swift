@@ -14,12 +14,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         setupMyApp()
         return true
     }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        print("Application closed")
-    }
     
     private func setupMyApp() {
+        BookService.shared.setup()
+        ImmersiveSpaceService.shared.setup()
         print("Application opened")
     }
 }

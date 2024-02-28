@@ -65,6 +65,16 @@
             value = "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"
             isEnabled = "YES">
          </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "AWS_ACCESS_KEY_ID"
+            value = "AKIAXYKJV3GZTW6HTMVB"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "AWS_SECRET_ACCESS_KEY_ID"
+            value = "dEcd0EJR4kRW0mTi6kRl4Fm5XO5/477ut+WpILOw"
+            isEnabled = "YES">
+         </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction

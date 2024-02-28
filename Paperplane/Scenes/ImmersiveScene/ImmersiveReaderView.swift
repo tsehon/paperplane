@@ -6,66 +6,40 @@
 //
 
 import SwiftUI
-import AVKit
-import AVFoundation
 import RealityKit
 import RealityKitContent
 
 struct ImmersiveReaderView: View {
-    @Binding var params: ReaderParams?
+    @ObservedObject var immersiveService: ImmersiveSpaceService = ImmersiveSpaceService.shared
     
-    var resourceId = "sample_beach"
-    
-    private func createSkybox () -> Entity? {
-        // partially visible when radius <= 0.5, but is obstructed??
-        let skyBoxMesh = MeshResource.generateSphere(radius: 1000)
-
-        guard let url = Bundle.main.url(forResource: resourceId, withExtension: "mov") else {
-            fatalError("Video not found")
-        }
-        let player = AVPlayer(url: url)
-        let videoMaterial = VideoMaterial(avPlayer: player)
-        
-        let skyBoxEntity = ModelEntity(
-            mesh: skyBoxMesh,
-            materials: [videoMaterial]
-        )
-        
-        skyBoxEntity.scale *= .init(x: 1, y: 1, z: -1)
-        skyBoxEntity.transform.translation += SIMD3<Float>(0.0, 1.0, 0)
-        skyBoxEntity.transform.rotation *= simd_quatf(angle: 1.6, axis: SIMD3<Float>(0,1,0))
-        
-        player.isMuted = true
-        
-        // loop video
-        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
-            player.seek(to: .zero) // Rewind video to the start
-            player.play() // Play the video again
-        }
-
-        player.play()
-        return skyBoxEntity
-    }
+    @State private var currSkybox: ModelEntity? = nil
     
     var body: some View {
         ZStack {
-            let _ = print("Updated ImmersiveReaderView")
             RealityView { content in
-                guard let skybox = createSkybox() else { return }
-                // Add the video to the main content.
-                content.add(skybox)
+                if let initialSkybox = immersiveService.skybox {
+                    currSkybox = initialSkybox
+                    content.add(initialSkybox)
+                }
+            } update: { content in
+                // Clear existing content if needed
+                if let curr = currSkybox {
+                    content.remove(curr)
+                }
+                
+                // Add the new skybox
+                if let updatedSkybox = immersiveService.skybox {
+                    content.add(updatedSkybox)
+                    currSkybox = updatedSkybox
+                }
             }
-            EmptyView()
         }
     }
 }
 
 struct ImmersiveReaderViewPreviewContainer : View {
-    @State private var params: ReaderParams? = ReaderParams(id: "example", url: Bundle.main.url(forResource: "example", withExtension: "epub")!)
-    @State private var isImmersive: Bool = true
-    
     var body: some View {
-        ImmersiveReaderView(params: $params)
+        ImmersiveReaderView()
     }
 }
 
