@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 import RealityKit
 import AVKit
 import AVFoundation
@@ -19,6 +20,8 @@ class ImmersiveSpaceService: ObservableObject {
     @Published var currentEnvId: ImmersiveEnvironment.ID = "none"
     @Published var isOpen: Bool = false
     
+    @State private var player: AVPlayer = AVPlayer()
+
     private init() {}
     
     func setup() {
@@ -32,14 +35,16 @@ class ImmersiveSpaceService: ObservableObject {
             return
         }
         
+        currentEnvId = id
+
         // close immersive space
         if id == "none" {
+            player.pause()
             isOpen = false
             return
         }
         
         createSkybox(id: id)
-        currentEnvId = id
     }
 
     func loadEnvironments(completion: @escaping ([ImmersiveEnvironment]) -> Void) {
@@ -78,29 +83,34 @@ class ImmersiveSpaceService: ObservableObject {
             }
             
             DispatchQueue.main.async {
-                let player = AVPlayer(url: signedURL)
-                let videoMaterial = VideoMaterial(avPlayer: player)
+                let item = AVPlayerItem(url: signedURL)
                 
-                let skyBoxEntity = ModelEntity(
-                    mesh: skyBoxMesh,
-                    materials: [videoMaterial]
-                )
-                
-                skyBoxEntity.name = id
-                skyBoxEntity.scale *= .init(x: 1, y: 1, z: -1)
-                skyBoxEntity.transform.translation += SIMD3<Float>(0.0, 1.0, 0)
-                skyBoxEntity.transform.rotation *= simd_quatf(angle: 1.6, axis: SIMD3<Float>(0,1,0))
-                
-                // loop video
-                NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
-                    player.seek(to: .zero) // Rewind video to the start
-                    player.play() // Play the video again
+                if let player = self?.player {
+                    player.replaceCurrentItem(with: item)
+                    let videoMaterial = VideoMaterial(avPlayer: player)
+                    
+                    let skyBoxEntity = ModelEntity(
+                        mesh: skyBoxMesh,
+                        materials: [videoMaterial]
+                    )
+                    
+                    skyBoxEntity.name = id
+                    skyBoxEntity.scale *= .init(x: 1, y: 1, z: -1)
+                    skyBoxEntity.transform.translation += SIMD3<Float>(0.0, 1.0, 0)
+                    skyBoxEntity.transform.rotation *= simd_quatf(angle: 1.6, axis: SIMD3<Float>(0,1,0))
+                    
+                    // loop video
+                    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
+                        player.seek(to: .zero) // Rewind video to the start
+                        player.play() // Play the video again
+                    }
+                    
+                    self?.prevSkybox = self?.skybox
+                    self?.skybox = skyBoxEntity
+                    self?.isOpen = true
+                    
+                    player.play()
                 }
-                
-                self?.prevSkybox = self?.skybox
-                self?.skybox = skyBoxEntity
-                self?.isOpen = true
-                player.play()
             }
         }
     }

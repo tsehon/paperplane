@@ -32,15 +32,3 @@ struct ImmersiveReaderView: View {
         }
     }
 }
-
-struct ImmersiveReaderViewPreviewContainer : View {
-    var body: some View {
-        ImmersiveReaderView()
-    }
-}
-
-struct ImmersiveReaderPreview_Previews : PreviewProvider {
-    static var previews: some View {
-        ImmersiveReaderViewPreviewContainer()
-    }
-}

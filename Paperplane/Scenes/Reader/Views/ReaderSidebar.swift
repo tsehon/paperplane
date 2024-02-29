@@ -114,13 +114,24 @@ struct EnvironmentButton: View {
     let env: ImmersiveEnvironment
     
     var body: some View {
-        Button(env.title) {
+        Button(action: {
             spaceService.updateEnv(env.id)
+        }) {
+            Text(env.title.capitalized) // This capitalizes the first letter of each word
+                .padding() // Add padding to make the background larger than the text
+                .foregroundColor(.white) // Set the text color to white (or any color you prefer)
+                .background(spaceService.currentEnvId == env.id ? Color.blue : Color.gray) // Change the background color based on the condition
+                .cornerRadius(25)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 25)
+                        .stroke(Color.blue, lineWidth: 3) // Use overlay for the stroke to encapsulate the padded area
+                )
         }
-        .background(
-            RoundedRectangle(cornerRadius: 25)
-                .stroke(lineWidth: 3.0).foregroundColor(spaceService.currentEnvId == env.id ? Color.blue : Color.clear)
-                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-        )
+    }
+}
+
+struct EnvironmentMenuPreview_Previews : PreviewProvider {
+    static var previews: some View {
+        EnvironmentMenu()
     }
 }
