@@ -10,15 +10,14 @@ import R2Shared
 import R2Navigator
 import Combine
 
-struct ReaderToolbar : View {
+struct ReaderBottomBar: View {
+    var bookId: Book.ID?
     @Binding var isSidebarVisible: NavigationSplitViewVisibility
     @Binding var isChatWindowOpen: Bool
     @Binding var pageNum: String
     
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
-    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
-    
 
     var body: some View {
         HStack {
@@ -37,29 +36,26 @@ struct ReaderToolbar : View {
                         openWindow(id: "home")
                     }
                 }
-                Task {
-                    await dismissImmersiveSpace()
+                if ImmersiveSpaceService.shared.isOpen {
+                    Task {
+                        ImmersiveSpaceService.shared.updateEnv("none")
+                    }
                 }
             }, label: {
                 Image(systemName: "house")
             })
             Button(action: {
-                if !isChatWindowOpen {
+                if !isChatWindowOpen, let id = bookId {
                     if Thread.isMainThread {
-                        openWindow(id: "chat")
+                        openWindow(id: "chat", value: id as Book.ID)
                     } else {
                         DispatchQueue.main.sync {
-                            openWindow(id: "chat")
+                            openWindow(id: "chat", value: id as Book.ID)
                         }
                     }
                 }
             }, label: {
                 Image(systemName: "bubble")
-            })
-            Button(action: {
-               // nothing now
-            }, label: {
-                Text(pageNum)
             })
         }
     }

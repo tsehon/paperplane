@@ -14,7 +14,9 @@ struct ReaderScene: Scene {
     
     var body: some Scene {
         WindowGroup(id: "reader", for: ReaderParams.self) { $params in
-            ReaderView(params: $params)
+            ReaderView(params: $params).onAppear {
+                BookService.shared.activeBook = params?.id
+            }
         }.windowResizability(.contentMinSize)
             .defaultSize(width: self.width, height: self.aspectRatio * self.width)
             .windowStyle(.plain)

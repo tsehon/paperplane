@@ -18,10 +18,9 @@ struct ReaderParams: Identifiable, Decodable, Encodable, Hashable {
 struct ReaderView: View {
     @Binding var params: ReaderParams?
     @StateObject var viewModel = NavigatorViewModel()
-    
+
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
-    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     
     @State private var readerAspectRatio: CGSize = CGSize(width: 9, height: 16)
     @State private var isContextSheetVisible: Bool = false
@@ -43,7 +42,7 @@ struct ReaderView: View {
     
     var body: some View {
         NavigationSplitView (columnVisibility: $isSidebarVisible) {
-            ReaderTabBar(viewModel: viewModel, isVisible: $isSidebarVisible)
+            ReaderSidebar(id: params?.id, viewModel: viewModel, isVisible: $isSidebarVisible)
         } detail: {
             VStack {
                 if let epubURL = params?.url {
@@ -59,7 +58,7 @@ struct ReaderView: View {
             }
             .toolbar {
                 ToolbarItemGroup(placement: .bottomOrnament) {
-                    ReaderToolbar(isSidebarVisible: $isSidebarVisible, isChatWindowOpen: $isChatWindowOpen, pageNum: $pageNum)
+                    ReaderBottomBar(bookId: params?.id, isSidebarVisible: $isSidebarVisible, isChatWindowOpen: $isChatWindowOpen, pageNum: $pageNum)
                 }
             }
         }.onAppear {

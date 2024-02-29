@@ -13,32 +13,47 @@ class BookService: ObservableObject {
     static let shared = BookService() // Singleton instance
     private var cancellables = Set<AnyCancellable>()
 
-    @Published var books: [Book] = []
+    @Published var books: [Book.ID: Book] = [:]
     @Published var tagToBooks: [String: [Book]] = [:]
     @Published var tagsSorted: [String] = []
     @Published var searchResults: [Book] = []
     @Published var bookIdToImage: [Book.ID: UIImage] = [:]
+    @Published var activeBook: Book.ID? = nil
     
+    //@State private var currentSelectedBook: Book.ID?
+
     private init() {}
     
     func setup() {
         loadBooksMetadata { loaded in
-            self.books = loaded
+            for book in loaded {
+                self.books[book.id] = book
+            }
             self.organizeAndSortBooks(loadedBooks: loaded)
             self.searchResults = loaded
             self.loadBookCovers()
         }
     }
     
+    /*
+    func getSelectedBook() -> Book.ID? {
+        return currentSelectedBook
+    }
+    
+    func setSelectedBook(_ id: Book.ID?) {
+        currentSelectedBook = id
+    }
+     */
+    
     func updateSearchResults(searchText: String, filterTags: Set<String>) {
         if searchText.isEmpty && filterTags.isEmpty {
-            searchResults = self.books
+            searchResults = Array(self.books.values)
             return
         }
         
         var res: [Book] = []
         print(searchText.lowercased())
-        for book in self.books {
+        for book in self.books.values {
             let hasCommonTags = filterTags.isEmpty || book.tags.contains(where: filterTags.contains)
             let containsSearchTerm = searchText.isEmpty || book.title.lowercased().contains(searchText.lowercased())
             print(book.title.lowercased())
@@ -72,6 +87,10 @@ class BookService: ObservableObject {
     }
     
     func loadBookMetadata(id: Book.ID, completion: @escaping (Book) -> Void) {
+        if let metadata = books[id] {
+            completion(metadata)
+        }
+        
         guard let url = URL(string: "\(API_URL)/book/metadata/\(id)") else {
             print("\(#file) \(#function) loadBookMetadata: Invalid URL")
             return
@@ -118,12 +137,16 @@ class BookService: ObservableObject {
     }
     
     func loadBookCovers() {
-        for book in books {
+        for book in books.values {
             loadBookCover(bookId: book.id)
         }
     }
     
     func loadBookCover(bookId: Book.ID) {
+        if let _ = bookIdToImage[bookId] {
+            return
+        }
+        
         guard let url = URL(string: "http://localhost:8080/book/\(bookId)/cover") else {
             print("\(#file) \(#function): Invalid URL")
             return

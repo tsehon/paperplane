@@ -28,6 +28,11 @@ struct ExploreView: View {
                     .onChange(of: searchText) {
                         bookService.updateSearchResults(searchText: searchText, filterTags: filterTags)
                     }
+                    .onSubmit {
+                        if searchText != "" {
+                            bookService.updateSearchResults(searchText: searchText, filterTags: filterTags)
+                        }
+                    }
             }
             List {
                 ForEach(bookService.searchResults, id: \.id) { book in

@@ -10,10 +10,11 @@ import SwiftUI
 import R2Shared
 import R2Navigator
 
-struct ReaderTabBar: View {
+struct ReaderSidebar: View {
+    let id: Book.ID?
     @ObservedObject var viewModel: NavigatorViewModel
     @Binding var isVisible: NavigationSplitViewVisibility
-    
+
     @State private var navigationTitle = "Table of Contents"
     
     var body: some View {
@@ -23,7 +24,7 @@ struct ReaderTabBar: View {
             .onAppear {
                 self.navigationTitle = "Table of Contents"
             }
-            EnvironmentMenu()
+            EnvironmentMenu(id: id)
             .tabItem { Label("Environment", systemImage: "mountain.2.fill") }
             .onAppear {
                 self.navigationTitle = "Select an environment"
@@ -57,10 +58,11 @@ struct TableOfContents: View {
 }
 
 struct EnvironmentMenu: View {
+    let id: Book.ID?
     @ObservedObject var spaceService = ImmersiveSpaceService.shared
     
-    var noneEnv: ImmersiveEnvironment = ImmersiveEnvironment(id: "none", title: "None")
-    var genEnv: ImmersiveEnvironment = ImmersiveEnvironment(id: "gen", title: "Generated")
+    let noneEnv: ImmersiveEnvironment = ImmersiveEnvironment(id: "none", title: "None")
+    let genEnv: ImmersiveEnvironment = ImmersiveEnvironment(id: "gen", title: "Generated")
     
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @MainActor
@@ -88,22 +90,28 @@ struct EnvironmentMenu: View {
     
 
     var body: some View {
-        List {
-            EnvironmentButton(env: noneEnv)
-            EnvironmentButton(env: genEnv)
-            ForEach(spaceService.environments, id: \.id) { env in
-                EnvironmentButton(env: env)
+        ScrollView {
+            LazyVStack {
+                ForEach([noneEnv, genEnv] + spaceService.environments, id: \.id) { env in
+                    EnvironmentButton(env: env)
+                }
             }
         }
         .onChange(of: spaceService.isOpen) {
-            if spaceService.isOpen {
-                Task {
-                    await openEnvironment()
+            print("checking if activebook \(BookService.shared.activeBook) == \(id)")
+            if BookService.shared.activeBook == id {
+                print("it is me!")
+                if spaceService.isOpen {
+                    Task {
+                        await openEnvironment()
+                    }
+                } else {
+                    Task {
+                        await closeEnvironment()
+                    }
                 }
             } else {
-                Task {
-                    await closeEnvironment()
-                }
+                print("not me")
             }
         }
     }
@@ -111,27 +119,38 @@ struct EnvironmentMenu: View {
 
 struct EnvironmentButton: View {
     @ObservedObject var spaceService = ImmersiveSpaceService.shared
+    
     let env: ImmersiveEnvironment
     
     var body: some View {
         Button(action: {
             spaceService.updateEnv(env.id)
         }) {
-            Text(env.title.capitalized) // This capitalizes the first letter of each word
-                .padding() // Add padding to make the background larger than the text
-                .foregroundColor(.white) // Set the text color to white (or any color you prefer)
-                .background(spaceService.currentEnvId == env.id ? Color.blue : Color.gray) // Change the background color based on the condition
-                .cornerRadius(25)
-                .overlay(
+            HStack {
+                Text(env.title.capitalized) // This capitalizes the first letter of each word
+                    .padding() // Add padding to make the background larger than the text
+                    .foregroundColor(.white) // Set the text color to white (or any color you prefer)
+
+                Spacer()
+            }
+            .padding(.horizontal) // Add horizontal padding around the button
+            .background(spaceService.currentEnvId == env.id ? Color.blue.opacity(0.1) : Color.clear)
+            .contentShape(RoundedRectangle(cornerRadius: 25))
+            .cornerRadius(25)
+            .overlay(
                     RoundedRectangle(cornerRadius: 25)
-                        .stroke(Color.blue, lineWidth: 3) // Use overlay for the stroke to encapsulate the padded area
+                        .stroke(spaceService.currentEnvId == env.id ? Color.blue : Color.clear, lineWidth: 3)
                 )
         }
+        .buttonStyle(PlainButtonStyle())
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal)
+        .padding(.vertical, 5)
     }
 }
 
 struct EnvironmentMenuPreview_Previews : PreviewProvider {
     static var previews: some View {
-        EnvironmentMenu()
+        EnvironmentMenu(id: "example")
     }
 }

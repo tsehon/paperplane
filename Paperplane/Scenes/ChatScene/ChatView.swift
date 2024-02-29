@@ -12,13 +12,17 @@ struct ChatView: View {
     @Binding var bookId: Book.ID?
     @StateObject private var viewModel: ChatViewModel = ChatViewModel()
     @State private var prompt: String = ""
+    @State private var bookTitle: String = "Assistant"
 
     var body: some View {
         VStack {
+            Text(BookService.shared.books[bookId ?? ""]?.title ?? bookTitle)
+                .padding()
+                .font(.title)
             ScrollViewReader { scroll in
                 ScrollView {
                     ForEach(viewModel.messages, id: \.id) { message in
-                        MessageItem(message: message)
+                        MessageItem(message: message, title: bookTitle)
                     }
                     .onAppear {
                         // Use DispatchQueue to ensure UI has updated
@@ -63,6 +67,9 @@ struct ChatView: View {
         .onAppear {
             viewModel.setupContext(id: bookId)
             viewModel.setupOpenAI()
+            if let id = bookId {
+                bookTitle = BookService.shared.books[id]?.title ?? "Assistant"
+            }
         }
     }
 }

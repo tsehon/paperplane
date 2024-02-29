@@ -19,7 +19,7 @@ class ImmersiveSpaceService: ObservableObject {
     @Published var prevSkybox: ModelEntity? = nil
     @Published var currentEnvId: ImmersiveEnvironment.ID = "none"
     @Published var isOpen: Bool = false
-    
+
     @State private var player: AVPlayer = AVPlayer()
 
     private init() {}
