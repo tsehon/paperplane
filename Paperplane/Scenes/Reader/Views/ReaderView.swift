@@ -29,7 +29,7 @@ struct ReaderView: View {
     @State var preferences: EPUBPreferences = EPUBPreferences(
         columnCount: .two)
     @State var isChatWindowOpen: Bool = false
-    @State var pageNum: Int = 0
+    @State var pageNum: Int = 1
 
     // fetch highlights from database for user
     // @State var highlights
@@ -72,7 +72,8 @@ struct ReaderView: View {
             }
         }
         .overlay(alignment: .bottom) {
-            Text("\(viewModel.pageNum)")
+            Text(viewModel.positionLabel)
+                .padding(.bottom, 20)
                 .foregroundStyle(.black)
         }
         .glassBackgroundEffect(displayMode: .never)

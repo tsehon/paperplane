@@ -12,7 +12,7 @@ import R2Streamer
 import R2Navigator
 import ReadiumAdapterGCDWebServer
 
-class EPUBReaderViewController: UIViewController {
+class EPUBReaderViewController: UIViewController, EPUBNavigatorDelegate {
     var epubURL: URL
     var navigator: EPUBNavigatorViewController?
     var publication: Publication?
@@ -90,11 +90,49 @@ class EPUBReaderViewController: UIViewController {
             ])
             
             navigator.view.contentMode = .scaleAspectFill
+            navigator.delegate = self
             
             self.coordinator?.updateNavigator(navigator)
         } catch {
             print("Navigator Failed to initialize")
         }
+    }
+    
+    func navigator(_ navigator: Navigator, locationDidChange locator: Locator) {
+        // save locator epubNavigator.coordinator?.updateLocator(locator)
+        /*
+        if let epubNavigator = navigator as? EPUBNavigatorViewController {
+        }
+         */
+        let positionLabel = {
+            if let position = locator.locations.position, let pub = self.publication {
+                return "\(position) of \(pub.positions.count)"
+            } else if let progression = locator.locations.totalProgression {
+                return "\(progression)%"
+            } else {
+                return ""
+            }
+        }()
+        
+        self.coordinator?.updatePositionLabel(positionLabel)
+    }
+
+    func navigator(_ navigator: VisualNavigator, didTapAt point: CGPoint) {
+        // Turn pages when tapping the edge of the screen.
+        guard !DirectionalNavigationAdapter(navigator: navigator).didTap(at: point) else {
+            return
+        }
+        /*
+        // clear a current search highlight
+        if let decorator = self.navigator as? DecorableNavigator {
+            decorator.apply(decorations: [], in: "search")
+        }
+         */
+    }
+
+    func navigator(_ navigator: VisualNavigator, didPressKey event: KeyEvent) {
+        // Turn pages when pressing the arrow keys.
+        DirectionalNavigationAdapter(navigator: navigator).didPressKey(event: event)
     }
     
     @objc func openInfo() {
