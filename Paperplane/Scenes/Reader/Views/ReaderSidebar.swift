@@ -26,7 +26,7 @@ struct ReaderSidebar: View {
             EnvironmentMenu(id: id)
             .tabItem { Label("Environment", systemImage: "mountain.2.fill") }
             .onAppear {
-                self.navigationTitle = "Select an environment"
+                self.navigationTitle = "Environment Selection"
             }
         }
         .navigationTitle(self.navigationTitle)
@@ -41,13 +41,17 @@ struct TableOfContents: View {
             List {
                 ForEach(toc, id: \.href) { link in
                     Button(action: {
+                        print(link)
                         let success = nav.go(to: link)
                         if !success {
                             print("Table of Contents link failed")
                         }
                     }){
                         Text(link.title ?? "Untitled")
+                            .foregroundStyle(link.href.contains(viewModel.sectionLink) ? Color.blue : Color.white)
                     }
+                    .padding(.horizontal)
+                    .padding(.vertical, 5)
                 }
             }
         } else {
@@ -98,7 +102,6 @@ struct EnvironmentMenu: View {
         }
         .onChange(of: spaceService.isOpen) {
             if BookService.shared.activeBook == id {
-                print("it is me!")
                 if spaceService.isOpen {
                     Task {
                         await openEnvironment()
@@ -108,8 +111,6 @@ struct EnvironmentMenu: View {
                         await closeEnvironment()
                     }
                 }
-            } else {
-                print("not me")
             }
         }
     }
@@ -147,8 +148,21 @@ struct EnvironmentButton: View {
     }
 }
 
+struct SidebarPreviewContainer: View {
+    @StateObject var viewModel = NavigatorViewModel()
+    private var preferences = EPUBPreferences()
+    
+    var body: some View {
+        NavigationSplitView(sidebar: {
+            ReaderSidebar(id: "example", viewModel: viewModel, isVisible: .constant(.all))
+        }, detail: {
+            EPUBReaderView(url: Bundle.main.url(forResource: "example", withExtension: "epub")!, viewModel: viewModel, preferences: .constant(preferences), contextSheetVisible: .constant(false))
+        })
+    }
+}
+
 struct EnvironmentMenuPreview_Previews : PreviewProvider {
     static var previews: some View {
-        EnvironmentMenu(id: "example")
+        SidebarPreviewContainer()
     }
 }

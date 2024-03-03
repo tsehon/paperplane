@@ -113,8 +113,11 @@ class EPUBReaderViewController: UIViewController, EPUBNavigatorDelegate {
                 return ""
             }
         }()
-        
         self.coordinator?.updatePositionLabel(positionLabel)
+        
+        print("new locator: \(locator)")
+        let sectionLink = locator.href
+        self.coordinator?.updateSectionLink(sectionLink)
     }
 
     func navigator(_ navigator: VisualNavigator, didTapAt point: CGPoint) {
