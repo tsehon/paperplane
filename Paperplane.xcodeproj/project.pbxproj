@@ -12,13 +12,11 @@
 		B161B9802B82BB8F0095B366 /* ReaderScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B97F2B82BB8F0095B366 /* ReaderScene.swift */; };
 		B161B9822B82BBB90095B366 /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B9812B82BBB90095B366 /* ReaderView.swift */; };
 		B161B9852B82BE360095B366 /* ImmersiveReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B9842B82BE360095B366 /* ImmersiveReaderView.swift */; };
+		B18869012B941F39002738E7 /* R2Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = B18869002B941F39002738E7 /* R2Navigator */; };
+		B18869032B941F39002738E7 /* R2Shared in Frameworks */ = {isa = PBXBuildFile; productRef = B18869022B941F39002738E7 /* R2Shared */; };
+		B18869052B941F39002738E7 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = B18869042B941F39002738E7 /* R2Streamer */; };
+		B18869072B941F39002738E7 /* ReadiumAdapterGCDWebServer in Frameworks */ = {isa = PBXBuildFile; productRef = B18869062B941F39002738E7 /* ReadiumAdapterGCDWebServer */; };
 		B188D85C2B8483DE0092D848 /* EPUBReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D85B2B8483DE0092D848 /* EPUBReaderView.swift */; };
-		B188D85F2B86AAFD0092D848 /* R2Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = B188D85E2B86AAFD0092D848 /* R2Navigator */; };
-		B188D8612B86AAFD0092D848 /* R2Shared in Frameworks */ = {isa = PBXBuildFile; productRef = B188D8602B86AAFD0092D848 /* R2Shared */; };
-		B188D8632B86AAFD0092D848 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = B188D8622B86AAFD0092D848 /* R2Streamer */; };
-		B188D8662B86AC6E0092D848 /* R2Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = B188D8652B86AC6E0092D848 /* R2Navigator */; };
-		B188D8682B86AC6E0092D848 /* R2Shared in Frameworks */ = {isa = PBXBuildFile; productRef = B188D8672B86AC6E0092D848 /* R2Shared */; };
-		B188D86A2B86AC6E0092D848 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = B188D8692B86AC6E0092D848 /* R2Streamer */; };
 		B188D86C2B86AD7A0092D848 /* BookGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D86B2B86AD7A0092D848 /* BookGridView.swift */; };
 		B188D86E2B86ADF60092D848 /* BookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D86D2B86ADF60092D848 /* BookItem.swift */; };
 		B188D8962B86F5560092D848 /* EPUBReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D8952B86F5560092D848 /* EPUBReaderViewController.swift */; };
@@ -40,10 +38,8 @@
 		B1CDFB7C2B805DF900C439B0 /* BookCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB7B2B805DF900C439B0 /* BookCoverView.swift */; };
 		B1CDFB802B8085FF00C439B0 /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB7F2B8085FF00C439B0 /* BookDetailView.swift */; };
 		B1CDFB862B809EAF00C439B0 /* BookDetailsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB852B809EAF00C439B0 /* BookDetailsScene.swift */; };
-		B1CF28FE2B8A806C00A9DD92 /* R2Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = B1CF28FD2B8A806C00A9DD92 /* R2Navigator */; };
 		B1CF29002B8A806C00A9DD92 /* R2Shared in Frameworks */ = {isa = PBXBuildFile; productRef = B1CF28FF2B8A806C00A9DD92 /* R2Shared */; };
 		B1CF29022B8A806C00A9DD92 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = B1CF29012B8A806C00A9DD92 /* R2Streamer */; };
-		B1CF29042B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer in Frameworks */ = {isa = PBXBuildFile; productRef = B1CF29032B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer */; };
 		B1CF29062B8A92B100A9DD92 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CF29052B8A92B100A9DD92 /* ChatView.swift */; };
 		B1D595F82B8AF3BA00AB8A7D /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = B1D595F72B8AF3BA00AB8A7D /* OpenAISwift */; };
 		B1D595FA2B8AFC4400AB8A7D /* ReaderBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D595F92B8AFC4400AB8A7D /* ReaderBottomBar.swift */; };
@@ -100,18 +96,14 @@
 			files = (
 				B1D5960B2B8FC8E200AB8A7D /* AWSS3 in Frameworks */,
 				B1D595F82B8AF3BA00AB8A7D /* OpenAISwift in Frameworks */,
-				B188D8662B86AC6E0092D848 /* R2Navigator in Frameworks */,
-				B1CF29042B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer in Frameworks */,
-				B188D8682B86AC6E0092D848 /* R2Shared in Frameworks */,
-				B188D86A2B86AC6E0092D848 /* R2Streamer in Frameworks */,
-				B188D85F2B86AAFD0092D848 /* R2Navigator in Frameworks */,
-				B188D8632B86AAFD0092D848 /* R2Streamer in Frameworks */,
 				B1CF29022B8A806C00A9DD92 /* R2Streamer in Frameworks */,
+				B18869032B941F39002738E7 /* R2Shared in Frameworks */,
 				B188D89C2B870C180092D848 /* ReadiumAdapterGCDWebServer in Frameworks */,
-				B188D8612B86AAFD0092D848 /* R2Shared in Frameworks */,
+				B18869072B941F39002738E7 /* ReadiumAdapterGCDWebServer in Frameworks */,
 				B1CF29002B8A806C00A9DD92 /* R2Shared in Frameworks */,
+				B18869052B941F39002738E7 /* R2Streamer in Frameworks */,
 				B1CDFB602B770BC400C439B0 /* RealityKitContent in Frameworks */,
-				B1CF28FE2B8A806C00A9DD92 /* R2Navigator in Frameworks */,
+				B18869012B941F39002738E7 /* R2Navigator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,19 +289,15 @@
 			name = Paperplane;
 			packageProductDependencies = (
 				B1CDFB5F2B770BC400C439B0 /* RealityKitContent */,
-				B188D85E2B86AAFD0092D848 /* R2Navigator */,
-				B188D8602B86AAFD0092D848 /* R2Shared */,
-				B188D8622B86AAFD0092D848 /* R2Streamer */,
-				B188D8652B86AC6E0092D848 /* R2Navigator */,
-				B188D8672B86AC6E0092D848 /* R2Shared */,
-				B188D8692B86AC6E0092D848 /* R2Streamer */,
 				B188D89B2B870C180092D848 /* ReadiumAdapterGCDWebServer */,
-				B1CF28FD2B8A806C00A9DD92 /* R2Navigator */,
 				B1CF28FF2B8A806C00A9DD92 /* R2Shared */,
 				B1CF29012B8A806C00A9DD92 /* R2Streamer */,
-				B1CF29032B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer */,
 				B1D595F72B8AF3BA00AB8A7D /* OpenAISwift */,
 				B1D5960A2B8FC8E200AB8A7D /* AWSS3 */,
+				B18869002B941F39002738E7 /* R2Navigator */,
+				B18869022B941F39002738E7 /* R2Shared */,
+				B18869042B941F39002738E7 /* R2Streamer */,
+				B18869062B941F39002738E7 /* ReadiumAdapterGCDWebServer */,
 			);
 			productName = Paperplane;
 			productReference = B1CDFB5A2B770BC400C439B0 /* Paperplane.app */;
@@ -340,9 +328,9 @@
 			);
 			mainGroup = B1CDFB512B770BC300C439B0;
 			packageReferences = (
-				B188D8642B86AC6E0092D848 /* XCLocalSwiftPackageReference "swift-toolkit" */,
 				B1D595F62B8AF3BA00AB8A7D /* XCLocalSwiftPackageReference "OpenAISwift" */,
 				B1D596092B8FC8E200AB8A7D /* XCRemoteSwiftPackageReference "aws-sdk-swift" */,
+				B18868FF2B941F39002738E7 /* XCLocalSwiftPackageReference "swift-toolkit" */,
 			);
 			productRefGroup = B1CDFB5B2B770BC400C439B0 /* Products */;
 			projectDirPath = "";
@@ -536,6 +524,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Paperplane;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -561,6 +551,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Paperplane;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -599,7 +591,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		B188D8642B86AC6E0092D848 /* XCLocalSwiftPackageReference "swift-toolkit" */ = {
+		B18868FF2B941F39002738E7 /* XCLocalSwiftPackageReference "swift-toolkit" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "swift-toolkit";
 		};
@@ -621,29 +613,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B188D85E2B86AAFD0092D848 /* R2Navigator */ = {
+		B18869002B941F39002738E7 /* R2Navigator */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = R2Navigator;
 		};
-		B188D8602B86AAFD0092D848 /* R2Shared */ = {
+		B18869022B941F39002738E7 /* R2Shared */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = R2Shared;
 		};
-		B188D8622B86AAFD0092D848 /* R2Streamer */ = {
+		B18869042B941F39002738E7 /* R2Streamer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = R2Streamer;
 		};
-		B188D8652B86AC6E0092D848 /* R2Navigator */ = {
+		B18869062B941F39002738E7 /* ReadiumAdapterGCDWebServer */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = R2Navigator;
-		};
-		B188D8672B86AC6E0092D848 /* R2Shared */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = R2Shared;
-		};
-		B188D8692B86AC6E0092D848 /* R2Streamer */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = R2Streamer;
+			productName = ReadiumAdapterGCDWebServer;
 		};
 		B188D89B2B870C180092D848 /* ReadiumAdapterGCDWebServer */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -653,10 +637,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
 		};
-		B1CF28FD2B8A806C00A9DD92 /* R2Navigator */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = R2Navigator;
-		};
 		B1CF28FF2B8A806C00A9DD92 /* R2Shared */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = R2Shared;
@@ -664,10 +644,6 @@
 		B1CF29012B8A806C00A9DD92 /* R2Streamer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = R2Streamer;
-		};
-		B1CF29032B8A806C00A9DD92 /* ReadiumAdapterGCDWebServer */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ReadiumAdapterGCDWebServer;
 		};
 		B1D595F72B8AF3BA00AB8A7D /* OpenAISwift */ = {
 			isa = XCSwiftPackageProductDependency;

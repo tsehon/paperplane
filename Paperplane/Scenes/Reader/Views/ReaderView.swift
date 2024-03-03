@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import R2Navigator
 import R2Shared
+import Combine
 
 struct ReaderParams: Identifiable, Decodable, Encodable, Hashable {
     var id: Book.ID
@@ -28,7 +29,7 @@ struct ReaderView: View {
     @State var preferences: EPUBPreferences = EPUBPreferences(
         columnCount: .two)
     @State var isChatWindowOpen: Bool = false
-    @State var pageNum: String = ""
+    @State var pageNum: Int = 0
 
     // fetch highlights from database for user
     // @State var highlights
@@ -58,7 +59,7 @@ struct ReaderView: View {
             }
             .toolbar {
                 ToolbarItemGroup(placement: .bottomOrnament) {
-                    ReaderBottomBar(bookId: params?.id, isSidebarVisible: $isSidebarVisible, isChatWindowOpen: $isChatWindowOpen, pageNum: $pageNum)
+                    ReaderBottomBar(bookId: params?.id, isSidebarVisible: $isSidebarVisible, isChatWindowOpen: $isChatWindowOpen)
                 }
             }
         }.onAppear {
@@ -70,25 +71,12 @@ struct ReaderView: View {
                 }
             }
         }
+        .overlay(alignment: .bottom) {
+            Text("\(viewModel.pageNum)")
+                .foregroundStyle(.black)
+        }
         .glassBackgroundEffect(displayMode: .never)
         .frame(idealWidth: 1000, idealHeight: 1400)
-        .onChange(of: viewModel.locator) {
-            pageNum = viewModel.getPageNum()
-        }
-    }
-}
-
-class NavigatorViewModel: ObservableObject {
-    @Published var navigator: EPUBNavigatorViewController?
-    @Published var publication: Publication?
-    @Published var locator: Locator?
-    @Published var infoSheetVisible: Bool = false
-    
-    func getPageNum() -> String {
-        if let pNum = navigator?.currentLocation?.locations.position {
-            return String(pNum)
-        }
-        return String()
     }
 }
 

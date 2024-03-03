@@ -18,14 +18,14 @@ class EPUBReaderViewController: UIViewController {
     var publication: Publication?
     var config: EPUBNavigatorViewController.Configuration
 
-    weak var coordinator: EPUBReaderView.Coordinator?
+    weak var coordinator: ReadiumCoordinator?
         
     private var editingActions: [EditingAction] = /* EditingAction.defaultActions + */ [
         //EditingAction(title: "Highlight", action: #selector(highlight:))
         EditingAction(title: "Information", action: #selector(openInfo))
     ]
 
-    init(epubURL: URL, config: EPUBNavigatorViewController.Configuration, coordinator: EPUBReaderView.Coordinator) {
+    init(epubURL: URL, config: EPUBNavigatorViewController.Configuration, coordinator: ReadiumCoordinator) {
         self.epubURL = epubURL
         self.config = config
         self.coordinator = coordinator
@@ -73,7 +73,8 @@ class EPUBReaderViewController: UIViewController {
             let navigator = try EPUBNavigatorViewController(publication: publication,
                 initialLocation: nil,
                 config: self.config,
-                httpServer: GCDHTTPServer.shared
+                httpServer: GCDHTTPServer.shared,
+                coordinator: coordinator
             )
             addChild(navigator)
             view.addSubview(navigator.view)

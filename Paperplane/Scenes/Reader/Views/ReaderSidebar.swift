@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import R2Shared
 import R2Navigator
 
 struct ReaderSidebar: View {
@@ -20,7 +19,7 @@ struct ReaderSidebar: View {
     var body: some View {
         TabView {
             TableOfContents(viewModel: viewModel)
-            .tabItem { Label("Table Of Contents", systemImage: "text.book.closed") }
+            .tabItem { Label("Table Of Contents", systemImage: "list.bullet") }
             .onAppear {
                 self.navigationTitle = "Table of Contents"
             }
@@ -98,7 +97,6 @@ struct EnvironmentMenu: View {
             }
         }
         .onChange(of: spaceService.isOpen) {
-            print("checking if activebook \(BookService.shared.activeBook) == \(id)")
             if BookService.shared.activeBook == id {
                 print("it is me!")
                 if spaceService.isOpen {

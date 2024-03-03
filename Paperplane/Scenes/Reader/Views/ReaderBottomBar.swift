@@ -14,7 +14,6 @@ struct ReaderBottomBar: View {
     var bookId: Book.ID?
     @Binding var isSidebarVisible: NavigationSplitViewVisibility
     @Binding var isChatWindowOpen: Bool
-    @Binding var pageNum: String
     
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow

@@ -11,7 +11,7 @@ import R2Shared
 import R2Streamer
 import R2Navigator
 
-struct EPUBReaderView: UIViewControllerRepresentable {
+public struct EPUBReaderView: UIViewControllerRepresentable {
     var url: URL
     var viewModel: NavigatorViewModel
     
@@ -20,11 +20,11 @@ struct EPUBReaderView: UIViewControllerRepresentable {
     
     @State private var config: EPUBNavigatorViewController.Configuration = EPUBNavigatorViewController.Configuration()
     
-    func makeUIViewController(context: Context) -> UIViewController {
+    public func makeUIViewController(context: Context) -> UIViewController {
         return EPUBReaderViewController(epubURL: url, config: config, coordinator: context.coordinator)
     }
 
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+    public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         // Cast the generic UIViewController to EPUBReaderViewController
         guard let epubReaderVC = uiViewController as? EPUBReaderViewController else { return }
 
@@ -42,33 +42,8 @@ struct EPUBReaderView: UIViewControllerRepresentable {
         }
     }
     
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self.viewModel)
-    }
-
-    class Coordinator: NSObject {
-        var viewModel: NavigatorViewModel
-
-        init(_ viewModel: NavigatorViewModel) {
-            self.viewModel = viewModel
-        }
-        
-        func updatePublication(_ publication: Publication?) {
-            viewModel.publication = publication
-        }
-
-        func updateNavigator(_ navigator: EPUBNavigatorViewController?) {
-            viewModel.navigator = navigator
-        }
-        
-        func updateLocator(_ locator: Locator?) {
-            viewModel.locator = locator
-        }
-        
-        func updateInfoVisible(_ isVisible: Bool) {
-            viewModel.infoSheetVisible = true
-        }
-
+    public func makeCoordinator() -> ReadiumCoordinator {
+        ReadiumCoordinator(self.viewModel)
     }
 }
 
