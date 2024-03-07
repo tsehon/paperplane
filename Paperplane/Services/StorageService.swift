@@ -31,6 +31,8 @@ class StorageService: ObservableObject {
             return
         }
         
+        print("url", url)
+        
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
                 print("Error fetching signed URL: \(error?.localizedDescription ?? "Unknown error")")
@@ -38,10 +40,14 @@ class StorageService: ObservableObject {
                 return
             }
             
+            print("data", data)
+            
             do {
                 if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let signedURLString = json["url"] as? String,
-                   let signedURL = URL(string: signedURLString) {
+                let signedURLString = json["url"] as? String,
+                let signedURL = URL(string: signedURLString) {
+                    print("json", json)
+                    print("sURL", signedURL)
                     completion(signedURL)
                 } else {
                     print("Could not parse JSON response")

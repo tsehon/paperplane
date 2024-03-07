@@ -1,8 +1,9 @@
-package main 
+package main
 
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -68,7 +69,7 @@ func getEnvironmentFile(c *gin.Context) {
 		return
 	}
 
-	id := c.Param("id")
+	id := c.Param("environment_id")
 	key := fmt.Sprintf("environments/%s.mov", id)
 
     // Generate a signed URL for the S3 object
@@ -77,6 +78,8 @@ func getEnvironmentFile(c *gin.Context) {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
+
+	log.Println(signedURL)
 
     // Return the signed URL to the client
     c.JSON(http.StatusOK, gin.H{"url": signedURL})

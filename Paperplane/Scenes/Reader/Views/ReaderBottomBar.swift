@@ -35,10 +35,8 @@ struct ReaderBottomBar: View {
                         openWindow(id: "home")
                     }
                 }
-                if ImmersiveSpaceService.shared.isOpen {
-                    Task {
-                        ImmersiveSpaceService.shared.updateEnv("none")
-                    }
+                Task {
+                    ImmersiveSpaceService.shared.updateEnv("none")
                 }
             }, label: {
                 Image(systemName: "house")

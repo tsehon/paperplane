@@ -19,13 +19,12 @@ struct ImmersiveEnvironment: Identifiable, Decodable {
 class ImmersiveSpaceService: ObservableObject {
     static let shared = ImmersiveSpaceService() // Singleton instance
     
+    @State private var player: AVPlayer = AVPlayer()
+    
     @Published var environments: [ImmersiveEnvironment] = []
     @Published var skybox: ModelEntity? = nil
     @Published var prevSkybox: ModelEntity? = nil
     @Published var currentEnvId: ImmersiveEnvironment.ID = "none"
-    @Published var isOpen: Bool = false
-
-    @State private var player: AVPlayer = AVPlayer()
 
     private init() {}
     
@@ -45,7 +44,6 @@ class ImmersiveSpaceService: ObservableObject {
         // close immersive space
         if id == "none" {
             player.pause()
-            isOpen = false
             return
         }
         
@@ -81,7 +79,7 @@ class ImmersiveSpaceService: ObservableObject {
         // partially visible when radius <= 0.5, but is obstructed??
         let skyBoxMesh = MeshResource.generateSphere(radius: 1000)
 
-        StorageService.shared.fetchPreSignedURL(key: id) { [weak self] signedURL in
+        StorageService.shared.fetchPreSignedURL(key: id) { signedURL in
             guard let signedURL = signedURL else {
                 print("Failed to fetch signed URL")
                 return
@@ -90,32 +88,28 @@ class ImmersiveSpaceService: ObservableObject {
             DispatchQueue.main.async {
                 let item = AVPlayerItem(url: signedURL)
                 
-                if let player = self?.player {
-                    player.replaceCurrentItem(with: item)
-                    let videoMaterial = VideoMaterial(avPlayer: player)
-                    
-                    let skyBoxEntity = ModelEntity(
-                        mesh: skyBoxMesh,
-                        materials: [videoMaterial]
-                    )
-                    
-                    skyBoxEntity.name = id
-                    skyBoxEntity.scale *= .init(x: 1, y: 1, z: -1)
-                    skyBoxEntity.transform.translation += SIMD3<Float>(0.0, 1.0, 0)
-                    skyBoxEntity.transform.rotation *= simd_quatf(angle: 1.6, axis: SIMD3<Float>(0,1,0))
-                    
-                    // loop video
-                    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
-                        player.seek(to: .zero) // Rewind video to the start
-                        player.play() // Play the video again
-                    }
-                    
-                    self?.prevSkybox = self?.skybox
-                    self?.skybox = skyBoxEntity
-                    self?.isOpen = true
-                    
-                    player.play()
+                self.player.replaceCurrentItem(with: item)
+                let videoMaterial = VideoMaterial(avPlayer: self.player)
+                
+                let skyBoxEntity = ModelEntity(
+                    mesh: skyBoxMesh,
+                    materials: [videoMaterial]
+                )
+                
+                skyBoxEntity.name = id
+                skyBoxEntity.scale *= .init(x: 1, y: 1, z: -1)
+                skyBoxEntity.transform.translation += SIMD3<Float>(0.0, 1.0, 0)
+                skyBoxEntity.transform.rotation *= simd_quatf(angle: 1.6, axis: SIMD3<Float>(0,1,0))
+                
+                // loop video
+                NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.player.currentItem, queue: .main) { _ in
+                    self.player.seek(to: .zero) // Rewind video to the start
+                    self.player.play() // Play the video again
                 }
+                
+                self.player.play()
+                self.prevSkybox = self.skybox
+                self.skybox = skyBoxEntity
             }
         }
     }

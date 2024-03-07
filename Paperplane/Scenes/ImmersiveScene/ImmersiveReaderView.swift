@@ -9,8 +9,10 @@ import SwiftUI
 import RealityKit
 import RealityKitContent
 
+@MainActor
 struct ImmersiveReaderView: View {
     @ObservedObject var immersiveService: ImmersiveSpaceService = ImmersiveSpaceService.shared
+    @Environment(\.dismissImmersiveSpace) private var dismiss
     
     var body: some View {
         ZStack {
@@ -19,6 +21,13 @@ struct ImmersiveReaderView: View {
                     content.add(initialSkybox)
                 }
             } update: { content in
+                if immersiveService.currentEnvId == "none" {
+                    Task {
+                        await dismiss()
+                    }
+                }
+                    
+                print("updated immersiveReaderView")
                 // Clear existing content if needed
                 if let prevSkybox = immersiveService.prevSkybox {
                     content.remove(prevSkybox)

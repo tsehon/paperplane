@@ -60,6 +60,7 @@ struct TableOfContents: View {
     }
 }
 
+@MainActor
 struct EnvironmentMenu: View {
     let id: Book.ID?
     @ObservedObject var spaceService = ImmersiveSpaceService.shared
@@ -67,31 +68,6 @@ struct EnvironmentMenu: View {
     let noneEnv: ImmersiveEnvironment = ImmersiveEnvironment(id: "none", title: "None")
     let genEnv: ImmersiveEnvironment = ImmersiveEnvironment(id: "gen", title: "Generated")
     
-    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
-    @MainActor
-    func openEnvironment() async {
-        let result: OpenImmersiveSpaceAction.Result = await openImmersiveSpace(id: "immersive-reader")
-        switch result {
-        case .opened:
-            print("space service opened")
-        case .userCancelled:
-            print("\(#function) User cancelled")
-            spaceService.isOpen = false
-        case .error:
-            print("\(#function) An error occurred")
-            spaceService.isOpen = false
-        default:
-            return
-        }
-    }
-
-    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
-    @MainActor
-    func closeEnvironment() async {
-        await dismissImmersiveSpace()
-    }
-    
-
     var body: some View {
         ScrollView {
             LazyVStack {
@@ -100,29 +76,33 @@ struct EnvironmentMenu: View {
                 }
             }
         }
-        .onChange(of: spaceService.isOpen) {
-            if BookService.shared.activeBook == id {
-                if spaceService.isOpen {
-                    Task {
-                        await openEnvironment()
-                    }
-                } else {
-                    Task {
-                        await closeEnvironment()
-                    }
-                }
-            }
-        }
     }
 }
 
+@MainActor
 struct EnvironmentButton: View {
     @ObservedObject var spaceService = ImmersiveSpaceService.shared
-    
+    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+
     let env: ImmersiveEnvironment
     
     var body: some View {
         Button(action: {
+            if spaceService.currentEnvId == "none" {
+                Task {
+                    let result: OpenImmersiveSpaceAction.Result = await openImmersiveSpace(id: "immersive-reader")
+                    switch result {
+                    case .opened:
+                        print("space service opened")
+                    case .userCancelled:
+                        print("\(#function) User cancelled")
+                    case .error:
+                        print("\(#function) An error occurred")
+                    default:
+                        return
+                    }
+                }
+            }
             spaceService.updateEnv(env.id)
         }) {
             HStack {
