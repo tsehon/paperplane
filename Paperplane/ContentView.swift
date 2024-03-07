@@ -11,20 +11,26 @@ import RealityKit
 import RealityKitContent
 
 struct ContentView: View {
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     var body: some View {
-        TabView {
-            HomeView()
-                .tabItem {
-                    Label("Home", systemImage: "house")
-                }
-            ExploreView()
-                .tabItem {
-                    Label("Explore", systemImage: "magnifyingglass")
-                }
-            HomeView()
-                .tabItem {
-                    Label("Library", systemImage: "books.vertical")
-                }
+        if authViewModel.authenticationState == .authenticated {
+            TabView {
+                HomeView()
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }
+                ExploreView()
+                    .tabItem {
+                        Label("Explore", systemImage: "magnifyingglass")
+                    }
+                UserProfileView()
+                    .tabItem {
+                        Label("Library", systemImage: "books.vertical")
+                    }
+            }
+        } else {
+            AuthenticationView()
+                .environmentObject(authViewModel)
         }
     }
 }

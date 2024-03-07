@@ -16,11 +16,20 @@
 		B18869032B941F39002738E7 /* R2Shared in Frameworks */ = {isa = PBXBuildFile; productRef = B18869022B941F39002738E7 /* R2Shared */; };
 		B18869052B941F39002738E7 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = B18869042B941F39002738E7 /* R2Streamer */; };
 		B18869072B941F39002738E7 /* ReadiumAdapterGCDWebServer in Frameworks */ = {isa = PBXBuildFile; productRef = B18869062B941F39002738E7 /* ReadiumAdapterGCDWebServer */; };
+		B18869092B98FD77002738E7 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18869082B98FD77002738E7 /* AuthenticationService.swift */; };
+		B188690D2B9900A6002738E7 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188690C2B9900A6002738E7 /* LoginView.swift */; };
+		B18869122B9906E4002738E7 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B18869112B9906E4002738E7 /* FirebaseAnalytics */; };
+		B18869142B9906E4002738E7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B18869132B9906E4002738E7 /* FirebaseAuth */; };
+		B18869162B9906E4002738E7 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = B18869152B9906E4002738E7 /* FirebaseCrashlytics */; };
+		B188691D2B991335002738E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B188691C2B991335002738E7 /* GoogleService-Info.plist */; };
+		B188691F2B9932B9002738E7 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188691E2B9932B9002738E7 /* AuthenticationView.swift */; };
+		B18869212B9932D4002738E7 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18869202B9932D4002738E7 /* SignupView.swift */; };
+		B18869232B993304002738E7 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B18869222B993304002738E7 /* FirebaseAnalyticsSwift */; };
+		B18869262B9938EA002738E7 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18869252B9938EA002738E7 /* UserProfile.swift */; };
 		B188D85C2B8483DE0092D848 /* EPUBReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D85B2B8483DE0092D848 /* EPUBReaderView.swift */; };
 		B188D86C2B86AD7A0092D848 /* BookGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D86B2B86AD7A0092D848 /* BookGridView.swift */; };
 		B188D86E2B86ADF60092D848 /* BookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D86D2B86ADF60092D848 /* BookItem.swift */; };
 		B188D8962B86F5560092D848 /* EPUBReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D8952B86F5560092D848 /* EPUBReaderViewController.swift */; };
-		B188D89A2B8704650092D848 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D8992B8704650092D848 /* AppDelegate.swift */; };
 		B188D89C2B870C180092D848 /* ReadiumAdapterGCDWebServer in Frameworks */ = {isa = PBXBuildFile; productRef = B188D89B2B870C180092D848 /* ReadiumAdapterGCDWebServer */; };
 		B188D8A02B87D00C0092D848 /* ImmersiveReaderScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D89F2B87D00C0092D848 /* ImmersiveReaderScene.swift */; };
 		B188D8A32B884D690092D848 /* example.epub in Resources */ = {isa = PBXBuildFile; fileRef = B188D8A22B884D680092D848 /* example.epub */; };
@@ -32,7 +41,6 @@
 		B1CDFB642B770BC400C439B0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB632B770BC400C439B0 /* HomeView.swift */; };
 		B1CDFB682B770BC800C439B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1CDFB672B770BC800C439B0 /* Assets.xcassets */; };
 		B1CDFB6B2B770BC800C439B0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1CDFB6A2B770BC800C439B0 /* Preview Assets.xcassets */; };
-		B1CDFB762B7ACF1300C439B0 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB752B7ACF1300C439B0 /* DataModel.swift */; };
 		B1CDFB782B801F5500C439B0 /* BookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB772B801F5500C439B0 /* BookService.swift */; };
 		B1CDFB7A2B805A7100C439B0 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB792B805A7100C439B0 /* ImageLoader.swift */; };
 		B1CDFB7C2B805DF900C439B0 /* BookCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB7B2B805DF900C439B0 /* BookCoverView.swift */; };
@@ -57,11 +65,16 @@
 		B161B97F2B82BB8F0095B366 /* ReaderScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderScene.swift; sourceTree = "<group>"; };
 		B161B9812B82BBB90095B366 /* ReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderView.swift; sourceTree = "<group>"; };
 		B161B9842B82BE360095B366 /* ImmersiveReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveReaderView.swift; sourceTree = "<group>"; };
+		B18869082B98FD77002738E7 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
+		B188690C2B9900A6002738E7 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		B188691C2B991335002738E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B188691E2B9932B9002738E7 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		B18869202B9932D4002738E7 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
+		B18869252B9938EA002738E7 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		B188D85B2B8483DE0092D848 /* EPUBReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPUBReaderView.swift; sourceTree = "<group>"; };
 		B188D86B2B86AD7A0092D848 /* BookGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookGridView.swift; sourceTree = "<group>"; };
 		B188D86D2B86ADF60092D848 /* BookItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookItem.swift; sourceTree = "<group>"; };
 		B188D8952B86F5560092D848 /* EPUBReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPUBReaderViewController.swift; sourceTree = "<group>"; };
-		B188D8992B8704650092D848 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B188D89F2B87D00C0092D848 /* ImmersiveReaderScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveReaderScene.swift; sourceTree = "<group>"; };
 		B188D8A22B884D680092D848 /* example.epub */ = {isa = PBXFileReference; lastKnownFileType = file; path = example.epub; sourceTree = "<group>"; };
 		B188D8A42B8854E30092D848 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
@@ -74,7 +87,6 @@
 		B1CDFB672B770BC800C439B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1CDFB6A2B770BC800C439B0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B1CDFB6C2B770BC800C439B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B1CDFB752B7ACF1300C439B0 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		B1CDFB772B801F5500C439B0 /* BookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookService.swift; sourceTree = "<group>"; };
 		B1CDFB792B805A7100C439B0 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		B1CDFB7B2B805DF900C439B0 /* BookCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCoverView.swift; sourceTree = "<group>"; };
@@ -98,9 +110,13 @@
 				B1D595F82B8AF3BA00AB8A7D /* OpenAISwift in Frameworks */,
 				B1CF29022B8A806C00A9DD92 /* R2Streamer in Frameworks */,
 				B18869032B941F39002738E7 /* R2Shared in Frameworks */,
+				B18869232B993304002738E7 /* FirebaseAnalyticsSwift in Frameworks */,
 				B188D89C2B870C180092D848 /* ReadiumAdapterGCDWebServer in Frameworks */,
 				B18869072B941F39002738E7 /* ReadiumAdapterGCDWebServer in Frameworks */,
+				B18869122B9906E4002738E7 /* FirebaseAnalytics in Frameworks */,
+				B18869142B9906E4002738E7 /* FirebaseAuth in Frameworks */,
 				B1CF29002B8A806C00A9DD92 /* R2Shared in Frameworks */,
+				B18869162B9906E4002738E7 /* FirebaseCrashlytics in Frameworks */,
 				B18869052B941F39002738E7 /* R2Streamer in Frameworks */,
 				B1CDFB602B770BC400C439B0 /* RealityKitContent in Frameworks */,
 				B18869012B941F39002738E7 /* R2Navigator in Frameworks */,
@@ -129,6 +145,36 @@
 				B1D595FB2B8BF15600AB8A7D /* ReaderSidebar.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		B188690A2B990083002738E7 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B188D86B2B86AD7A0092D848 /* BookGridView.swift */,
+				B161B97B2B82B1F60095B366 /* TabBar.swift */,
+				B188D8942B86EAA10092D848 /* Book */,
+				B188D8A62B88591F0092D848 /* Explore */,
+				B188D8A72B8859300092D848 /* Home */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		B188690B2B990092002738E7 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				B188690C2B9900A6002738E7 /* LoginView.swift */,
+				B188691E2B9932B9002738E7 /* AuthenticationView.swift */,
+				B18869202B9932D4002738E7 /* SignupView.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		B18869242B9938D6002738E7 /* LibraryScene */ = {
+			isa = PBXGroup;
+			children = (
+				B18869252B9938EA002738E7 /* UserProfile.swift */,
+			);
+			path = LibraryScene;
 			sourceTree = "<group>";
 		};
 		B188D8942B86EAA10092D848 /* Book */ = {
@@ -189,7 +235,6 @@
 			isa = PBXGroup;
 			children = (
 				B188D8A22B884D680092D848 /* example.epub */,
-				B188D8992B8704650092D848 /* AppDelegate.swift */,
 				B1CDFB612B770BC400C439B0 /* PaperplaneApp.swift */,
 				B161B97D2B82B2DC0095B366 /* ContentView.swift */,
 				B1CDFB842B809E9400C439B0 /* Scenes */,
@@ -197,6 +242,7 @@
 				B1CDFB812B80881200C439B0 /* Models */,
 				B1CDFB672B770BC800C439B0 /* Assets.xcassets */,
 				B1CDFB6C2B770BC800C439B0 /* Info.plist */,
+				B188691C2B991335002738E7 /* GoogleService-Info.plist */,
 				B1CDFB692B770BC800C439B0 /* Preview Content */,
 			);
 			path = Paperplane;
@@ -221,7 +267,6 @@
 		B1CDFB812B80881200C439B0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B1CDFB752B7ACF1300C439B0 /* DataModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -233,6 +278,7 @@
 				B1CDFB792B805A7100C439B0 /* ImageLoader.swift */,
 				B1D596042B8E625800AB8A7D /* ImmersiveSpaceService.swift */,
 				B1D5960C2B8FC90700AB8A7D /* StorageService.swift */,
+				B18869082B98FD77002738E7 /* AuthenticationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -240,7 +286,8 @@
 		B1CDFB842B809E9400C439B0 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				B1D596062B8E8E9600AB8A7D /* HomeScene */,
+				B18869242B9938D6002738E7 /* LibraryScene */,
+				B1D596062B8E8E9600AB8A7D /* ContentScene */,
 				B1D595FF2B8C160D00AB8A7D /* ChatScene */,
 				B188D8A12B87D4FE0092D848 /* ImmersiveScene */,
 				B161B9832B82BE1B0095B366 /* Reader */,
@@ -259,16 +306,13 @@
 			path = ChatScene;
 			sourceTree = "<group>";
 		};
-		B1D596062B8E8E9600AB8A7D /* HomeScene */ = {
+		B1D596062B8E8E9600AB8A7D /* ContentScene */ = {
 			isa = PBXGroup;
 			children = (
-				B188D86B2B86AD7A0092D848 /* BookGridView.swift */,
-				B161B97B2B82B1F60095B366 /* TabBar.swift */,
-				B188D8942B86EAA10092D848 /* Book */,
-				B188D8A62B88591F0092D848 /* Explore */,
-				B188D8A72B8859300092D848 /* Home */,
+				B188690B2B990092002738E7 /* Authentication */,
+				B188690A2B990083002738E7 /* Main */,
 			);
-			path = HomeScene;
+			path = ContentScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,6 +342,10 @@
 				B18869022B941F39002738E7 /* R2Shared */,
 				B18869042B941F39002738E7 /* R2Streamer */,
 				B18869062B941F39002738E7 /* ReadiumAdapterGCDWebServer */,
+				B18869112B9906E4002738E7 /* FirebaseAnalytics */,
+				B18869132B9906E4002738E7 /* FirebaseAuth */,
+				B18869152B9906E4002738E7 /* FirebaseCrashlytics */,
+				B18869222B993304002738E7 /* FirebaseAnalyticsSwift */,
 			);
 			productName = Paperplane;
 			productReference = B1CDFB5A2B770BC400C439B0 /* Paperplane.app */;
@@ -331,6 +379,7 @@
 				B1D595F62B8AF3BA00AB8A7D /* XCLocalSwiftPackageReference "OpenAISwift" */,
 				B1D596092B8FC8E200AB8A7D /* XCRemoteSwiftPackageReference "aws-sdk-swift" */,
 				B18868FF2B941F39002738E7 /* XCLocalSwiftPackageReference "swift-toolkit" */,
+				B18869102B9906E4002738E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = B1CDFB5B2B770BC400C439B0 /* Products */;
 			projectDirPath = "";
@@ -347,6 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1CDFB6B2B770BC800C439B0 /* Preview Assets.xcassets in Resources */,
+				B188691D2B991335002738E7 /* GoogleService-Info.plist in Resources */,
 				B188D8A32B884D690092D848 /* example.epub in Resources */,
 				B1CDFB682B770BC800C439B0 /* Assets.xcassets in Resources */,
 			);
@@ -368,11 +418,13 @@
 				B161B9822B82BBB90095B366 /* ReaderView.swift in Sources */,
 				B161B9852B82BE360095B366 /* ImmersiveReaderView.swift in Sources */,
 				B1D596012B8C164200AB8A7D /* ChatModel.swift in Sources */,
+				B18869212B9932D4002738E7 /* SignupView.swift in Sources */,
+				B18869092B98FD77002738E7 /* AuthenticationService.swift in Sources */,
 				B1CDFB862B809EAF00C439B0 /* BookDetailsScene.swift in Sources */,
 				B188D8A52B8854E30092D848 /* ExploreView.swift in Sources */,
 				B188D8A92B8859770092D848 /* FilterView.swift in Sources */,
-				B188D89A2B8704650092D848 /* AppDelegate.swift in Sources */,
-				B1CDFB762B7ACF1300C439B0 /* DataModel.swift in Sources */,
+				B188691F2B9932B9002738E7 /* AuthenticationView.swift in Sources */,
+				B18869262B9938EA002738E7 /* UserProfile.swift in Sources */,
 				B188D85C2B8483DE0092D848 /* EPUBReaderView.swift in Sources */,
 				B1CDFB7C2B805DF900C439B0 /* BookCoverView.swift in Sources */,
 				B1CDFB802B8085FF00C439B0 /* BookDetailView.swift in Sources */,
@@ -380,6 +432,7 @@
 				B1CDFB7A2B805A7100C439B0 /* ImageLoader.swift in Sources */,
 				B1CDFB642B770BC400C439B0 /* HomeView.swift in Sources */,
 				B188D8962B86F5560092D848 /* EPUBReaderViewController.swift in Sources */,
+				B188690D2B9900A6002738E7 /* LoginView.swift in Sources */,
 				B1D596052B8E625800AB8A7D /* ImmersiveSpaceService.swift in Sources */,
 				B188D8A02B87D00C0092D848 /* ImmersiveReaderScene.swift in Sources */,
 				B188D86E2B86ADF60092D848 /* BookItem.swift in Sources */,
@@ -524,8 +577,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Paperplane;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -551,8 +602,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Paperplane;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -602,6 +651,14 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B18869102B9906E4002738E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.22.0;
+			};
+		};
 		B1D596092B8FC8E200AB8A7D /* XCRemoteSwiftPackageReference "aws-sdk-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/awslabs/aws-sdk-swift.git";
@@ -628,6 +685,26 @@
 		B18869062B941F39002738E7 /* ReadiumAdapterGCDWebServer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ReadiumAdapterGCDWebServer;
+		};
+		B18869112B9906E4002738E7 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B18869102B9906E4002738E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		B18869132B9906E4002738E7 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B18869102B9906E4002738E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		B18869152B9906E4002738E7 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B18869102B9906E4002738E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		B18869222B993304002738E7 /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B18869102B9906E4002738E7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsSwift;
 		};
 		B188D89B2B870C180092D848 /* ReadiumAdapterGCDWebServer */ = {
 			isa = XCSwiftPackageProductDependency;

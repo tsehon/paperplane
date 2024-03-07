@@ -11,6 +11,11 @@ import RealityKit
 import AVKit
 import AVFoundation
 
+struct ImmersiveEnvironment: Identifiable, Decodable {
+    var id: String
+    var title: String
+}
+
 class ImmersiveSpaceService: ObservableObject {
     static let shared = ImmersiveSpaceService() // Singleton instance
     
@@ -48,7 +53,7 @@ class ImmersiveSpaceService: ObservableObject {
     }
 
     func loadEnvironments(completion: @escaping ([ImmersiveEnvironment]) -> Void) {
-        guard let url = URL(string: "\(API_URL)/environment/metadata") else {
+        guard let url = URL(string: "\(API_URL)/environments/metadata") else {
             print("\(#file) \(#function): Invalid URL")
             return
         }
@@ -146,7 +151,3 @@ class ImmersiveSpaceService: ObservableObject {
     }
 }
 
-struct ImmersiveEnvironment: Identifiable, Decodable {
-    var id: String
-    var title: String
-}

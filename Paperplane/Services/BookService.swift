@@ -9,6 +9,21 @@ import Foundation
 import SwiftUI
 import Combine
 
+struct Book: Identifiable, Decodable {
+    var id: String
+    var title: String
+    var author: String
+    var tags: [String]
+    var rating: Float32
+    var publisher: String
+    var publishedDate: String
+}
+
+struct Tag: Identifiable, Decodable {
+    var id = UUID()
+    var name: String
+}
+
 class BookService: ObservableObject {
     static let shared = BookService() // Singleton instance
     private var cancellables = Set<AnyCancellable>()
@@ -19,8 +34,7 @@ class BookService: ObservableObject {
     @Published var searchResults: [Book] = []
     @Published var bookIdToImage: [Book.ID: UIImage] = [:]
     @Published var activeBook: Book.ID? = nil
-    
-    //@State private var currentSelectedBook: Book.ID?
+    @Published var currentSelectedBook: Book.ID? = nil
 
     private init() {}
     
@@ -34,16 +48,6 @@ class BookService: ObservableObject {
             self.loadBookCovers()
         }
     }
-    
-    /*
-    func getSelectedBook() -> Book.ID? {
-        return currentSelectedBook
-    }
-    
-    func setSelectedBook(_ id: Book.ID?) {
-        currentSelectedBook = id
-    }
-     */
     
     func updateSearchResults(searchText: String, filterTags: Set<String>) {
         if searchText.isEmpty && filterTags.isEmpty {
@@ -91,7 +95,7 @@ class BookService: ObservableObject {
             completion(metadata)
         }
         
-        guard let url = URL(string: "\(API_URL)/book/metadata/\(id)") else {
+        guard let url = URL(string: "\(API_URL)/books/metadata/\(id)") else {
             print("\(#file) \(#function) loadBookMetadata: Invalid URL")
             return
         }
@@ -105,6 +109,7 @@ class BookService: ObservableObject {
                         completion(book)
                     }
                 } else {
+                    print(data)
                     print("\(#file) \(#function) JSON Decoding Failed")
                 }
             } else if let error = error {
@@ -114,7 +119,7 @@ class BookService: ObservableObject {
     }
 
     func loadBooksMetadata(completion: @escaping ([Book]) -> Void) {
-        guard let url = URL(string: "\(API_URL)/book/metadata") else {
+        guard let url = URL(string: "\(API_URL)/books/metadata") else {
             print("\(#file) \(#function): Invalid URL")
             return
         }
@@ -128,6 +133,7 @@ class BookService: ObservableObject {
                         completion(books)
                     }
                 } else {
+                    print(data)
                     print("\(#file) \(#function) JSON Decoding Failed")
                 }
             } else if let error = error {
@@ -147,7 +153,7 @@ class BookService: ObservableObject {
             return
         }
         
-        guard let url = URL(string: "http://localhost:8080/book/\(bookId)/cover") else {
+        guard let url = URL(string: "http://localhost:8080/books/\(bookId)/cover") else {
             print("\(#file) \(#function): Invalid URL")
             return
         }
@@ -172,7 +178,7 @@ class BookService: ObservableObject {
             }
         }
         
-        guard let url = URL(string: "\(API_URL)/book/\(bookId)") else {
+        guard let url = URL(string: "\(API_URL)/books/\(bookId)") else {
             completion(.failure(URLError(.badURL)))
             return
         }

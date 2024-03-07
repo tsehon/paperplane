@@ -24,7 +24,7 @@ class StorageService: ObservableObject {
     
         
     func fetchPreSignedURL(key id: String, completion: @escaping (URL?) -> Void) {
-        let urlString = "http://localhost:8080/environment/\(id)"
+        let urlString = "http://localhost:8080/environments/\(id)"
         guard let url = URL(string: urlString) else {
             print("\(#file) \(#function): Invalid URL")
             completion(nil)
