@@ -10,6 +10,7 @@ import (
 )
 
 type DBInterface interface {
+    SaveUserToDatabase(user User)
 }
 
 type DBClient struct {
@@ -40,4 +41,16 @@ func NewDBClient() *DBClient {
     return &DBClient{
         DB: db,
     }
+}
+
+func (client *DBClient) SaveUserToDatabase(user User) error {
+    query := "INSERT INTO users (user_id, display_name, email) VALUES (?, ?, ?)"
+    
+    _, err := client.DB.Exec(query, user.ID, user.DisplayName, user.Email)
+    if err != nil {
+        log.Printf("Error inserting new user into database: %v", err)
+        return err
+    }
+
+    return nil
 }

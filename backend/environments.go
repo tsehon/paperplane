@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -25,13 +24,13 @@ func getEnvironmentMetadata(c *gin.Context) {
 		return
 	}
 
-	db, ok := dbInterface.(*sql.DB)
-    if !ok {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection is of incorrect type"})
-        return
-    }
+	db, ok := dbInterface.(*DBClient)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection is of incorrect type"})
+		return
+	}
 
-	rows, err := db.Query("SELECT * FROM environments")
+	rows, err := db.DB.Query("SELECT * FROM environments")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

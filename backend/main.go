@@ -13,7 +13,7 @@ func main() {
 	defer db.DB.Close() 
 
 	router.Use(func(c *gin.Context) { // add as middleware to router
-        c.Set("db", db.DB) 
+        c.Set("db", db) 
 		c.Set("s3", s3)
         c.Next()
     })
@@ -37,12 +37,12 @@ func main() {
 	/* highlights */
 	router.GET("/highlights/:user_id")
 	router.GET("/highlights/:user_id/:book_id")
-	router.POST("/highlights", uploadBook)
+	router.POST("/highlights")
 
 	/* notes */
 	router.GET("/notes/:user_id")
 	router.GET("/notes/:user_id/:book_id")
-	router.POST("/notes", uploadBook)
+	router.POST("/notes")
 
 	/* reviews */
 	router.GET("/reviews/:book_id")
@@ -54,10 +54,12 @@ func main() {
 	router.GET("/tags", getAllTags)
 
 	/* users */
+	router.GET("/users/:user_id", getUser)
 	router.GET("/users/:user_id/books")
 	router.GET("/users/:user_id/book_id")
 	router.GET("/users/:user_id/preferences")
 	router.GET("/users/:user_id/liked")
+	router.POST("/users", addUser)
 
 	router.Run(":8080")
 }

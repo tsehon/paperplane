@@ -55,7 +55,7 @@ class AuthenticationViewModel: ObservableObject {
       authStateHandler = Auth.auth().addStateDidChangeListener { auth, user in
         self.user = user
         self.authenticationState = user == nil ? .unauthenticated : .authenticated
-        self.displayName = user?.email ?? ""
+        self.displayName = user?.displayName ?? ""
       }
     }
   }
@@ -87,52 +87,86 @@ class AuthenticationViewModel: ObservableObject {
 // MARK: - Email and Password Authentication
 
 extension AuthenticationViewModel {
-  func signInWithEmailPassword() async -> Bool {
-    authenticationState = .authenticating
-    do {
-      try await Auth.auth().signIn(withEmail: self.email, password: self.password)
-      return true
+    func signInWithEmailPassword() async -> Bool {
+        authenticationState = .authenticating
+        do {
+            try await Auth.auth().signIn(withEmail: self.email, password: self.password)
+            return true
+        }
+        catch  {
+            print(error)
+            errorMessage = error.localizedDescription
+            authenticationState = .unauthenticated
+            return false
+        }
     }
-    catch  {
-      print(error)
-      errorMessage = error.localizedDescription
-      authenticationState = .unauthenticated
-      return false
+    
+    func signUpWithEmailPassword() async -> Bool {
+        authenticationState = .authenticating
+        do  {
+            try await Auth.auth().createUser(withEmail: email, password: password)
+            guard let user = Auth.auth().currentUser else {
+                print("Failed to retrieve current user")
+                return false
+            }
+            print("signed up new user \(user)")
+            guard let url = URL(string: "\(API_URL)/users") else {
+                print("Invalid URL")
+                return false
+            }
+            
+            let userPayload = [
+                "userId": user.uid,
+                "displayName": user.displayName ?? user.email,
+                "email": user.email,
+            ]
+            
+            let jsonData = try JSONSerialization.data(withJSONObject: userPayload)
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.httpBody = jsonData
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            // Send the request to your backend
+            let (_, response) = try await URLSession.shared.data(for: request)
+            
+            // Check the response
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                // Handle successful request, e.g., parsing the response data if needed
+                print("User data successfully sent to backend")
+                return true
+            } else {
+                // Handle unsuccessful request
+                print("Failed to send user data to backend")
+                return false
+            }
+        }
+        catch {
+            print(error)
+            errorMessage = error.localizedDescription
+            authenticationState = .unauthenticated
+            return false
+        }
     }
-  }
-
-  func signUpWithEmailPassword() async -> Bool {
-    authenticationState = .authenticating
-    do  {
-      try await Auth.auth().createUser(withEmail: email, password: password)
-      return true
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+        }
+        catch {
+            print(error)
+            errorMessage = error.localizedDescription
+        }
     }
-    catch {
-      print(error)
-      errorMessage = error.localizedDescription
-      authenticationState = .unauthenticated
-      return false
+    
+    func deleteAccount() async -> Bool {
+        do {
+            try await user?.delete()
+            return true
+        }
+        catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
     }
-  }
-
-  func signOut() {
-    do {
-      try Auth.auth().signOut()
-    }
-    catch {
-      print(error)
-      errorMessage = error.localizedDescription
-    }
-  }
-
-  func deleteAccount() async -> Bool {
-    do {
-      try await user?.delete()
-      return true
-    }
-    catch {
-      errorMessage = error.localizedDescription
-      return false
-    }
-  }
 }

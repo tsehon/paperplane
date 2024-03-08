@@ -24,23 +24,20 @@ type Book struct {
 }
 
 func getBookMetadata(c *gin.Context) {
-	/*
-	fetch metadata from db for only one book, using id
-	*/
 	dbInterface, exists := c.Get("db")
 	if !exists {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection not available"})
 		return
 	}
 
-	db, ok := dbInterface.(*sql.DB)
+	db, ok := dbInterface.(*DBClient)
 	if !ok {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection is of incorrect type"})
 		return
 	}
 
 	id := c.Param("book_id")
-	row := db.QueryRow(`
+	row := db.DB.QueryRow(`
 		SELECT b.book_id, b.title, b.author, b.rating, b.publisher, b.publishedDate, 
 		JSON_ARRAYAGG(t.tag_name) AS tags
 		FROM books b
@@ -61,7 +58,6 @@ func getBookMetadata(c *gin.Context) {
 	}
 
 	if err := json.Unmarshal([]byte(tagsJSON), &book.Tags); err != nil {
-		fmt.Print("unmarshalling tags failed")
 		log.Fatal("Unmarshal tags failed:", err)
 	}
 
@@ -95,14 +91,13 @@ func getBooksMetadata(c *gin.Context) {
 		return
 	}
 
-	db, ok := dbInterface.(*sql.DB)
-    if !ok {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection is of incorrect type"})
-        return
-    }
+	db, ok := dbInterface.(*DBClient)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection is of incorrect type"})
+		return
+	}
 
-	rows, err := db.Query(
-		"SELECT b.book_id AS `ID`," +
+	query := "SELECT b.book_id AS `ID`," +
 			"b.title AS `Title`," +
 			"b.author AS `Author`," + 
 			"JSON_ARRAYAGG(t.tag_name) AS `Tags`," + 
@@ -114,7 +109,9 @@ func getBooksMetadata(c *gin.Context) {
 		LEFT JOIN books_tags bt ON b.book_id = bt.book_id
 		LEFT JOIN tags t ON bt.tag_id = t.tag_id
 		GROUP BY b.book_id
-		ORDER BY b.book_id;`)
+		ORDER BY b.book_id;`
+
+	rows, err := db.DB.Query(query)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -235,11 +232,11 @@ func uploadBook(c *gin.Context) {
 		return
 	}
 
-	db, ok := dbInterface.(*sql.DB)
-    if !ok {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection is of incorrect type"})
-        return
-    }
+	db, ok := dbInterface.(*DBClient)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection is of incorrect type"})
+		return
+	}
 
 	s3Interface, exists := c.Get("s3")
 	if !exists {
@@ -283,7 +280,7 @@ func uploadBook(c *gin.Context) {
 
     // Now you have the file path of the uploaded EPUB in tempFile.Name()
     // You can call your original logic here, assuming it's adapted to not return values but to interact with `c` directly.
-    book, err := ParseEPUB(tempFile.Name(), db) // Adapt ParseEPUB accordingly.
+    book, err := ParseEPUB(tempFile.Name(), db.DB) 
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse EPUB"})
         return

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -9,24 +8,20 @@ import (
 )
 
 
-// TODO: NOT DONE
 func getAllNotes(c *gin.Context) {
-	/*
-		fetch all book tags from db
-	*/
 	dbInterface, exists := c.Get("db")
 	if !exists {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection not available"})
 		return
 	}
 
-	db, ok := dbInterface.(*sql.DB)
+	db, ok := dbInterface.(*DBClient)
 	if !ok {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection is of incorrect type"})
 		return
 	}
 
-	rows, err := db.Query("SELECT * FROM tags")
+	rows, err := db.DB.Query("SELECT * FROM tags")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
