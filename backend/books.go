@@ -37,6 +37,10 @@ func getBookMetadata(c *gin.Context) {
 	}
 
 	id := c.Param("book_id")
+	if id == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing bookID"})
+		return
+	}
 	row := db.DB.QueryRow(`
 		SELECT b.book_id, b.title, b.author, b.rating, b.publisher, b.publishedDate, 
 		JSON_ARRAYAGG(t.tag_name) AS tags
@@ -176,6 +180,11 @@ func getBookFile(c *gin.Context) {
 	}
 
 	id := c.Param("book_id")
+	if id == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing bookID"})
+		return
+	}
+	
 	key := fmt.Sprintf("books/%s.epub", id)
 
 	// get object from s3
@@ -208,6 +217,10 @@ func getBookCover(c *gin.Context) {
 	}
 
 	id := c.Param("book_id")
+	if id == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing bookID"})
+		return
+	}
 	key := fmt.Sprintf("book_covers/%s.jpg", id)
 
 	// get object from s3

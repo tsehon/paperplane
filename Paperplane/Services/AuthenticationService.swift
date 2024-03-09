@@ -105,11 +105,12 @@ extension AuthenticationViewModel {
         authenticationState = .authenticating
         do  {
             try await Auth.auth().createUser(withEmail: email, password: password)
+            
             guard let user = Auth.auth().currentUser else {
                 print("Failed to retrieve current user")
                 return false
             }
-            print("signed up new user \(user)")
+            
             guard let url = URL(string: "\(API_URL)/users") else {
                 print("Invalid URL")
                 return false

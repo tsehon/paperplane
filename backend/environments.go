@@ -69,6 +69,10 @@ func getEnvironmentFile(c *gin.Context) {
 	}
 
 	id := c.Param("environment_id")
+	if id == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing environment ID"})
+		return
+	}
 	key := fmt.Sprintf("environments/%s.mov", id)
 
     // Generate a signed URL for the S3 object

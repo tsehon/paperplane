@@ -19,47 +19,50 @@ func main() {
     })
 
 	/* bookmarks */
+	router.POST("/bookmarks")
 	router.GET("/bookmarks/:user_id")
 	router.GET("/bookmarks/:user_id/:book_id")
-	router.POST("/bookmarks")
 
 	/* books */
+	router.POST("/books", uploadBook)
 	router.GET("/books/metadata", getBooksMetadata)
 	router.GET("/books/metadata/:book_id", getBookMetadata)
 	router.GET("/books/:book_id", getBookFile)
 	router.GET("/books/:book_id/cover", getBookCover)
-	router.POST("/books", uploadBook)
 	
 	/* environments */
 	router.GET("/environments/metadata", getEnvironmentMetadata)
 	router.GET("/environments/:environment_id", getEnvironmentFile)
 
 	/* highlights */
+	router.POST("/highlights")
 	router.GET("/highlights/:user_id")
 	router.GET("/highlights/:user_id/:book_id")
-	router.POST("/highlights")
 
 	/* notes */
+	router.POST("/notes")
 	router.GET("/notes/:user_id")
 	router.GET("/notes/:user_id/:book_id")
-	router.POST("/notes")
 
 	/* reviews */
+	router.POST("/reviews")
 	router.GET("/reviews/:book_id")
 	router.GET("/reviews/:book_id/:user_id")
 	router.GET("/reviews/user/:user_id")
-	router.POST("/reviews")
 
 	/* tags */
 	router.GET("/tags", getAllTags)
 
 	/* users */
+	router.PUT("/users", addUser)
 	router.GET("/users/:user_id", getUser)
-	router.GET("/users/:user_id/books")
-	router.GET("/users/:user_id/book_id")
-	router.GET("/users/:user_id/preferences")
-	router.GET("/users/:user_id/liked")
-	router.POST("/users", addUser)
+	router.PATCH("/users/:user_id", updateUser)
+	router.GET("/users/:user_id/books", getUserBooks)
+	router.POST("/users/:user_id/books", addUserBook)
+	router.GET("/users/:user_id/books/:book_id", getUserBook)
+	router.PATCH("/users/:user_id/:book_id", updateUserBook)
+	//router.GET("/users/:user_id/preferences")
+	//router.GET("/users/:user_id/liked")
 
 	router.Run(":8080")
 }
