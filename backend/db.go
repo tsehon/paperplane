@@ -47,6 +47,38 @@ func NewDBClient() *DBClient {
 	}
 }
 
+func (db *DBClient) GetUser(userID string) (User, error) {
+	var user User
+	query := "SELECT * FROM users WHERE user_id = ?"
+
+	rows, err := db.DB.Query(query, userID)
+	if err != nil {
+		return user, err
+	}
+	defer rows.Close()
+
+	var emailVerified sql.NullBool
+	var bio sql.NullString
+	var preferencesJson string
+
+	if err := rows.Scan(&user.ID, &user.DisplayName, &user.Email, emailVerified, bio, preferencesJson); err != nil {
+		return user, err
+	}
+
+	if err := json.Unmarshal([]byte(preferencesJson), &user.Preferences); err != nil {
+        return user, err
+	}
+
+	if emailVerified.Valid {
+		user.EmailVerified = emailVerified.Bool
+	} 
+	if bio.Valid {
+		user.Bio = bio.String
+	}
+
+    return user, nil
+}
+
 func (db *DBClient) SaveUser(user User) error {
 	query := "INSERT INTO users (user_id, display_name, email) VALUES (?, ?, ?)"
 
@@ -78,7 +110,7 @@ func (db *DBClient) UpdateUser(userID string, updateFields map[string]interface{
 }
 
 func (db *DBClient) GetUserBooks(userID string) ([]UserBook, error) {
-    query := fmt.Sprintf("SELECT * from users_books WHERE user_id = ?")
+    query := "SELECT * from users_books WHERE user_id = ?"
 
     rows, err := db.DB.Query(query, userID)
     if err != nil {

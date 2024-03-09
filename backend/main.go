@@ -54,13 +54,13 @@ func main() {
 	router.GET("/tags", getAllTags)
 
 	/* users */
-	router.PUT("/users", addUser)
 	router.GET("/users/:user_id", getUser)
+	router.PUT("/users/:user_id", addUser)
 	router.PATCH("/users/:user_id", updateUser)
 	router.GET("/users/:user_id/books", getUserBooks)
-	router.POST("/users/:user_id/books", addUserBook)
+	router.PUT("/users/:user_id/books/:book_id", addUserBook)
 	router.GET("/users/:user_id/books/:book_id", getUserBook)
-	router.PATCH("/users/:user_id/:book_id", updateUserBook)
+	router.PATCH("/users/:user_id/books/:book_id", updateUserBook)
 	//router.GET("/users/:user_id/preferences")
 	//router.GET("/users/:user_id/liked")
 

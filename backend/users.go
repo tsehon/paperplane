@@ -43,40 +43,15 @@ func getUser(c *gin.Context) {
 		return
 	}
 
-	id := c.Param("user_id")
-	if id == "" {
+	userID := c.Param("user_id")
+	if userID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing userID"})
 		return
 	}
 
-	query := "SELECT * FROM users WHERE user_id = ?"
-	rows, err := db.DB.Query(query, id)
+	user, err := db.GetUser(userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	defer rows.Close()
-
-	var user User
-	var emailVerified sql.NullBool
-	var bio sql.NullString
-	var preferencesJson string
-
-	if err := rows.Scan(&user.ID, &user.DisplayName, &user.Email, emailVerified, bio, preferencesJson); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	if err := json.Unmarshal([]byte(preferencesJson), &user.Preferences); err != nil {
-		c.Error(err)
-		log.Fatal("Unmarshal tags failed:", err)
-	}
-
-	if emailVerified.Valid {
-		user.EmailVerified = emailVerified.Bool
-	} 
-	if bio.Valid {
-		user.Bio = bio.String
 	}
 
 	c.IndentedJSON(http.StatusOK, user)
@@ -94,13 +69,18 @@ func addUser(c *gin.Context) {
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection is of incorrect type"})
         return
     }
+	
+	userID := c.Param("user_id")
 
     var newUser User
-
     if err := c.BindJSON(&newUser); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user data", "msg": err.Error()})
         return
     }
+
+	if newUser.ID != userID {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID in URL does not match ID in request body"})
+	}
 
     if err := db.SaveUser(newUser); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save user to database", "msg": err.Error()})
@@ -216,12 +196,20 @@ func addUserBook(c *gin.Context) {
         return
     }
 
-	var userBook UserBook
-	userBook.UserID = userID
+    bookID := c.Param("book_id")
+    if bookID == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Missing user ID"})
+        return
+    }
 
+	var userBook UserBook
 	if err := c.BindJSON(&userBook); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body", "msg": err.Error()})
 		return
+	}
+
+	if userBook.UserID != userID || userBook.BookID != bookID {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "IDs in URL do not match those in request body"})
 	}
 
 	if err := db.AddUserBook(userBook); err != nil {
