@@ -9,6 +9,11 @@ import SwiftUI
 import FirebaseCore
 import FirebaseAuth
 
+struct ApiResponse: Codable {
+    var error: String?
+    var message: String?
+}
+
 let API_URL = "http://localhost:8080"
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -74,8 +79,9 @@ struct PaperplaneApp: App {
         .windowStyle(.plain)
         .defaultSize(width: 1000, height: 800)
         
-        BookDetailsScene()
         ReaderScene()
+            .environmentObject(authViewModel)
+        BookDetailsScene()
         ImmersiveReaderScene()
         ChatScene()
     }

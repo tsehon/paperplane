@@ -1,8 +1,6 @@
 package main
 
 import (
-	"database/sql"
-	"encoding/json"
 	"log"
 	"net/http"
 	"time"
@@ -18,6 +16,7 @@ type User struct {
 	EmailVerified bool `json:"emailVerified"`
     Bio string`json:"bio"`
     Preferences map[string]interface{} `json:"preferences"`
+	LastLogin time.Time `json:"lastLogin"`
 }
 
 type UserBook struct {
@@ -111,12 +110,12 @@ func updateUser(c *gin.Context) {
 
 	var updateFields map[string]interface{}
 	if err := c.BindJSON(&updateFields); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body", "msg": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body: " + err.Error()})
 		return
 	}
 
 	if err := db.UpdateUser(userID, updateFields); err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user", "msg": err.Error()})
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user" + err.Error()})
 		return
 	}
 

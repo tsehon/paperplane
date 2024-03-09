@@ -12,6 +12,7 @@ import RealityKitContent
 
 struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
+    
     var body: some View {
         if authViewModel.authenticationState == .authenticated {
             TabView {
@@ -30,7 +31,6 @@ struct ContentView: View {
             }
         } else {
             AuthenticationView()
-                .environmentObject(authViewModel)
         }
     }
 }

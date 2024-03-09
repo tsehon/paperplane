@@ -7,15 +7,11 @@ import (
 	"log"
 	"os"
 	"strings"
+    "time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 )
-
-type DBInterface interface {
-	SaveUserToDatabase(User)
-	UpdateUser(string, map[string]interface{})
-}
 
 type DBClient struct {
 	DB *sql.DB
@@ -53,6 +49,7 @@ func (db *DBClient) GetUser(userID string) (User, error) {
 
 	rows, err := db.DB.Query(query, userID)
 	if err != nil {
+        log.Printf("Failed to execute query: %s\nArguments: %v\nError: %s\n", query, userID, err)
 		return user, err
 	}
 	defer rows.Close()
@@ -95,9 +92,20 @@ func (db *DBClient) UpdateUser(userID string, updateFields map[string]interface{
 	// Construct SQL query dynamically based on the fields present in the request
 	var setClauses []string
 	var args []interface{}
+
+    // parse lastLogin field as RFC3339
+    if lastLoginStr, ok := updateFields["lastLogin"].(string); ok {
+        lastLoginTime, err := time.Parse(time.RFC3339, lastLoginStr)
+        if err != nil {
+            return err
+        }
+        updateFields["lastLogin"] = lastLoginTime
+    }
+
 	for field, value := range updateFields {
 		dbField := strings.Replace(field, "displayName", "display_name", 1)
 		dbField = strings.Replace(dbField, "emailVerified", "email_verified", 1)
+		dbField = strings.Replace(dbField, "lastLogin", "last_login", 1)
 
 		setClauses = append(setClauses, fmt.Sprintf("%s = ?", dbField))
 		args = append(args, value)
@@ -106,14 +114,21 @@ func (db *DBClient) UpdateUser(userID string, updateFields map[string]interface{
 	args = append(args, userID)
 
 	_, err := db.DB.Exec(query, args...)
-	return err
+    if err != nil {
+        log.Printf("Failed to execute query: %s\nArguments: %v\nError: %s\n", query, args, err)
+        return err
+    }
+
+	return nil 
 }
 
 func (db *DBClient) GetUserBooks(userID string) ([]UserBook, error) {
     query := "SELECT * from users_books WHERE user_id = ?"
+    args := []interface{}{userID}
 
-    rows, err := db.DB.Query(query, userID)
+    rows, err := db.DB.Query(query, args...)
     if err != nil {
+        log.Printf("Failed to execute query: %s\nArguments: %v\nError: %s\n", query, args, err)
         return nil, err
     }
     defer rows.Close()
@@ -146,6 +161,7 @@ func (db *DBClient) GetUserBook(userID string, bookID string) (UserBook, error) 
     rows, err := db.DB.Query(query, args...)
 
     if err != nil {
+        log.Printf("Failed to execute query: %s\nArguments: %v\nError: %s\n", query, args, err)
         return userBook, err
     }
     defer rows.Close()
@@ -174,6 +190,7 @@ func (db *DBClient) AddUserBook(userBook UserBook) error {
 
     _, err = db.DB.Exec(query, args...)
 	if err != nil {
+        log.Printf("Failed to execute query: %s\nArguments: %v\nError: %s\n", query, args, err)
 		return err
 	}
 
@@ -197,5 +214,10 @@ func (db *DBClient) UpdateUserBook(userID string, bookID string, updateFields ma
 	args = append(args, userID, bookID)
 
 	_, err := db.DB.Exec(query, args...)
-	return err
+    if err != nil {
+        log.Printf("Failed to execute query: %s\nArguments: %v\nError: %s\n", query, args, err)
+        return err
+    }
+
+	return nil
 }

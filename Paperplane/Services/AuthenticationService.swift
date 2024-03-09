@@ -91,6 +91,43 @@ extension AuthenticationViewModel {
         authenticationState = .authenticating
         do {
             try await Auth.auth().signIn(withEmail: self.email, password: self.password)
+                
+            guard let user = Auth.auth().currentUser else {
+                print("Failed to retrieve current user")
+                return false
+            }
+            
+            guard let url = URL(string: "\(API_URL)/users/\(user.uid)") else {
+                print("Invalid URL")
+                return false
+            }
+            
+            let dateFormatter = ISO8601DateFormatter()
+            let lastLoginString = dateFormatter.string(from: Date.now)
+            
+            let userPayload = [
+                "lastLogin": lastLoginString,
+            ]
+            
+            let jsonData = try JSONSerialization.data(withJSONObject: userPayload)
+            var request = URLRequest(url: url)
+            request.httpMethod = "PATCH"
+            request.httpBody = jsonData
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                if let apiResponse = try? JSONDecoder().decode(ApiResponse.self, from: data) {
+                    print("Error message: \(apiResponse.error ?? "Unknown error")")
+                } else {
+                    print("Failed to update user lastLogin. Unknown response format.")
+                }
+                authenticationState = .unauthenticated
+                return false
+            }
+            
+            print("Successfully updated user lastLogin")
+            authenticationState = .authenticated
             return true
         }
         catch  {
@@ -111,7 +148,7 @@ extension AuthenticationViewModel {
                 return false
             }
             
-            guard let url = URL(string: "\(API_URL)/users") else {
+            guard let url = URL(string: "\(API_URL)/users/\(user.uid)") else {
                 print("Invalid URL")
                 return false
             }
@@ -124,21 +161,18 @@ extension AuthenticationViewModel {
             
             let jsonData = try JSONSerialization.data(withJSONObject: userPayload)
             var request = URLRequest(url: url)
-            request.httpMethod = "POST"
+            request.httpMethod = "PUT"
             request.httpBody = jsonData
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
-            // Send the request to your backend
             let (_, response) = try await URLSession.shared.data(for: request)
-            
-            // Check the response
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                // Handle successful request, e.g., parsing the response data if needed
-                print("User data successfully sent to backend")
+                print("New user data synced with backend")
+                authenticationState = .authenticated
                 return true
             } else {
-                // Handle unsuccessful request
-                print("Failed to send user data to backend")
+                print("Failed to sync user data to backend")
+                authenticationState = .unauthenticated
                 return false
             }
         }
@@ -153,6 +187,7 @@ extension AuthenticationViewModel {
     func signOut() {
         do {
             try Auth.auth().signOut()
+            authenticationState = .unauthenticated
         }
         catch {
             print(error)
@@ -163,6 +198,7 @@ extension AuthenticationViewModel {
     func deleteAccount() async -> Bool {
         do {
             try await user?.delete()
+            authenticationState = .unauthenticated
             return true
         }
         catch {
