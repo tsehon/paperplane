@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import R2Shared
 
 struct Book: Identifiable, Decodable {
     var id: String
@@ -17,6 +18,15 @@ struct Book: Identifiable, Decodable {
     var rating: Float32
     var publisher: String
     var publishedDate: String
+}
+
+struct UserBook: Identifiable, Decodable {
+    var id: String // bookId
+    var readingStatus: String
+    var liked: Bool
+    var progress: Double
+    var locator: Locator
+    var lastRead: String
 }
 
 struct Tag: Identifiable, Decodable {

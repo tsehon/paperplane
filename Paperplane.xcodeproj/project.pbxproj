@@ -36,6 +36,8 @@
 		B188D8A52B8854E30092D848 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D8A42B8854E30092D848 /* ExploreView.swift */; };
 		B188D8A92B8859770092D848 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D8A82B8859770092D848 /* FilterView.swift */; };
 		B188D8AB2B8864830092D848 /* BookRowDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B188D8AA2B8864830092D848 /* BookRowDetail.swift */; };
+		B19F70F62B9CD06E00B96E24 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19F70F52B9CD06E00B96E24 /* UserService.swift */; };
+		B19F70F82B9CDA1E00B96E24 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19F70F72B9CDA1E00B96E24 /* NetworkService.swift */; };
 		B1CDFB602B770BC400C439B0 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = B1CDFB5F2B770BC400C439B0 /* RealityKitContent */; };
 		B1CDFB622B770BC400C439B0 /* PaperplaneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB612B770BC400C439B0 /* PaperplaneApp.swift */; };
 		B1CDFB642B770BC400C439B0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDFB632B770BC400C439B0 /* HomeView.swift */; };
@@ -80,6 +82,8 @@
 		B188D8A42B8854E30092D848 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
 		B188D8A82B8859770092D848 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		B188D8AA2B8864830092D848 /* BookRowDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRowDetail.swift; sourceTree = "<group>"; };
+		B19F70F52B9CD06E00B96E24 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		B19F70F72B9CDA1E00B96E24 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B1CDFB5A2B770BC400C439B0 /* Paperplane.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paperplane.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1CDFB5E2B770BC400C439B0 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		B1CDFB612B770BC400C439B0 /* PaperplaneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperplaneApp.swift; sourceTree = "<group>"; };
@@ -279,6 +283,8 @@
 				B1D596042B8E625800AB8A7D /* ImmersiveSpaceService.swift */,
 				B1D5960C2B8FC90700AB8A7D /* StorageService.swift */,
 				B18869082B98FD77002738E7 /* AuthenticationService.swift */,
+				B19F70F52B9CD06E00B96E24 /* UserService.swift */,
+				B19F70F72B9CDA1E00B96E24 /* NetworkService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -426,10 +432,12 @@
 				B188691F2B9932B9002738E7 /* AuthenticationView.swift in Sources */,
 				B18869262B9938EA002738E7 /* UserProfile.swift in Sources */,
 				B188D85C2B8483DE0092D848 /* EPUBReaderView.swift in Sources */,
+				B19F70F62B9CD06E00B96E24 /* UserService.swift in Sources */,
 				B1CDFB7C2B805DF900C439B0 /* BookCoverView.swift in Sources */,
 				B1CDFB802B8085FF00C439B0 /* BookDetailView.swift in Sources */,
 				B1D5960D2B8FC90700AB8A7D /* StorageService.swift in Sources */,
 				B1CDFB7A2B805A7100C439B0 /* ImageLoader.swift in Sources */,
+				B19F70F82B9CDA1E00B96E24 /* NetworkService.swift in Sources */,
 				B1CDFB642B770BC400C439B0 /* HomeView.swift in Sources */,
 				B188D8962B86F5560092D848 /* EPUBReaderViewController.swift in Sources */,
 				B188690D2B9900A6002738E7 /* LoginView.swift in Sources */,

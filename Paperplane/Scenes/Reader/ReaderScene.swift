@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct ReaderScene: Scene {
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    
     let aspectRatio: CGFloat = 1.3
     let width: CGFloat = 700
     
@@ -16,6 +18,8 @@ struct ReaderScene: Scene {
         WindowGroup(id: "reader", for: ReaderParams.self) { $params in
             ReaderView(params: $params).onAppear {
                 BookService.shared.activeBook = params?.id
+                // update user book data
+                
             }
         }.windowResizability(.contentMinSize)
             .defaultSize(width: self.width, height: self.aspectRatio * self.width)
